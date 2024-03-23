@@ -43,11 +43,12 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
 \begin{enumerate}
     \item Requisiti sulle crociere
     \begin{enumerate}
-        \item codice
-        \item data di inizio
-        \item data di fine
+        \item codice: StringaS
+        \item data di inizio: Data
+        \item data di fine: Data
         \item nave utilizzata (v.req.2)
         \item itinerario (v.req.4)
+        \item Le prenotazioni (v.req.7)
         \item il tipo, uno tra:
         \begin{enumerate}
             \item crociera di luna di miele, di cui interessa:
@@ -57,21 +58,23 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
             \end{enumerate}
             \item crociera per famiglie
             \begin{enumerate}
-                \item adatta ai bambini (booleano)
+                \item adatta ai bambini: booleano
             \end{enumerate}
         \end{enumerate}
     \end{enumerate}
     \item Requisiti sulle navi
     \begin{enumerate}
-        \item nome
-        \item grado di comfort (da 3 a 5 stelle)
-        \item numero massimo di passeggeri
+        \item nome: StringaS
+        \item grado di comfort (da 3 a 5 stelle): ValutazioneNave
+        \item numero massimo di passeggeri: InteroGZ
+        \item le crociere che fanno uso della nave (v.req.1)
     \end{enumerate}
     \item Requisiti sulle destinazioni
     \begin{enumerate}
-        \item nome
-        \item continente
+        \item nome: StringaS
+        \item la città in cui si trova (v.req.8)
         \item posti da vedere (v.req.5)
+        \item i porti dai quali può essere raggiunta (v.req.11)
         \item Il tipo, uno o entrambe tra:
         \begin{enumerate}
             \item romantica
@@ -80,51 +83,74 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
     \end{enumerate}
     \item Requisiti sugli itinerari
     \begin{enumerate}
-        \item nome
-        \item destinazioni (v.req.3)
+        \item nome: StringaS
+        \item le tappe (v.req.13)
         \item porto di partenza (v.req.11)
         \begin{enumerate}
-            \item ora di partenza
+            \item ora di partenza: Ora
         \end{enumerate}
         \item porto di arrivo (v.req.11)
         \begin{enumerate}
-            \item ora di arrivo
+            \item ora di arrivo: Ora
         \end{enumerate}
     \end{enumerate}
     \item Requisiti sui posti da vedere
     \begin{enumerate}
-        \item nome
-        \item descrizione
+        \item nome: StringaS
+        \item descrizione: StringaL
         \item fascia oraria consigliata (v.req.12)
+        \item la città in cui si trovano (v.req.8)
     \end{enumerate}
     \item Requisiti sugli utenti
+    \begin{enumerate}
+        \item nome: StringaS
+        \item cognome: StringaS
+        \item indirizzo: StringaM
+        \item data di nascita: Data
+        \item città di residenza (v.req.8)
+    \end{enumerate}
     \item Requisiti sulle prenotazioni
     \begin{enumerate}
-        \item istante di prenotazione
+        \item istante di prenotazione: Dataora
         \item crociera prenotata (v.req.1)
-        \item numero di posti prenotati
+        \item numero di posti prenotati: InteroGZ
+        \item l'utente che ha effettuato la prenotazione (v.req.6)
     \end{enumerate}
     \item Requisiti sulle città
     \begin{enumerate}
-        \item nome
+        \item nome: StringaS
+        \item la nazione in cui si trova (v.req.9)
     \end{enumerate}
     \item Requisiti sulle nazioni
     \begin{enumerate}
-        \item nome
+        \item nome: StringaS
+        \item il continente in cui si trova (v.req.10)
     \end{enumerate}
     \item Requisiti sui continenti
     \begin{enumerate}
-        \item nome
+        \item nome: StringaS
     \end{enumerate}
     \item Requisiti sui porti
     \begin{enumerate}
-        \item nome
+        \item nome: StringaS
+        \item le destinazioni (v.req.3)
+        \item le tappe degli itinerari (v.req.13)
+        \item la città in cui si trova (v.req.8)
     \end{enumerate}
     \item Requisiti sugli orari dei posti da vedere
     \begin{enumerate}
-        \item giorno
-        \item ora di inizio
-        \item ora di fine
+        \item giorno: Giorno
+        \item ora di inizio: Ora
+        \item ora di fine: Ora
+    \end{enumerate}
+    \item Requisiti delle tappe degli itinerari
+    \begin{enumerate}
+        \item l'itinerario (v.req.4)
+        \item il porto (v.req.11)
+        \item il giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ
+        \item l'ora di arrivo: Ora
+        \item il giorno di partenza (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ
+        \item l'ora di partenza: Ora
     \end{enumerate}
 \end{enumerate}
 
@@ -140,7 +166,18 @@ In questa sezione verrà mostrato il diagramma UML delle classi.
 
 \section{Specifiche dei tipi di dati}
 
-In questa sezione verranno fornite le specifiche dei tipi di dati utilizzati nel progetto.
+\begin{enumerate}
+    \item ValutazioneNave Intero in [3,5]
+    \item InteroGEZ Intero in [0, +$\infty$]
+    \item InteroGZ Intero in (0, +$\infty$)
+    \item Giorno {Lun, Mar, Mer, Gio, Ven, Sab, Dom}
+    \item Ora {ora: intero in [0,23], minuti: intero in [0,59]}
+    \item StringaS varchar di lunghezza 100
+    \item StringaM varchar di lunghezza 500
+    \item StringaL varchar di lunghezza 1000
+\end{enumerate}
+
+
 
 \section{Specifiche dei vincoli esterni}
 
