@@ -18,7 +18,7 @@ I dati di interesse per il sistema sono le crociere offerte dall'agenzia con le 
 \\
 Il sistema deve essere in grado di rappresentare le crociere offerte dall'agenzia, con codice, date di inizio e fine, e la nave utilizzata. Delle navi, che hanno un nome (ad es. LoveBoat), interessa il grado di comfort, espresso in un numero di stelle che può variare da 3 a 5, e il numero massimo di passeggeri che possono ospitare.
 \\
-Ciascuna crociera consta di un itinerario caratterizzato da un nome (ad es. "Panorami d'Oriente") il quale prevede una sequenza ordinata di destinazioni. Di queste interessa il nome e il continente in cui si trovano. Gli itinerari fissano, oltre che l'ordine delle destinazioni da visitare, anche la relativa data ed ora di arrivo e di partenza. Dato che, in generale, un itinerario può essere previsto da più di una crociera, le date di arrivo e partenza relative ad una destinazione vengono espresse come differenze rispetto la data di inizio della crociera stessa (ad es., l'itinerario "Panorami d'Oriente" prevede di raggiungere la destinazione x alle 16:00 del quinto giorno di crociera, e di ripartire alle 12:00 del giorno successivo, il sesto).
+Ciascuna crociera consta di un itinerario caratterizzato da un nome (ad es. Panorami d'Oriente) il quale prevede una sequenza ordinata di destinazioni. Di queste interessa il nome e il continente in cui si trovano. Gli itinerari fissano, oltre che l'ordine delle destinazioni da visitare, anche la relativa data ed ora di arrivo e di partenza. Dato che, in generale, un itinerario può essere previsto da più di una crociera, le date di arrivo e partenza relative ad una destinazione vengono espresse come differenze rispetto la data di inizio della crociera stessa (ad es., l'itinerario Panorami d'Oriente prevede di raggiungere la destinazione x alle 16:00 del quinto giorno di crociera, e di ripartire alle 12:00 del giorno successivo, il sesto).
 \\
 Inoltre, le destinazioni sono caratterizzate da un insieme di posti da vedere durante eventuali escursioni organizzate. Questi ultimi sono caratterizzati dal nome, dalla descrizione, e dalla fascia oraria consigliata per le visite. Il sistema deve permettere di risalire ai posti da vedere in ogni singola destinazione.
 \\
@@ -45,8 +45,8 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
         \item codice
         \item data di inizio
         \item data di fine
-        \item nave utilizzata (v. req. 2)
-        \item itinerario (v. req. 4)
+        \item nave utilizzata (v.req.2)
+        \item itinerario (v.req.4)
         \item il tipo, uno tra:
         \begin{enumerate}
             \item crociera di luna di miele, di cui interessa:
@@ -70,9 +70,36 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
     \begin{enumerate}
         \item nome
         \item continente
-        \item posti da vedere (v. req. 5)
+        \item posti da vedere (v.req.5)
     \end{enumerate}
     \item Requisiti sugli itinerari
+    \begin{enumerate}
+        \item nome
+        \item destinazioni (v.req.3)
+        \item porto di partenza (v.req.11)
+        \item porto di arrivo (v.req.11)
+    \end{enumerate}
+    \item Requisiti sui posti da vedere
+    \item Requisiti sugli utenti
+    \item Requisiti sulle prenotazioni
+    \begin{enumerate}
+        \item istante di prenotazione
+        \item crociera prenotata (V.req.1)
+        \item numero di posti prenotati
+    \end{enumerate}
+    \item Requisiti sulle città
+    \begin{enumerate}
+        \item nome
+    \end{enumerate}
+    \item Requisiti sulle nazioni
+    \begin{enumerate}
+        \item nome
+    \end{enumerate}
+    \item Requisiti sui continenti
+    \begin{enumerate}
+        \item nome
+    \end{enumerate}
+    \item Requisiti sui porti
 \end{enumerate}
 
 
