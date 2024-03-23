@@ -92,6 +92,7 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
         \item porto di arrivo (v.req.11)
         \begin{enumerate}
             \item ora di arrivo: Ora
+            \item giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ
         \end{enumerate}
     \end{enumerate}
     \item Requisiti sui posti da vedere
@@ -181,6 +182,51 @@ In questa sezione verrà mostrato il diagramma UML delle classi.
 
 \section{Specifiche dei vincoli esterni}
 
-In questa sezione verranno elencati i vincoli esterni che devono essere considerati nel progetto.
+\begin{enumerate}
+    \item V.Crociera.
+    \begin{enumerate}
+        \item V.Crociera.data\_inizio\_leq\_data\_fine.
+        \begin{enumerate}
+            \item data di inizio $\leq$ data di fine
+        \end{enumerate}
+        \item V.Crociera.prenotazioni\_leq\_numero\_massimo\_passeggeri.
+        \begin{enumerate}
+            \item La somma dei posti prenotati per la crociera $\leq$ numero massimo di passeggeri
+        \end{enumerate}
+    \end{enumerate}
+    \item V.Nave.
+    \item V.Destinazione.
+    \item V.Itinerario.
+    \item V.PostoDaVedere.
+    \item V.Utente.
+    \item V.Prenotazione.
+    \begin{enumerate}
+        \item V.Prenotazione.istante\_di\_prenotazione\_less\_data\_inizio\_crociera.
+        \begin{enumerate}
+            \item istante di prenotazione $<$ data di inizio crociera
+        \end{enumerate}
+    \end{enumerate}
+    \item V.Città.
+    \item V.Nazione.
+    \item V.Continente.
+    \item V.Porto.
+    \item V.OrarioPostoDaVedere.
+    \begin{enumerate}
+        \item V.OrarioPostoDaVedere.ora\_inizio\_less\_ora\_fine.
+        \begin{enumerate}
+            \item ora di inizio $<$ ora di fine
+        \end{enumerate}
+    \end{enumerate}
+    \item V.Tappa.
+    \begin{enumerate}
+        \item giorno di arrivo $\leq$ giorno di partenza
+    \end{enumerate}
+\end{enumerate}
+
+
+
+\section{Specifiche delle operazioni}
+
+In questa sezione verranno descritte le operazioni che il sistema deve essere in grado di eseguire.
 
 \end{document}
