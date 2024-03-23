@@ -4,17 +4,77 @@
 \author{Samuele Quaresima}
 \date{}
 
+\renewcommand{\labelenumi}{\arabic{enumi}.}
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}.}
+\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.}
+\renewcommand{\labelenumiv}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.\arabic{enumiv}.}
 \begin{document}
 
 \maketitle
 
 \section{Specifiche del progetto}
 
-In questa sezione verranno presentate le specifiche del progetto.
+I dati di interesse per il sistema sono le crociere offerte dall'agenzia con le relative prenotazioni e le destinazioni in catalogo.
+\\
+Il sistema deve essere in grado di rappresentare le crociere offerte dall'agenzia, con codice, date di inizio e fine, e la nave utilizzata. Delle navi, che hanno un nome (ad es. LoveBoat), interessa il grado di comfort, espresso in un numero di stelle che può variare da 3 a 5, e il numero massimo di passeggeri che possono ospitare.
+\\
+Ciascuna crociera consta di un itinerario caratterizzato da un nome (ad es. "Panorami d'Oriente") il quale prevede una sequenza ordinata di destinazioni. Di queste interessa il nome e il continente in cui si trovano. Gli itinerari fissano, oltre che l'ordine delle destinazioni da visitare, anche la relativa data ed ora di arrivo e di partenza. Dato che, in generale, un itinerario può essere previsto da più di una crociera, le date di arrivo e partenza relative ad una destinazione vengono espresse come differenze rispetto la data di inizio della crociera stessa (ad es., l'itinerario "Panorami d'Oriente" prevede di raggiungere la destinazione x alle 16:00 del quinto giorno di crociera, e di ripartire alle 12:00 del giorno successivo, il sesto).
+\\
+Inoltre, le destinazioni sono caratterizzate da un insieme di posti da vedere durante eventuali escursioni organizzate. Questi ultimi sono caratterizzati dal nome, dalla descrizione, e dalla fascia oraria consigliata per le visite. Il sistema deve permettere di risalire ai posti da vedere in ogni singola destinazione.
+\\
+L'agenzia classifica le crociere in crociere di luna di miele e crociere per famiglia (di queste ultime interessa conoscere se sono adatte o meno ai bambini), e le destinazioni in romantiche e divertenti. Si noti che possono esistere destinazioni che sono sia romantiche che divertenti. Per venire incontro alle nuove tendenze delle giovani coppie, le crociere di luna di miele vengono ulteriormente classificate in tradizionali e alternative: sono definite tradizionali quelle che prevedono un numero di destinazioni romantiche maggiore o uguale al numero di destinazioni divertenti, alternative le altre.
+\\
+Infine, il sistema deve anche permettere di gestire le prenotazioni di crociere effettuate dai clienti. In particolare, dei clienti interessa nome, cognome, età ed indirizzo, mentre delle prenotazioni interessa l'istante di prenotazione, la crociera ed il numero di posti prenotati.
+\\
+
+Le funzionalità richieste al sistema sono le seguenti:
+
+\begin{enumerate}
+    \item Dato un cliente che desidera prenotare un certo numero di posti per una crociera c, il personale dell'Ufficio Prenotazioni deve poter effettuare la relativa prenotazione. La richiesta di prenotazione deve essere rifiutata nel caso il numero di posti disponibili, all'istante corrente, per la crociera c non sia sufficiente.
+    \item L'Ufficio Marketing deve poter calcolare l'età media dei clienti che hanno prenotato, in un dato periodo, almeno una crociera che prevede una destinazione esotica (ovvero che si trova in un continente diverso dall'Europa).
+    \item L'Ufficio Marketing deve poter calcolare la percentuale delle destinazioni da considerarsi gettonate in un periodo dato. Una destinazione va considerata gettonata in un certo periodo se è stata raggiunta, in quel periodo, da almeno dieci crociere di luna di miele, oppure da almeno quindici crociere per famiglie.
+\end{enumerate}
 
 \section{Raffinamento dei requisiti}
 
 In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
+
+\begin{enumerate}
+    \item Requisiti sulle crociere
+    \begin{enumerate}
+        \item codice
+        \item data di inizio
+        \item data di fine
+        \item nave utilizzata (v. req. 2)
+        \item itinerario (v. req. 4)
+        \item il tipo, uno tra:
+        \begin{enumerate}
+            \item crociera di luna di miele, di cui interessa:
+            \begin{enumerate}
+                \item tradizionale
+                \item alternativa
+            \end{enumerate}
+            \item crociera per famiglie
+            \begin{enumerate}
+                \item adatta ai bambini (booleano)
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+    \item Requisiti sulle navi
+    \begin{enumerate}
+        \item nome
+        \item grado di comfort (da 3 a 5 stelle)
+        \item numero massimo di passeggeri
+    \end{enumerate}
+    \item Requisiti sulle destinazioni
+    \begin{enumerate}
+        \item nome
+        \item continente
+        \item posti da vedere (v. req. 5)
+    \end{enumerate}
+    \item Requisiti sugli itinerari
+\end{enumerate}
+
 
 \section{Diagramma UML delle classi}
 
