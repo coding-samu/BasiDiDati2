@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{graphicx}
 
 \title{Travel To The Moon}
 \author{Samuele Quaresima}
@@ -71,20 +72,36 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
         \item nome
         \item continente
         \item posti da vedere (v.req.5)
+        \item Il tipo, uno o entrambe tra:
+        \begin{enumerate}
+            \item romantica
+            \item divertente
+        \end{enumerate}
     \end{enumerate}
     \item Requisiti sugli itinerari
     \begin{enumerate}
         \item nome
         \item destinazioni (v.req.3)
         \item porto di partenza (v.req.11)
+        \begin{enumerate}
+            \item ora di partenza
+        \end{enumerate}
         \item porto di arrivo (v.req.11)
+        \begin{enumerate}
+            \item ora di arrivo
+        \end{enumerate}
     \end{enumerate}
     \item Requisiti sui posti da vedere
+    \begin{enumerate}
+        \item nome
+        \item descrizione
+        \item fascia oraria consigliata (v.req.12)
+    \end{enumerate}
     \item Requisiti sugli utenti
     \item Requisiti sulle prenotazioni
     \begin{enumerate}
         \item istante di prenotazione
-        \item crociera prenotata (V.req.1)
+        \item crociera prenotata (v.req.1)
         \item numero di posti prenotati
     \end{enumerate}
     \item Requisiti sulle città
@@ -100,12 +117,26 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
         \item nome
     \end{enumerate}
     \item Requisiti sui porti
+    \begin{enumerate}
+        \item nome
+    \end{enumerate}
+    \item Requisiti sugli orari dei posti da vedere
+    \begin{enumerate}
+        \item giorno
+        \item ora di inizio
+        \item ora di fine
+    \end{enumerate}
 \end{enumerate}
 
 
 \section{Diagramma UML delle classi}
 
 In questa sezione verrà mostrato il diagramma UML delle classi.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{../Diagramma delle classi Travel To The Moon.jpg}
+    \caption{Diagramma delle classi}
+    \end{figure}
 
 \section{Specifiche dei tipi di dati}
 
