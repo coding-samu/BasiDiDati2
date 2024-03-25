@@ -43,117 +43,117 @@ Le funzionalità richieste al sistema sono le seguenti:
 In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
 
 \begin{enumerate}
-    \item Requisiti sulle crociere
+    \item Requisiti sulle crociere\label{sec:RequisitiCrociera}
     \begin{enumerate}
-        \item codice: StringaS
-        \item data di inizio: Data
-        \item data di fine: Data
-        \item nave utilizzata (v.req.2)
-        \item itinerario (v.req.4)
-        \item Le prenotazioni (v.req.7)
-        \item il tipo, uno tra:
+        \item codice: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiCrocieraCodice}
+        \item data di inizio: Data\label{sec:RequisitiCrocieraDataInizio}
+        \item data di fine: Data\label{sec:RequisitiCrocieraDataFine}
+        \item nave utilizzata (\hyperref[sec:RequisitiNave]{v.req.2})\label{sec:RequisitiCrocieraNave}
+        \item itinerario (\hyperref[sec:RequisitiItinerario]{v.req.4})\label{sec:RequisitiCrocieraItinerario}
+        \item Le prenotazioni (v.req.7)\label{sec:RequisitiCrocieraPrenotazioni}
+        \item il tipo, uno tra:\label{sec:RequisitiCrocieraTipo}
         \begin{enumerate}
-            \item crociera di luna di miele, di cui interessa:
+            \item crociera di luna di miele, di cui interessa:\label{sec:RequisitiCrocieraTipoLunaDiMiele}
             \begin{enumerate}
-                \item tradizionale
-                \item alternativa
+                \item tradizionale\label{sec:RequisitiCrocieraTipoLunaDiMieleTradizionale}
+                \item alternativa\label{sec:RequisitiCrocieraTipoLunaDiMieleAlternativa}
             \end{enumerate}
-            \item crociera per famiglie
+            \item crociera per famiglie\label{sec:RequisitiCrocieraTipoPerFamiglie}
             \begin{enumerate}
-                \item adatta ai bambini: booleano
+                \item adatta ai bambini: booleano\label{sec:RequisitiCrocieraTipoPerFamiglieAdattaAiBambini}
             \end{enumerate}
         \end{enumerate}
     \end{enumerate}
-    \item Requisiti sulle navi
+    \item Requisiti sulle navi\label{sec:RequisitiNave}
     \begin{enumerate}
-        \item nome: StringaS
-        \item grado di comfort (da 3 a 5 stelle): ValutazioneNave
-        \item numero massimo di passeggeri: InteroGZ
-        \item le crociere che fanno uso della nave (v.req.1)
+        \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiNaveNome}
+        \item grado di comfort (da 3 a 5 stelle): \hyperref[sec:ValutazioneNave]{ValutazioneNave}\label{sec:RequisitiNaveGradoDiComfort}
+        \item numero massimo di passeggeri: InteroGZ\label{sec:RequisitiNaveNumeroMassimoDiPasseggeri}
+        \item le crociere che fanno uso della nave (\hyperref[sec:RequisitiCrociera]{\hyperref[sec:RequisitiCrociera]{v.req.1}})\label{sec:RequisitiNaveCrociere}
     \end{enumerate}
-    \item Requisiti sulle destinazioni
+    \item Requisiti sulle destinazioni\label{sec:RequisitiDestinazione}
     \begin{enumerate}
-        \item nome: StringaS
-        \item la città in cui si trova (v.req.8)
-        \item posti da vedere (v.req.5)
-        \item i porti dai quali può essere raggiunta (v.req.11)
-        \item Il tipo, uno o entrambe tra:
+        \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiDestinazioneNome}
+        \item la città in cui si trova (\hyperref[sec:RequisitiCittà]{v.req.8})\label{sec:RequisitiDestinazioneCittà}
+        \item posti da vedere (\hyperref[sec:RequisitiPostoDaVedere]{v.req.5})\label{sec:RequisitiDestinazionePostiDaVedere}
+        \item i porti dai quali può essere raggiunta (\hyperref[sec:RequisitiPorto]{v.req.11})\label{sec:RequisitiDestinazionePorti}
+        \item Il tipo, uno o entrambe tra:\label{sec:RequisitiDestinazioneTipo}
         \begin{enumerate}
-            \item romantica
-            \item divertente
+            \item romantica\label{sec:RequisitiDestinazioneTipoRomantica}
+            \item divertente\label{sec:RequisitiDestinazioneTipoDivertente}
         \end{enumerate}
     \end{enumerate}
-    \item Requisiti sugli itinerari
+    \item Requisiti sugli itinerari\label{sec:RequisitiItinerario}
     \begin{enumerate}
-        \item nome: StringaS
-        \item le tappe (v.req.13)
-        \item porto di partenza (v.req.11)
+        \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiItinerarioNome}
+        \item le tappe (\hyperref[sec:RequisitiTappa]{v.req.13})\label{sec:RequisitiItinerarioTappe}
+        \item porto di partenza (\hyperref[sec:RequisitiPorto]{v.req.11})\label{sec:RequisitiItinerarioPortoDiPartenza}
         \begin{enumerate}
-            \item ora di partenza: Ora
+            \item ora di partenza: Ora\label{sec:RequisitiItinerarioPortoDiPartenzaOra}
         \end{enumerate}
-        \item porto di arrivo (v.req.11)
+        \item porto di arrivo (\hyperref[sec:RequisitiPorto]{v.req.11})\label{sec:RequisitiItinerarioPortoDiArrivo}
         \begin{enumerate}
-            \item ora di arrivo: Ora
-            \item giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ
+            \item ora di arrivo: Ora\label{sec:RequisitiItinerarioPortoDiArrivoOra}
+            \item giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiItinerarioPortoDiArrivoGiorno}
         \end{enumerate}
     \end{enumerate}
-    \item Requisiti sui posti da vedere
+    \item Requisiti sui posti da vedere\label{sec:RequisitiPostoDaVedere}
     \begin{enumerate}
-        \item nome: StringaS
-        \item descrizione: StringaL
-        \item fascia oraria consigliata (v.req.12)
-        \item la città in cui si trovano (v.req.8)
+        \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiPostoDaVedereNome}
+        \item descrizione: \hyperref[sec:StringaL]{StringaL}\label{sec:RequisitiPostoDaVedereDescrizione}
+        \item fascia oraria consigliata (\hyperref[sec:RequisitiOrarioPostoDaVedere]{v.req.11})\label{sec:RequisitiPostoDaVedereFasciaOrariaConsigliata}
+        \item la città in cui si trovano (\hyperref[sec:RequisitiCittà]{v.req.8})\label{sec:RequisitiPostoDaVedereCittà}
     \end{enumerate}
-    \item Requisiti sugli utenti
+    \item Requisiti sugli utenti\label{sec:RequisitiUtente}
     \begin{enumerate}
-        \item nome: StringaS
-        \item cognome: StringaS
-        \item indirizzo: StringaM
-        \item data di nascita: Data
-        \item città di residenza (v.req.8)
+        \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiUtenteNome}
+        \item cognome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiUtenteCognome}
+        \item indirizzo: \hyperref[sec:StringaM]{StringaM}\label{sec:RequisitiUtenteIndirizzo}
+        \item data di nascita: Data\label{sec:RequisitiUtenteDataDiNascita}
+        \item città di residenza (\hyperref[sec:RequisitiCittà]{v.req.8})\label{sec:RequisitiUtenteCittàDiResidenza}
     \end{enumerate}
-    \item Requisiti sulle prenotazioni
+    \item Requisiti sulle prenotazioni\label{sec:RequisitiPrenotazione}
     \begin{enumerate}
-        \item istante di prenotazione: Dataora
-        \item crociera prenotata (v.req.1)
-        \item numero di posti prenotati: InteroGZ
-        \item l'utente che ha effettuato la prenotazione (v.req.6)
+        \item istante di prenotazione: Dataora\label{sec:RequisitiPrenotazioneIstanteDiPrenotazione}
+        \item crociera prenotata (\hyperref[sec:RequisitiCrociera]{v.req.1})\label{sec:RequisitiPrenotazioneCrocieraPrenotata}
+        \item numero di posti prenotati: \hyperref[sec:InteroGZ]{InteroGZ}\label{sec:RequisitiPrenotazioneNumeroDiPostiPrenotati}
+        \item l'utente che ha effettuato la prenotazione (\hyperref[sec:RequisitiUtente]{v.req.6})\label{sec:RequisitiPrenotazioneUtente}
     \end{enumerate}
-    \item Requisiti sulle città
+    \item Requisiti sulle città\label{sec:RequisitiCittà}
     \begin{enumerate}
-        \item nome: StringaS
-        \item la nazione in cui si trova (v.req.9)
+        \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiCittàNome}
+        \item la nazione in cui si trova (\hyperref[sec:RequisitiNazione]{v.req.9})\label{sec:RequisitiCittàNazione}
     \end{enumerate}
-    \item Requisiti sulle nazioni
+    \item Requisiti sulle nazioni\label{sec:RequisitiNazione}
     \begin{enumerate}
-        \item nome: StringaS
-        \item il continente in cui si trova (v.req.10)
+        \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiNazioneNome}
+        \item il continente in cui si trova (\hyperref[sec:RequisitiContinente]{v.req.10})\label{sec:RequisitiNazioneContinente}
     \end{enumerate}
-    \item Requisiti sui continenti
+    \item Requisiti sui continenti\label{sec:RequisitiContinente}
     \begin{enumerate}
-        \item nome: StringaS
+        \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiContinenteNome}
     \end{enumerate}
-    \item Requisiti sui porti
+    \item Requisiti sui porti\label{sec:RequisitiPorto}
     \begin{enumerate}
-        \item nome: StringaS
-        \item le destinazioni (v.req.3)
-        \item le tappe degli itinerari (v.req.13)
-        \item la città in cui si trova (v.req.8)
+        \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiPortoNome}
+        \item le destinazioni (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiPortoDestinazioni}
+        \item le tappe degli itinerari (\hyperref[sec:RequisitiItinerario]{v.req.13})\label{sec:RequisitiPortoTappe}
+        \item la città in cui si trova (\hyperref[sec:RequisitiCittà]{v.req.8})\label{sec:RequisitiPortoCittà}
     \end{enumerate}
-    \item Requisiti sugli orari dei posti da vedere
+    \item Requisiti sugli orari dei posti da vedere\label{sec:RequisitiOrarioPostoDaVedere}
     \begin{enumerate}
-        \item giorno: Giorno
-        \item ora di inizio: Ora
-        \item ora di fine: Ora
+        \item giorno: \hyperref[sec:Giorno]{Giorno}\label{sec:RequisitiOrarioPostoDaVedereGiorno}
+        \item ora di inizio: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiOrarioPostoDaVedereOraDiInizio}
+        \item ora di fine: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiOrarioPostoDaVedereOraDiFine}
     \end{enumerate}
-    \item Requisiti delle tappe degli itinerari
+    \item Requisiti delle tappe degli itinerari\label{sec:RequisitiTappa}
     \begin{enumerate}
-        \item l'itinerario (v.req.4)
-        \item il porto (v.req.11)
-        \item il giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ
-        \item l'ora di arrivo: Ora
-        \item il giorno di partenza (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ
-        \item l'ora di partenza: Ora
+        \item l'itinerario (\hyperref[sec:RequisitiItinerario]{v.req.4})\label{sec:RequisitiTappaItinerario}
+        \item il porto (\hyperref[sec:RequisitiPorto]{v.req.11})\label{sec:RequisitiTappaPorto}
+        \item il giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiTappaGiornoDiArrivo}
+        \item l'ora di arrivo: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiTappaOraDiArrivo}
+        \item il giorno di partenza (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiTappaGiornoDiPartenza}
+        \item l'ora di partenza: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiTappaOraDiPartenza}
     \end{enumerate}
 \end{enumerate}
 
@@ -171,14 +171,14 @@ In questa sezione verrà mostrato il diagramma UML delle classi.
 \section{Specifiche dei tipi di dati}
 
 \begin{enumerate}
-    \item ValutazioneNave Intero in [3,5]
-    \item InteroGEZ Intero in [0, +$\infty$]
-    \item InteroGZ Intero in (0, +$\infty$)
-    \item Giorno \{Lun, Mar, Mer, Gio, Ven, Sab, Dom\}
-    \item Ora \{ora: intero in [0,23], minuti: intero in [0,59]\}
-    \item StringaS varchar di lunghezza 100
-    \item StringaM varchar di lunghezza 500
-    \item StringaL varchar di lunghezza 1000
+    \item ValutazioneNave Intero in [3,5]\label{sec:ValutazioneNave}
+    \item InteroGEZ Intero in [0, +$\infty$]\label{sec:InteroGEZ}
+    \item InteroGZ Intero in (0, +$\infty$)\label{sec:InteroGZ}
+    \item Giorno \{Lun, Mar, Mer, Gio, Ven, Sab, Dom\}\label{sec:Giorno}
+    \item Ora \{ora: intero in [0,23], minuti: intero in [0,59]\}\label{sec:Ora}
+    \item StringaS varchar di lunghezza 100\label{sec:StringaS}
+    \item StringaM varchar di lunghezza 500\label{sec:StringaM}
+    \item StringaL varchar di lunghezza 1000\label{sec:StringaL}
 \end{enumerate}
 
 
