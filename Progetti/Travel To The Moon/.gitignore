@@ -3,4 +3,4 @@
 *.fls
 *.log
 *.synctex.gz
-*.vpp.bak_*
+*.vpp.bak*
