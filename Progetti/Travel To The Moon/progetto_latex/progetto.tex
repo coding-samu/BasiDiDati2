@@ -185,7 +185,7 @@ In questa sezione verrà mostrato il diagramma UML delle classi.
 \section{Specifiche delle classi e delle associazioni}
 \subsection*{Classe Crociera, \hyperref[sec:RequisitiCrociera]{v.req.1}}\label{sec:Crociera}
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
@@ -200,23 +200,23 @@ Tabella delle specifiche degli attributi:
 \end{table}
 
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
         \hline
-        nave & 1 & La nave utilizzata per la crociera \\
-        itinerario & 1 & L'itinerario della crociera \\
-        prenotazioni & 0..* & Le prenotazioni della crociera \\
+        nave\_croc & 1 & La nave utilizzata per la crociera \\
+        itin\_croc & 1 & L'itinerario della crociera \\
+        pren\_croc & 0..* & Le prenotazioni della crociera \\
         \hline
     \end{tabular}
     \caption{Associazioni della classe Crociera}
 \end{table}
 
-\subsection*{Classe\ Croc\_luna\_di\_miele}
+\subsection*{Classe Croc\_luna\_di\_miele}
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
@@ -225,23 +225,38 @@ Tabella delle specifiche degli attributi:
         tipo & TipoCrocieraLunaDiMiele & 1 & Tipo della crociera di luna di miele \\
         \hline
     \end{tabular}
-    \caption{Attributi della classe Classe\ Croc\_luna\_di\_miele}
+    \caption{Attributi della classe Classe Croc\_luna\_di\_miele}
 \end{table}
-\newline
+
+Specifica delle operazioni della classe Croc\_luna\_di\_miele:
+
+tipCrocLdM(): TipoCrocieraLunaDiMiele
+\begin{enumerate}
+    \item Pre: nessuna
+    \item Post: no side effect
+    \item Return:
+    \begin{enumerate}
+        \item se il numero di destinazioni romantiche $\geq$ il numero di destinazioni divertenti, restituisce tradizionale
+        \item altrimenti, restituisce alternativa
+    \end{enumerate}
+\end{enumerate}
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
         \hline
+        \hline
     \end{tabular}
-    \caption{Associazioni della classe Classe\ Croc\_luna\_di\_miele}
+    \caption{Associazioni della classe Classe Croc\_luna\_di\_miele}
 \end{table}
 
 \subsection*{Classe\ Croc\_per\_famiglie}
+
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
@@ -250,11 +265,11 @@ Tabella delle specifiche degli attributi:
         adatta\_ai\_bambini & booleano & 1 & Indica se la crociera è adatta ai bambini \\
         \hline
     \end{tabular}
-    \caption{Attributi della classe Classe\ Croc\_per\_famiglie}
+    \caption{Attributi della classe Classe Croc\_per\_famiglie}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
@@ -266,264 +281,401 @@ Tabella delle specifiche delle associazioni:
 
 \subsection*{Classe Nave, \hyperref[sec:RequisitiNave]{v.req.2}}\label{sec:Nave}
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
+        \hline
+        nome & StringaS & 1 & Nome della nave \\
+        grado\_di\_comfort & ValutazioneNave & 1 & Grado di comfort della nave \\
+        numero\_massimo\_di\_passeggeri & InteroGZ & 1 & Numero massimo di passeggeri \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Nave}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
         \hline
+        nave\_croc & 0..* & Le crociere che fanno uso della nave \\
+        \hline
     \end{tabular}
     \caption{Associazioni della classe Nave}
 \end{table}
+
 \subsection*{Classe Destinazione, \hyperref[sec:RequisitiDestinazione]{v.req.3}}\label{sec:Destinazione}
+
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
+        nome & StringaS & 1 & Nome della destinazione \\
+        \hline
     \end{tabular}
     \caption{Attributi della classe Destinazione}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
+        \hline
+        dest\_cit & 1 & La città in cui si trova la destinazione \\
+        dest\_pdv & 0..* & I posti da vedere della destinazione \\
+        dest\_porto & 1 & Il porto dal quale può essere raggiunta la destinazione \\
         \hline
     \end{tabular}
     \caption{Associazioni della classe Destinazione}
 \end{table}
 \subsection*{Classe Itinerario, \hyperref[sec:RequisitiItinerario]{v.req.4}}\label{sec:Itinerario}
+
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
+        \hline
+        nome & StringaS & 1 & Nome dell'itinerario \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Itinerario}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
         \hline
+        tappa\_itin & 1..* & Le tappe dell'itinerario \\
+        itin\_croc & 0..* & Le crociere che prevedono l'itinerario \\
+        partenza & 1 & La destinazione di partenza dell'itinerario \\
+        arrivo & 1 & La destinazione di arrivo dell'itinerario \\
+        \hline
     \end{tabular}
-    \caption{Associazioni della classe Itinerario}
+    \caption{Associazioni della classe Itinerario} 
 \end{table}
-\subsection*{Classe PostoDaVedere, \hyperref[sec:RequisitiPostoDaVedere]{v.req.5}}\label{sec:PostoDaVedere}
-Tabella delle specifiche degli attributi:
-\begin{table}[h]
+
+\subsection*{Association Class Partenza, \hyperref[sec:RequisitiItinerarioDestinazioneDiPartenza]{v.req.4.3.}}
+
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
+        \hline
+        ora & Ora & 1 & Ora di partenza \\
+        \hline
+    \end{tabular}
+    \caption{Attributi dell'association class Partenza'}
+\end{table}
+
+\subsection*{Association Class Arrivo, \hyperref[sec:RequisitiItinerarioDestinazioneDiArrivo]{v.req.4.4.}}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Attributo & Tipo & Cardinalità & Descrizione \\
+        \hline
+        ora & Ora & 1 & Ora di arrivo \\
+        giorno & InteroGEZ & 1 & Giorno di arrivo \\
+        \hline
+    \end{tabular}
+    \caption{Attributi dell'association class Arrivo'}
+\end{table}
+
+\subsection*{Classe PostoDaVedere, \hyperref[sec:RequisitiPostoDaVedere]{v.req.5}}\label{sec:PostoDaVedere}
+
+Tabella delle specifiche degli attributi:
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Attributo & Tipo & Cardinalità & Descrizione \\
+        \hline
+        nome & StringaS & 1 & Nome del posto da vedere \\
+        descrizione & StringaL & 1 & Descrizione del posto da vedere \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Posto Da Vedere}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
         \hline
+        pdv\_cit & 1 & La città in cui si trova il posto da vedere \\
+        dest\_pdv & 0..* & Le destinazioni in cui si trova il posto da vedere \\
+        orari\_pdv & 0..* & Gli orari del posto da vedere \\
+        \hline
     \end{tabular}
     \caption{Associazioni della classe Posto Da Vedere}
 \end{table}
+
 \subsection*{Classe Utente, \hyperref[sec:RequisitiUtente]{v.req.6}}\label{sec:Utente}
+
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
+        nome & StringaS & 1 & Nome dell'utente \\
+        cognome & StringaS & 1 & Cognome dell'utente \\
+        indirizzo & StringaM & 1 & Indirizzo dell'utente \\
+        data\_di\_nascita & Data & 1 & Data di nascita dell'utente \\
+        \hline
     \end{tabular}
     \caption{Attributi della classe Utente}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
+        \hline
+        pren\_utente & 0..* & Le prenotazioni effettuate dall'utente \\
+        cit\_utente & 1 & La città di residenza dell'utente \\
         \hline
     \end{tabular}
     \caption{Associazioni della classe Utente}
 \end{table}
 \subsection*{Classe Prenotazione, \hyperref[sec:RequisitiPrenotazione]{v.req.7}}\label{sec:Prenotazione}
+
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
+        \hline
+        istante\_prenotazione & Dataora & 1 & Istante di prenotazione \\
+        num\_posti\_prenotati & InteroGZ & 1 & Numero di posti prenotati \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Prenotazione}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
         \hline
+        pren\_croc & 1 & La crociera prenotata \\
+        pren\_utente & 1 & L'utente che ha effettuato la prenotazione \\
+        \hline
     \end{tabular}
     \caption{Associazioni della classe Prenotazione}
 \end{table}
+
 \subsection*{Classe Città, \hyperref[sec:RequisitiCittà]{v.req.8}}\label{sec:Città}
+
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
+        nome & StringaS & 1 & Nome della città \\
+        \hline
     \end{tabular}
     \caption{Attributi della classe Città}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
+        \hline
+        cit\_naz & 1 & La nazione in cui si trova la città \\
+        dest\_cit & 0..* & Le destinazioni che si trovano nella città \\
+        pdv\_cit & 0..* & I posti da vedere che si trovano nella città \\
+        cit\_porto & 0..* & I porti che si trovano nella città \\
+        cit\_utente & 0..* & Gli utenti che risiedono nella città \\
         \hline
     \end{tabular}
     \caption{Associazioni della classe Città}
 \end{table}
 \subsection*{Classe Nazione, \hyperref[sec:RequisitiNazione]{v.req.9}}\label{sec:Nazione}
+
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
+        nome & StringaS & 1 & Nome della nazione \\
+        \hline
     \end{tabular}
     \caption{Attributi della classe Nazione}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
+        \hline
+        naz\_cont & 1 & Il continente in cui si trova la nazione \\
+        cit\_naz & 0..* & Le città che si trovano nella nazione \\
         \hline
     \end{tabular}
     \caption{Associazioni della classe Nazione}
 \end{table}
 \subsection*{Classe Continente, \hyperref[sec:RequisitiContinente]{v.req.10}}\label{sec:Continente}
+
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
+        \hline
+        nome & StringaS & 1 & Nome del continente \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Continente}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
         \hline
+        naz\_cont & 0..* & Le nazioni che si trovano nel continente \\
+        \hline
     \end{tabular}
     \caption{Associazioni della classe Continente}
 \end{table}
+
 \subsection*{Classe Porto, \hyperref[sec:RequisitiPorto]{v.req.11}}\label{sec:Porto}
+
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
+        nome & StringaS & 1 & Nome del porto \\
+        \hline
     \end{tabular}
     \caption{Attributi della classe Porto}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
+        \hline
+        cit\_porto & 1 & La città in cui si trova il porto \\
+        dest\_porto & 0..1 & La destinazione che può essere raggiunta dal porto \\
         \hline
     \end{tabular}
     \caption{Associazioni della classe Porto}
 \end{table}
 \subsection*{Classe OrarioPostoDaVedere, \hyperref[sec:RequisitiOrarioPostoDaVedere]{v.req.12}}\label{sec:OrarioPostoDaVedere}
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
+        \hline
+        giorno & Giorno & 1 & Giorno in cui è possibile visitare il posto \\
+        ora\_inizio & Ora & 1 & Ora di inizio della visita \\
+        ora\_fine & Ora & 1 & Ora di fine della visita \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Orario Posto Da Vedere}
 \end{table}
-\newline
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
         \hline
+        orari\_pdv & 1 & Il posto da vedere per il quale è definito l'orario \\
+        \hline
     \end{tabular}
     \caption{Associazioni della classe Orario Posto Da Vedere}
 \end{table}
+
 \subsection*{Classe Tappa, \hyperref[sec:RequisitiTappa]{v.req.13}}\label{sec:Tappa}
+
 Tabella delle specifiche degli attributi:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
+        giorno\_arrivo & InteroGEZ & 1 & Giorno di arrivo della tappa \\
+        ora\_arrivo & Ora & 1 & Ora di arrivo della tappa \\
+        giorno\_partenza & InteroGEZ & 1 & Giorno di partenza della tappa \\
+        ora\_partenza & Ora & 1 & Ora di partenza della tappa \\
+        \hline
     \end{tabular}
     \caption{Attributi della classe Tappa}
 \end{table}
-\newline
+
+Specifica delle operazioni della classe Tappa:
+
+ordineTappa(): InteroGZ
+\begin{enumerate}
+    \item Pre: nessuna
+    \item Post: no side effect
+    \item Return:
+    \begin{enumerate}
+        \item sia I l'itinerario tale che tappa\_itin(this, I) = True
+        \item sia T l'insieme delle tappe di I
+        \item sia T' = \{t' $\in$ T: (giorno\_arrivo(t') $\leq$ giorno\_arrivo(t)) \newline $\lor$ (giorno\_arrivo(t') = giorno\_arrivo(t) $\land$ ora\_partenza(t') $\leq$ ora\_arrivo(t))\}
+        \item restituisce la cardinalità di T'+1
+    \end{enumerate}
+\end{enumerate}
+
+
 Tabella delle specifiche delle associazioni:
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
         Associazione & Cardinalità & Descrizione \\
+        \hline
+        tappa\_itin & 1 & L'itinerario della tappa \\
+        tappa\_dest & 1 & La destinazione della tappa \\
         \hline
     \end{tabular}
     \caption{Associazioni della classe Tappa}
@@ -578,32 +730,5 @@ Tabella delle specifiche delle associazioni:
 \section{Specifiche delle operazioni}
 
 In questa sezione verranno descritte le operazioni che il sistema deve essere in grado di eseguire.
-\newline
-\newline
-tipCrocLdM(): TipoCrocieraLunaDiMiele
-\begin{enumerate}
-    \item Pre: nessuna
-    \item Post: no side effect
-    \item Return:
-    \begin{enumerate}
-        \item se il numero di destinazioni romantiche $\geq$ il numero di destinazioni divertenti, restituisce tradizionale
-        \item altrimenti, restituisce alternativa
-    \end{enumerate}
-\end{enumerate}
-
-ordineTappa(): InteroGZ
-\begin{enumerate}
-    \item Pre: nessuna
-    \item Post: no side effect
-    \item Return:
-    \begin{enumerate}
-        \item sia I l'itinerario tale che tappa\_itin(this, I) = True
-        \item sia T l'insieme delle tappe di I
-        \item sia T' = \{t' $\in$ T: (giorno\_arrivo(t') $\leq$ giorno\_arrivo(t)) \newline $\lor$ (giorno\_arrivo(t') = giorno\_arrivo(t) $\land$ ora\_partenza(t') $\leq$ ora\_arrivo(t))\}
-        \item restituisce la cardinalità di T'+1
-    \end{enumerate}
-\end{enumerate}
-
-
 
 \end{document}
