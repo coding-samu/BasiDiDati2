@@ -43,7 +43,7 @@ Le funzionalità richieste al sistema sono le seguenti:
 In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
 
 \begin{enumerate}
-    \item Requisiti sulle crociere\label{sec:RequisitiCrociera}
+    \item Requisiti sulle \hyperref[sec:Crociera]{crociere}\label{sec:RequisitiCrociera}
     \begin{enumerate}
         \item codice: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiCrocieraCodice}
         \item data di inizio: Data\label{sec:RequisitiCrocieraDataInizio}
@@ -64,14 +64,14 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
             \end{enumerate}
         \end{enumerate}
     \end{enumerate}
-    \item Requisiti sulle navi\label{sec:RequisitiNave}
+    \item Requisiti sulle \hyperref[sec:Nave]{navi}\label{sec:RequisitiNave}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiNaveNome}
         \item grado di comfort (da 3 a 5 stelle): \hyperref[sec:ValutazioneNave]{ValutazioneNave}\label{sec:RequisitiNaveGradoDiComfort}
         \item numero massimo di passeggeri: InteroGZ\label{sec:RequisitiNaveNumeroMassimoDiPasseggeri}
         \item le crociere che fanno uso della nave (\hyperref[sec:RequisitiCrociera]{\hyperref[sec:RequisitiCrociera]{v.req.1}})\label{sec:RequisitiNaveCrociere}
     \end{enumerate}
-    \item Requisiti sulle destinazioni\label{sec:RequisitiDestinazione}
+    \item Requisiti sulle \hyperref[sec:Destinazione]{destinazioni}\label{sec:RequisitiDestinazione}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiDestinazioneNome}
         \item la città in cui si trova (\hyperref[sec:RequisitiCittà]{v.req.8})\label{sec:RequisitiDestinazioneCittà}
@@ -83,7 +83,7 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
             \item divertente\label{sec:RequisitiDestinazioneTipoDivertente}
         \end{enumerate}
     \end{enumerate}
-    \item Requisiti sugli itinerari\label{sec:RequisitiItinerario}
+    \item Requisiti sugli \hyperref[sec:Itinerario]{itinerari}\label{sec:RequisitiItinerario}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiItinerarioNome}
         \item le tappe (\hyperref[sec:RequisitiTappa]{v.req.13})\label{sec:RequisitiItinerarioTappe}
@@ -97,7 +97,7 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
             \item giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiItinerarioPortoDiArrivoGiorno}
         \end{enumerate}
     \end{enumerate}
-    \item Requisiti sui posti da vedere\label{sec:RequisitiPostoDaVedere}
+    \item Requisiti sui \hyperref[sec:PostoDaVedere]{posti da vedere}\label{sec:RequisitiPostoDaVedere}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiPostoDaVedereNome}
         \item descrizione: \hyperref[sec:StringaL]{StringaL}\label{sec:RequisitiPostoDaVedereDescrizione}
@@ -112,40 +112,40 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
         \item data di nascita: Data\label{sec:RequisitiUtenteDataDiNascita}
         \item città di residenza (\hyperref[sec:RequisitiCittà]{v.req.8})\label{sec:RequisitiUtenteCittàDiResidenza}
     \end{enumerate}
-    \item Requisiti sulle prenotazioni\label{sec:RequisitiPrenotazione}
+    \item Requisiti sulle \hyperref[sec:Prenotazione]{prenotazioni}\label{sec:RequisitiPrenotazione}
     \begin{enumerate}
         \item istante di prenotazione: Dataora\label{sec:RequisitiPrenotazioneIstanteDiPrenotazione}
         \item crociera prenotata (\hyperref[sec:RequisitiCrociera]{v.req.1})\label{sec:RequisitiPrenotazioneCrocieraPrenotata}
         \item numero di posti prenotati: \hyperref[sec:InteroGZ]{InteroGZ}\label{sec:RequisitiPrenotazioneNumeroDiPostiPrenotati}
         \item l'utente che ha effettuato la prenotazione (\hyperref[sec:RequisitiUtente]{v.req.6})\label{sec:RequisitiPrenotazioneUtente}
     \end{enumerate}
-    \item Requisiti sulle città\label{sec:RequisitiCittà}
+    \item Requisiti sulle \hyperref[sec:Città]{città}\label{sec:RequisitiCittà}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiCittàNome}
         \item la nazione in cui si trova (\hyperref[sec:RequisitiNazione]{v.req.9})\label{sec:RequisitiCittàNazione}
     \end{enumerate}
-    \item Requisiti sulle nazioni\label{sec:RequisitiNazione}
+    \item Requisiti sulle \hyperref[sec:Nazione]{nazioni}\label{sec:RequisitiNazione}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiNazioneNome}
         \item il continente in cui si trova (\hyperref[sec:RequisitiContinente]{v.req.10})\label{sec:RequisitiNazioneContinente}
     \end{enumerate}
-    \item Requisiti sui continenti\label{sec:RequisitiContinente}
+    \item Requisiti sui \hyperref[sec:Continente]{continenti}\label{sec:RequisitiContinente}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiContinenteNome}
     \end{enumerate}
-    \item Requisiti sui porti\label{sec:RequisitiPorto}
+    \item Requisiti sui \hyperref[sec:Porto]{porti}\label{sec:RequisitiPorto}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiPortoNome}
         \item la destinazione (0 o 1) (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiPortoDestinazione}
         \item la città in cui si trova (\hyperref[sec:RequisitiCittà]{v.req.8})\label{sec:RequisitiPortoCittà}
     \end{enumerate}
-    \item Requisiti sugli orari dei posti da vedere\label{sec:RequisitiOrarioPostoDaVedere}
+    \item Requisiti sugli \hyperref[sec:OrarioPostoDaVedere]{orari dei posti da vedere}\label{sec:RequisitiOrarioPostoDaVedere}
     \begin{enumerate}
         \item giorno: \hyperref[sec:Giorno]{Giorno}\label{sec:RequisitiOrarioPostoDaVedereGiorno}
         \item ora di inizio: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiOrarioPostoDaVedereOraDiInizio}
         \item ora di fine: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiOrarioPostoDaVedereOraDiFine}
     \end{enumerate}
-    \item Requisiti delle tappe degli itinerari\label{sec:RequisitiTappa}
+    \item Requisiti delle \hyperref[sec:Tappa]{tappe degli itinerari}\label{sec:RequisitiTappa}
     \begin{enumerate}
         \item l'itinerario (\hyperref[sec:RequisitiItinerario]{v.req.4})\label{sec:RequisitiTappaItinerario}
         \item la destinazione (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiTappaDestinazione}
@@ -181,6 +181,50 @@ In questa sezione verrà mostrato il diagramma UML delle classi.
     \item TipoCrocieraLunaDiMiele \{tradizionale, alternativa\}\label{sec:TipoCrocieraLunaDiMiele}
 \end{enumerate}
 
+\newpage
+\section{Specifiche delle classi e delle associazioni}
+\subsection*{Classe Crociera, \hyperref[sec:RequisitiCrociera]{v.req.1}}\label{sec:Crociera}
+Tabella delle specifiche degli attributi:
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Attributo & Tipo & Cardinalità & Descrizione \\
+        \hline
+        codice & StringaS & 1 & Codice della crociera \\
+        data\_inizio & Data & 1 & Data di inizio della crociera \\
+        data\_fine & Data & 1 & Data di fine della crociera \\
+        \hline
+    \end{tabular}
+    \caption{Attributi della classe Crociera}
+\end{table}
+
+Tabella delle specifiche delle associazioni:
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Associazione & Cardinalità & Descrizione \\
+        \hline
+        nave & 1 & La nave utilizzata per la crociera \\
+        itinerario & 1 & L'itinerario della crociera \\
+        prenotazioni & 0..* & Le prenotazioni della crociera \\
+        \hline
+    \end{tabular}
+    \caption{Associazioni della classe Crociera}
+\end{table}
+\subsection*{Classe Nave, \hyperref[sec:RequisitiNave]{v.req.2}}\label{sec:Nave}
+\subsection*{Classe Destinazione, \hyperref[sec:RequisitiDestinazione]{v.req.3}}\label{sec:Destinazione}
+\subsection*{Classe Itinerario, \hyperref[sec:RequisitiItinerario]{v.req.4}}\label{sec:Itinerario}
+\subsection*{Classe PostoDaVedere, \hyperref[sec:RequisitiPostoDaVedere]{v.req.5}}\label{sec:PostoDaVedere}
+\subsection*{Classe Utente, \hyperref[sec:RequisitiUtente]{v.req.6}}\label{sec:Utente}
+\subsection*{Classe Prenotazione, \hyperref[sec:RequisitiPrenotazione]{v.req.7}}\label{sec:Prenotazione}
+\subsection*{Classe Città, \hyperref[sec:RequisitiCittà]{v.req.8}}\label{sec:Città}
+\subsection*{Classe Nazione, \hyperref[sec:RequisitiNazione]{v.req.9}}\label{sec:Nazione}
+\subsection*{Classe Continente, \hyperref[sec:RequisitiContinente]{v.req.10}}\label{sec:Continente}
+\subsection*{Classe Porto, \hyperref[sec:RequisitiPorto]{v.req.11}}\label{sec:Porto}
+\subsection*{Classe OrarioPostoDaVedere, \hyperref[sec:RequisitiOrarioPostoDaVedere]{v.req.12}}\label{sec:OrarioPostoDaVedere}
+\subsection*{Classe Tappa, \hyperref[sec:RequisitiTappa]{v.req.13}}\label{sec:Tappa}
 
 \newpage
 \section{Specifiche dei vincoli esterni}
