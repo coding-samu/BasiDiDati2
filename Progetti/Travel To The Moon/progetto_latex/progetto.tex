@@ -1,6 +1,12 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
 
 \title{Travel To The Moon}
 \author{}
@@ -89,11 +95,11 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
         \item le tappe (\hyperref[sec:RequisitiTappa]{v.req.13})\label{sec:RequisitiItinerarioTappe}
         \item destinazione di partenza (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiItinerarioDestinazioneDiPartenza}
         \begin{enumerate}
-            \item ora di partenza: Ora\label{sec:RequisitiItinerarioDestinazioneDiPartenzaOra}
+            \item ora di partenza: DeltaOra\label{sec:RequisitiItinerarioDestinazioneDiPartenzaOra}
         \end{enumerate}
         \item destinazione di arrivo (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiItinerarioDestinazioneDiArrivo}
         \begin{enumerate}
-            \item ora di arrivo: Ora\label{sec:RequisitiItinerarioDestinazioneDiArrivoOra}
+            \item ora di arrivo: DeltaOra\label{sec:RequisitiItinerarioDestinazioneDiArrivoOra}
             \item giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiItinerarioPortoDiArrivoGiorno}
         \end{enumerate}
     \end{enumerate}
@@ -142,17 +148,17 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
     \item Requisiti sugli \hyperref[sec:OrarioPostoDaVedere]{orari dei posti da vedere}\label{sec:RequisitiOrarioPostoDaVedere}
     \begin{enumerate}
         \item giorno: \hyperref[sec:Giorno]{Giorno}\label{sec:RequisitiOrarioPostoDaVedereGiorno}
-        \item ora di inizio: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiOrarioPostoDaVedereOraDiInizio}
-        \item ora di fine: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiOrarioPostoDaVedereOraDiFine}
+        \item ora di inizio: \hyperref[sec:DeltaOra]{DeltaOra}\label{sec:RequisitiOrarioPostoDaVedereOraDiInizio}
+        \item ora di fine: \hyperref[sec:DeltaOra]{DeltaOra}\label{sec:RequisitiOrarioPostoDaVedereOraDiFine}
     \end{enumerate}
     \item Requisiti delle \hyperref[sec:Tappa]{tappe degli itinerari}\label{sec:RequisitiTappa}
     \begin{enumerate}
         \item l'itinerario (\hyperref[sec:RequisitiItinerario]{v.req.4})\label{sec:RequisitiTappaItinerario}
         \item la destinazione (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiTappaDestinazione}
         \item il giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiTappaGiornoDiArrivo}
-        \item l'ora di arrivo: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiTappaOraDiArrivo}
+        \item l'ora di arrivo: \hyperref[sec:DeltaOra]{DeltaOra}\label{sec:RequisitiTappaOraDiArrivo}
         \item il giorno di partenza (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiTappaGiornoDiPartenza}
-        \item l'ora di partenza: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiTappaOraDiPartenza}
+        \item l'ora di partenza: \hyperref[sec:DeltaOra]{DeltaOra}\label{sec:RequisitiTappaOraDiPartenza}
     \end{enumerate}
 \end{enumerate}
 
@@ -174,11 +180,27 @@ In questa sezione verrà mostrato il diagramma UML delle classi.
     \item InteroGEZ Intero in [0, +$\infty$]\label{sec:InteroGEZ}
     \item InteroGZ Intero in (0, +$\infty$)\label{sec:InteroGZ}
     \item Giorno \{Lun, Mar, Mer, Gio, Ven, Sab, Dom\}\label{sec:Giorno}
-    \item Ora \{ora: intero in [0,23], minuti: intero in [0,59]\}\label{sec:Ora}
+    \item DeltaOra \{ora: intero in [0,23], minuti: intero in [0,59]\}\label{sec:DeltaOra}
     \item StringaS varchar di lunghezza 100\label{sec:StringaS}
     \item StringaM varchar di lunghezza 500\label{sec:StringaM}
     \item StringaL varchar di lunghezza 1000\label{sec:StringaL}
     \item TipoCrocieraLunaDiMiele \{tradizionale, alternativa\}\label{sec:TipoCrocieraLunaDiMiele}
+\end{enumerate}
+
+Operazioni del tipo DeltaOra:
+
+\begin{enumerate}
+    \item < (d1: DeltaOra, d2: DeltaOra): booleano
+    \begin{enumerate}
+        \item Pre: nessuna
+        \item Post: no side effect
+        \item Return:
+        \begin{enumerate}
+            \item se d1.ora $<$ d2.ora, restituisce vero
+            \item se d1.ora = d2.ora e d1.minuti $<$ d2.minuti, restituisce vero
+            \item altrimenti, restituisce falso
+        \end{enumerate}
+    \end{enumerate}
 \end{enumerate}
 
 \newpage
@@ -191,7 +213,7 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        codice & StringaS & 1 & Codice della crociera \\
+        codice & \hyperref[sec:StringaS]{StringaS} & 1 & Codice della crociera \\
         data\_inizio & Data & 1 & Data di inizio della crociera \\
         data\_fine & Data & 1 & Data di fine della crociera \\
         \hline
@@ -287,9 +309,9 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        nome & StringaS & 1 & Nome della nave \\
-        grado\_di\_comfort & ValutazioneNave & 1 & Grado di comfort della nave \\
-        numero\_massimo\_di\_passeggeri & InteroGZ & 1 & Numero massimo di passeggeri \\
+        nome & \hyperref[sec:StringaS]{StringaS} & 1 & Nome della nave \\
+        grado\_di\_comfort & \hyperref[sec:ValutazioneNave]{ValutazioneNave} & 1 & Grado di comfort della nave \\
+        numero\_massimo\_di\_passeggeri & \hyperref[sec:InteroGZ]{InteroGZ} & 1 & Numero massimo di passeggeri \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Nave}
@@ -317,7 +339,7 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        nome & StringaS & 1 & Nome della destinazione \\
+        nome & \hyperref[sec:StringaS]{StringaS} & 1 & Nome della destinazione \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Destinazione}
@@ -346,7 +368,7 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        nome & StringaS & 1 & Nome dell'itinerario \\
+        nome & \hyperref[sec:StringaS]{StringaS} & 1 & Nome dell'itinerario \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Itinerario}
@@ -376,7 +398,7 @@ Tabella delle specifiche delle associazioni:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        ora & Ora & 1 & Ora di partenza \\
+        ora & \hyperref[sec:Ora]{Ora} & 1 & Ora di partenza \\
         \hline
     \end{tabular}
     \caption{Attributi dell'association class Partenza'}
@@ -390,8 +412,8 @@ Tabella delle specifiche delle associazioni:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        ora & Ora & 1 & Ora di arrivo \\
-        giorno & InteroGEZ & 1 & Giorno di arrivo \\
+        ora & \hyperref[sec:Ora]{Ora} & 1 & Ora di arrivo \\
+        giorno & \hyperref[sec:InteroGEZ]{InteroGEZ} & 1 & Giorno di arrivo \\
         \hline
     \end{tabular}
     \caption{Attributi dell'association class Arrivo'}
@@ -406,8 +428,8 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        nome & StringaS & 1 & Nome del posto da vedere \\
-        descrizione & StringaL & 1 & Descrizione del posto da vedere \\
+        nome & \hyperref[sec:StringaS]{StringaS} & 1 & Nome del posto da vedere \\
+        descrizione & \hyperref[sec:StringaL]{StringaL} & 1 & Descrizione del posto da vedere \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Posto Da Vedere}
@@ -437,9 +459,9 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        nome & StringaS & 1 & Nome dell'utente \\
-        cognome & StringaS & 1 & Cognome dell'utente \\
-        indirizzo & StringaM & 1 & Indirizzo dell'utente \\
+        nome & \hyperref[sec:StringaS]{StringaS} & 1 & Nome dell'utente \\
+        cognome & \hyperref[sec:StringaS]{StringaS} & 1 & Cognome dell'utente \\
+        indirizzo & \hyperref[sec:StringaM]{StringaM} & 1 & Indirizzo dell'utente \\
         data\_di\_nascita & Data & 1 & Data di nascita dell'utente \\
         \hline
     \end{tabular}
@@ -469,7 +491,7 @@ Tabella delle specifiche degli attributi:
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
         istante\_prenotazione & Dataora & 1 & Istante di prenotazione \\
-        num\_posti\_prenotati & InteroGZ & 1 & Numero di posti prenotati \\
+        num\_posti\_prenotati & \hyperref[sec:InteroGZ]{InteroGZ} & 1 & Numero di posti prenotati \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Prenotazione}
@@ -498,7 +520,7 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        nome & StringaS & 1 & Nome della città \\
+        nome & \hyperref[sec:StringaS]{StringaS} & 1 & Nome della città \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Città}
@@ -529,7 +551,7 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        nome & StringaS & 1 & Nome della nazione \\
+        nome & \hyperref[sec:StringaS]{StringaS} & 1 & Nome della nazione \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Nazione}
@@ -557,7 +579,7 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        nome & StringaS & 1 & Nome del continente \\
+        nome & \hyperref[sec:StringaS]{StringaS} & 1 & Nome del continente \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Continente}
@@ -585,7 +607,7 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        nome & StringaS & 1 & Nome del porto \\
+        nome & \hyperref[sec:StringaS]{StringaS} & 1 & Nome del porto \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Porto}
@@ -613,8 +635,8 @@ Tabella delle specifiche degli attributi:
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
         giorno & Giorno & 1 & Giorno in cui è possibile visitare il posto \\
-        ora\_inizio & Ora & 1 & Ora di inizio della visita \\
-        ora\_fine & Ora & 1 & Ora di fine della visita \\
+        ora\_inizio & \hyperref[sec:Ora]{Ora} & 1 & Ora di inizio della visita \\
+        ora\_fine & \hyperref[sec:Ora]{Ora} & 1 & Ora di fine della visita \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Orario Posto Da Vedere}
@@ -642,10 +664,10 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        giorno\_arrivo & InteroGEZ & 1 & Giorno di arrivo della tappa \\
-        ora\_arrivo & Ora & 1 & Ora di arrivo della tappa \\
-        giorno\_partenza & InteroGEZ & 1 & Giorno di partenza della tappa \\
-        ora\_partenza & Ora & 1 & Ora di partenza della tappa \\
+        giorno\_arrivo & \hyperref[sec:InteroGEZ]{InteroGEZ} & 1 & Giorno di arrivo della tappa \\
+        ora\_arrivo & \hyperref[sec:Ora]{Ora} & 1 & Ora di arrivo della tappa \\
+        giorno\_partenza & \hyperref[sec:InteroGEZ]{InteroGEZ} & 1 & Giorno di partenza della tappa \\
+        ora\_partenza & \hyperref[sec:Ora]{Ora} & 1 & Ora di partenza della tappa \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Tappa}
