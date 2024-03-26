@@ -87,13 +87,13 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiItinerarioNome}
         \item le tappe (\hyperref[sec:RequisitiTappa]{v.req.13})\label{sec:RequisitiItinerarioTappe}
-        \item porto di partenza (\hyperref[sec:RequisitiPorto]{v.req.11})\label{sec:RequisitiItinerarioPortoDiPartenza}
+        \item destinazione di partenza (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiItinerarioDestinazioneDiPartenza}
         \begin{enumerate}
-            \item ora di partenza: Ora\label{sec:RequisitiItinerarioPortoDiPartenzaOra}
+            \item ora di partenza: Ora\label{sec:RequisitiItinerarioDestinazioneDiPartenzaOra}
         \end{enumerate}
-        \item porto di arrivo (\hyperref[sec:RequisitiPorto]{v.req.11})\label{sec:RequisitiItinerarioPortoDiArrivo}
+        \item destinazione di arrivo (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiItinerarioDestinazioneDiArrivo}
         \begin{enumerate}
-            \item ora di arrivo: Ora\label{sec:RequisitiItinerarioPortoDiArrivoOra}
+            \item ora di arrivo: Ora\label{sec:RequisitiItinerarioDestinazioneDiArrivoOra}
             \item giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiItinerarioPortoDiArrivoGiorno}
         \end{enumerate}
     \end{enumerate}
@@ -136,8 +136,7 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
     \item Requisiti sui porti\label{sec:RequisitiPorto}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiPortoNome}
-        \item le destinazioni (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiPortoDestinazioni}
-        \item le tappe degli itinerari (\hyperref[sec:RequisitiItinerario]{v.req.13})\label{sec:RequisitiPortoTappe}
+        \item la destinazione (0 o 1) (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiPortoDestinazione}
         \item la città in cui si trova (\hyperref[sec:RequisitiCittà]{v.req.8})\label{sec:RequisitiPortoCittà}
     \end{enumerate}
     \item Requisiti sugli orari dei posti da vedere\label{sec:RequisitiOrarioPostoDaVedere}
@@ -149,7 +148,7 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
     \item Requisiti delle tappe degli itinerari\label{sec:RequisitiTappa}
     \begin{enumerate}
         \item l'itinerario (\hyperref[sec:RequisitiItinerario]{v.req.4})\label{sec:RequisitiTappaItinerario}
-        \item il porto (\hyperref[sec:RequisitiPorto]{v.req.11})\label{sec:RequisitiTappaPorto}
+        \item la destinazione (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiTappaDestinazione}
         \item il giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiTappaGiornoDiArrivo}
         \item l'ora di arrivo: \hyperref[sec:Ora]{Ora}\label{sec:RequisitiTappaOraDiArrivo}
         \item il giorno di partenza (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiTappaGiornoDiPartenza}
@@ -179,6 +178,7 @@ In questa sezione verrà mostrato il diagramma UML delle classi.
     \item StringaS varchar di lunghezza 100\label{sec:StringaS}
     \item StringaM varchar di lunghezza 500\label{sec:StringaM}
     \item StringaL varchar di lunghezza 1000\label{sec:StringaL}
+    \item TipoCrocieraLunaDiMiele \{tradizionale, alternativa\}\label{sec:TipoCrocieraLunaDiMiele}
 \end{enumerate}
 
 
@@ -231,5 +231,32 @@ In questa sezione verrà mostrato il diagramma UML delle classi.
 \section{Specifiche delle operazioni}
 
 In questa sezione verranno descritte le operazioni che il sistema deve essere in grado di eseguire.
+\newline
+\newline
+tipCrocLdM(): TipoCrocieraLunaDiMiele
+\begin{enumerate}
+    \item Pre: nessuna
+    \item Post: no side effect
+    \item Return:
+    \begin{enumerate}
+        \item se il numero di destinazioni romantiche $\geq$ il numero di destinazioni divertenti, restituisce tradizionale
+        \item altrimenti, restituisce alternativa
+    \end{enumerate}
+\end{enumerate}
+
+ordineTappa(): InteroGZ
+\begin{enumerate}
+    \item Pre: nessuna
+    \item Post: no side effect
+    \item Return:
+    \begin{enumerate}
+        \item sia I l'itinerario tale che tappa\_itin(this, I) = True
+        \item sia T l'insieme delle tappe di I
+        \item sia T' = \{t' $\in$ T: (giorno\_arrivo(t') $\leq$ giorno\_arrivo(t)) \newline $\lor$ (giorno\_arrivo(t') = giorno\_arrivo(t) $\land$ ora\_partenza(t') $\leq$ ora\_arrivo(t))\}
+        \item restituisce la cardinalità di T'+1
+    \end{enumerate}
+\end{enumerate}
+
+
 
 \end{document}
