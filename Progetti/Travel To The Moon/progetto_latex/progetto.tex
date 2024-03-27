@@ -745,25 +745,128 @@ Tabella delle specifiche delle associazioni:
 
 In questa sezione verranno descritte le operazioni che il sistema deve essere in grado di eseguire.
 \newline
-[getPostiDisponibili$($Crociera c$)$]: Restituisce il numero di posti disponibili data una determinata Crociera.
-\newline
-[effettuaPrenotazione$($Crociera c, Utente u, InteroGZ num\_posti$)$]: Permette all'Ufficio Prenotazioni di effettuare una prenotazione. Restituisce un oggetto di tipo Prenotazione se getPostiDisponibili$(c)$ $\geq$ num\_posti, altrimenti rifiuta.
-\newline
-[isDestinazioneEsotica$($Destinazione d$)$]: Restituisce vero se la destinazione è esotica (se il suo continente è diverso da Europa), altrimenti falso.
-\newline
-[isPrenotazioneInPeriodo$($Prenotazione p, Data inizio, Data fine$)$]: Restituisce vero se la prenotazione è in un periodo compreso tra inizio e fine, altrimenti falso.
-\newline
-[getEtàMediaUtenti$($Utente[] u$)$]: Restituisce l'età media degli utenti.
-\newline
-[getEtàMediaClientiCheHannoPrenotatoInUnPeriodoUnaCrocieraConAlmenoUnaDestinazioneEsotica$($Data inizio, Data fine$)$]: Restituisce l'età media dei clienti che hanno prenotato in un periodo una crociera con almeno una destinazione esotica.
-\newline
-[getDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$] Restituisce il numero di destinazioni da considerarsi gettonate in un dato periodo. Una destinazione è gettonata se è raggiunta da almeno 10 crociere luna di miele in quel periodo oppure da almeno 15 crociere per famiglia.
-\newline
-[getNumeroCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]: Restituisce il numero di crociere per famiglie che raggiungono una data destinazione in un dato periodo.
-\newline
-[getNumeroCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]: Restituisce il numero di crociere luna di miele che raggiungono una data destinazione in un dato periodo.
-\newline
-[isCrocieraInPeriodo$($Crociera c, Data inizio, Data fine$)$]: Restituisce vero se la crociera è in un periodo compreso tra inizio e fine, altrimenti falso.
-\newline
-[getPercentualeDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$]: Restituisce la percentuale di destinazioni gettonate in un dato periodo.
+[getPostiDisponibili$($Crociera c$)$]
+\begin{enumerate}
+    \item Restituisce il numero di posti disponibili data una determinata Crociera.
+\end{enumerate}
+\space
+
+[effettuaPrenotazione$($Crociera c, Utente u, InteroGZ num\_posti$)$]
+\begin{enumerate}
+    \item Permette all'Ufficio Prenotazioni di effettuare una prenotazione. Restituisce un oggetto di tipo Prenotazione se getPostiDisponibili$(c)$ $\geq$ num\_posti, altrimenti rifiuta.
+\end{enumerate}
+
+[isDestinazioneEsotica$($Destinazione d$)$]
+\begin{enumerate}
+    \item Restituisce vero se la destinazione è esotica (se il suo continente è diverso da Europa), altrimenti falso.
+\end{enumerate}
+\space
+
+[isPrenotazioneInPeriodo$($Prenotazione p, Data inizio, Data fine$)$]
+\begin{enumerate}
+    \item Restituisce vero se la prenotazione è in un periodo compreso tra inizio e fine, altrimenti falso.
+\end{enumerate}
+\space
+
+[getEtàMediaUtenti$($Utente[] u$)$]
+\begin{enumerate}
+    \item Restituisce l'età media degli utenti.
+\end{enumerate}
+\space
+
+[getEtàMediaClientiCheHannoPrenotatoInUnPeriodoUnaCrocieraConAlmenoUnaDestinazioneEsotica$($Data inizio, Data fine$)$]
+\begin{enumerate}
+    \item Restituisce l'età media dei clienti che hanno prenotato in un periodo una crociera con almeno una destinazione esotica.
+\end{enumerate}
+\space
+
+[getDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$]
+\begin{enumerate}
+    \item Restituisce il numero di destinazioni da considerarsi gettonate in un dato periodo. Una destinazione è gettonata se è raggiunta da almeno 10 crociere luna di miele in quel periodo oppure da almeno 15 crociere per famiglia.
+    \item D = l'insieme di tutte le destinazioni
+    \item R = $\{d \in D: isDestinazioneGettonataInUnDatoPeriodo(d, inizio, fine)\}$
+    \item return R
+\end{enumerate}
+\space
+
+[isDestinazioneGettonataInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]
+\begin{enumerate}
+    \item Restituisce vero se la destinazione è gettonata in un dato periodo, altrimenti falso.
+    \item CpF = getCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($d, inizio, fine$)$
+    \item CLdM = getCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($d, inizio, fine$)$
+    \item return True se cardinalità di CpF $\geq$ 15 $\lor$ cardinalità di CLdM $\geq$ 10, altrimenti False
+\end{enumerate}
+\space
+
+[getCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]
+\begin{enumerate}
+    \item Restituisce le crociere per famiglie che raggiungono una data destinazione in un dato periodo.
+    \item P = getCrocierePerFamiglieInUnDatoPeriodo$($inizio, fine$)$
+    \item D = getCrocierePerFamiglieInDestinazione$($d$)$
+    \item return P $\cap$ D
+\end{enumerate}
+\space
+
+[getCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]
+\begin{enumerate}
+    \item Restituisce le crociere luna di miele che raggiungono una data destinazione in un dato periodo.
+    \item P = getCrociereLunaDiMieleInUnDatoPeriodo$($inizio, fine$)$
+    \item D = getCrociereLunaDiMieleInDestinazione$($d$)$
+    \item return P $\cap$ D
+\end{enumerate}
+\space
+
+[isCrocieraInPeriodo$($Crociera c, Data inizio, Data fine$)$]
+\begin{enumerate}
+    \item Restituisce vero se la crociera è in un periodo compreso tra inizio e fine, altrimenti falso.
+    \item return true se data\_inizio$($c$)$ $\geq$ inizio $\land$ data\_fine$($c$)$ $\leq$ fine, altrimenti false
+\end{enumerate}
+\space
+
+[getPercentualeDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$]
+\begin{enumerate}
+    \item Restituisce la percentuale di destinazioni gettonate in un dato periodo.
+    \item D = l'insieme di tutte le destinazioni
+    \item R = getDestinazioniGettonateInUnDatoPeriodo$($inizio, fine$)$
+    \item return R*100/D
+\end{enumerate}
+\space
+
+[getCrocierePerFamiglieInUnDatoPeriodo$($Data inizio, Data fine$)$]
+\begin{enumerate}
+    \item Restituisce le crociere per famiglie in un dato periodo.
+    \item return $\{c \in Crociere: isCrocieraInPeriodo(c, inizio, fine) \land c \in CrocierePerFamiglie\}$
+\end{enumerate}
+\space
+
+[getCrociereLunaDiMieleInUnDatoPeriodo$($Data inizio, Data fine$)$]
+\begin{enumerate}
+    \item Restituisce le crociere luna di miele in un dato periodo.
+    \item return $\{c \in Crociere: isCrocieraInPeriodo(c, inizio, fine) \land c \in CrociereLunaDiMiele\}$
+\end{enumerate}
+\space
+
+[getCrociereLunaDiMieleInDestinazione$($Destinazione d$)$]
+\begin{enumerate}
+    \item Restituisce le crociere luna di miele che raggiungono una data destinazione.
+    \item return $\{c \in CrociereLunaDiMiele: isCrocieraInDestinazione(c, d)\}$
+\end{enumerate}
+\space
+
+[getCrocierePerFamiglieInDestinazione$($Destinazione d$)$]
+\begin{enumerate}
+    \item Restituisce le crociere per famiglie che raggiungono una data destinazione.
+    \item return $\{c \in CrocierePerFamiglie: isCrocieraInDestinazione(c, d)\}$
+\end{enumerate}
+\space
+
+[isCrocieraInDestinazione$($Crociera c, Destinazione d$)$]
+\begin{enumerate}
+    \item Restituisce vero se la crociera raggiunge la destinazione, altrimenti falso.
+    \item return true se esistono i, t tale che tappa\_itin$(t, i)$ $\land$ tappa\_dest$(t, d)$ $\land$ itin\_croc$(i, c)$
+    \item $\lor$ se esiste i tale che arrivo$($i, d$)$ $\land$ itin\_croc$(i, c)$
+    \item $\lor$ se esiste i tale che partenza$($i, d$)$ $\land$ itin\_croc$(i, c)$
+    \item altrimenti false
+\end{enumerate}
+
 \end{document}
