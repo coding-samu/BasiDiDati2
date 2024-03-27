@@ -684,7 +684,7 @@ ordineTappa(): \hyperref[sec:InteroGZ]{InteroGZ}
         \item sia I l'itinerario tale che tappa\_itin(this, I) = True
         \item sia T l'insieme delle tappe di I
         \item sia T' = \{t' $\in$ T: (giorno\_arrivo(t') $\leq$ giorno\_arrivo(t)) \newline $\lor$ (giorno\_arrivo(t') = giorno\_arrivo(t) $\land$ ora\_partenza(t') $\leq$ ora\_arrivo(t))\}
-        \item restituisce la cardinalità di T'+1
+        \item restituisce la $|$T'$|$+1
     \end{enumerate}
 \end{enumerate}
 
@@ -794,7 +794,7 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
     \item Restituisce vero se la destinazione è gettonata in un dato periodo, altrimenti falso.
     \item CpF = getCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($d, inizio, fine$)$
     \item CLdM = getCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($d, inizio, fine$)$
-    \item return True se cardinalità di CpF $\geq$ 15 $\lor$ cardinalità di CLdM $\geq$ 10, altrimenti False
+    \item return True se $|$CpF$|$ $\geq$ 15 $\lor$ $|$CLdM$|$ $\geq$ 10, altrimenti False
 \end{enumerate}
 \space
 
@@ -828,7 +828,7 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
     \item Restituisce la percentuale di destinazioni gettonate in un dato periodo.
     \item D = l'insieme di tutte le destinazioni
     \item R = getDestinazioniGettonateInUnDatoPeriodo$($inizio, fine$)$
-    \item return R*100/D
+    \item return $|$R$|$*100/$|$D$|$
 \end{enumerate}
 \space
 
