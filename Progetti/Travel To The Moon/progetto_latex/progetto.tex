@@ -744,5 +744,26 @@ Tabella delle specifiche delle associazioni:
 \section{Specifiche delle operazioni}
 
 In questa sezione verranno descritte le operazioni che il sistema deve essere in grado di eseguire.
-
+\newline
+[getPostiDisponibili$($Crociera c$)$]: Restituisce il numero di posti disponibili data una determinata Crociera.
+\newline
+[effettuaPrenotazione$($Crociera c, Utente u, InteroGZ num\_posti$)$]: Permette all'Ufficio Prenotazioni di effettuare una prenotazione. Restituisce un oggetto di tipo Prenotazione se getPostiDisponibili$(c)$ $\geq$ num\_posti, altrimenti rifiuta.
+\newline
+[isDestinazioneEsotica$($Destinazione d$)$]: Restituisce vero se la destinazione è esotica (se il suo continente è diverso da Europa), altrimenti falso.
+\newline
+[isPrenotazioneInPeriodo$($Prenotazione p, Data inizio, Data fine$)$]: Restituisce vero se la prenotazione è in un periodo compreso tra inizio e fine, altrimenti falso.
+\newline
+[getEtàMediaUtenti$($Utente[] u$)$]: Restituisce l'età media degli utenti.
+\newline
+[getEtàMediaClientiCheHannoPrenotatoInUnPeriodoUnaCrocieraConAlmenoUnaDestinazioneEsotica$($Data inizio, Data fine$)$]: Restituisce l'età media dei clienti che hanno prenotato in un periodo una crociera con almeno una destinazione esotica.
+\newline
+[getDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$] Restituisce il numero di destinazioni da considerarsi gettonate in un dato periodo. Una destinazione è gettonata se è raggiunta da almeno 10 crociere luna di miele in quel periodo oppure da almeno 15 crociere per famiglia.
+\newline
+[getNumeroCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]: Restituisce il numero di crociere per famiglie che raggiungono una data destinazione in un dato periodo.
+\newline
+[getNumeroCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]: Restituisce il numero di crociere luna di miele che raggiungono una data destinazione in un dato periodo.
+\newline
+[isCrocieraInPeriodo$($Crociera c, Data inizio, Data fine$)$]: Restituisce vero se la crociera è in un periodo compreso tra inizio e fine, altrimenti falso.
+\newline
+[getPercentualeDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$]: Restituisce la percentuale di destinazioni gettonate in un dato periodo.
 \end{document}
