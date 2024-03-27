@@ -7,7 +7,7 @@
     filecolor=magenta,      
     urlcolor=cyan,
 }
-
+% chktex-file 44
 \title{Travel To The Moon}
 \author{}
 \date{}
@@ -56,15 +56,15 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
         \item data di fine: Data\label{sec:RequisitiCrocieraDataFine}
         \item nave utilizzata (\hyperref[sec:RequisitiNave]{v.req.2})\label{sec:RequisitiCrocieraNave}
         \item itinerario (\hyperref[sec:RequisitiItinerario]{v.req.4})\label{sec:RequisitiCrocieraItinerario}
-        \item Le prenotazioni (v.req.7)\label{sec:RequisitiCrocieraPrenotazioni}
+        \item Le prenotazioni (\hyperref[sec:RequisitiPrenotazione]{v.req.7})\label{sec:RequisitiCrocieraPrenotazioni}
         \item il tipo, uno tra:\label{sec:RequisitiCrocieraTipo}
         \begin{enumerate}
-            \item crociera di luna di miele, di cui interessa:\label{sec:RequisitiCrocieraTipoLunaDiMiele}
+            \item \hyperref[sec:Croc_luna_di_miele]{crociera di luna di miele}, di cui interessa:\label{sec:RequisitiCrocieraTipoLunaDiMiele}
             \begin{enumerate}
                 \item tradizionale\label{sec:RequisitiCrocieraTipoLunaDiMieleTradizionale}
                 \item alternativa\label{sec:RequisitiCrocieraTipoLunaDiMieleAlternativa}
             \end{enumerate}
-            \item crociera per famiglie\label{sec:RequisitiCrocieraTipoPerFamiglie}
+            \item \hyperref[sec:Croc_per_famiglie]{crociera per famiglie}\label{sec:RequisitiCrocieraTipoPerFamiglie}
             \begin{enumerate}
                 \item adatta ai bambini: booleano\label{sec:RequisitiCrocieraTipoPerFamiglieAdattaAiBambini}
             \end{enumerate}
@@ -74,7 +74,7 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiNaveNome}
         \item grado di comfort (da 3 a 5 stelle): \hyperref[sec:ValutazioneNave]{ValutazioneNave}\label{sec:RequisitiNaveGradoDiComfort}
-        \item numero massimo di passeggeri: InteroGZ\label{sec:RequisitiNaveNumeroMassimoDiPasseggeri}
+        \item numero massimo di passeggeri: \hyperref[sec:InteroGZ]{InteroGZ}\label{sec:RequisitiNaveNumeroMassimoDiPasseggeri}
         \item le crociere che fanno uso della nave (\hyperref[sec:RequisitiCrociera]{\hyperref[sec:RequisitiCrociera]{v.req.1}})\label{sec:RequisitiNaveCrociere}
     \end{enumerate}
     \item Requisiti sulle \hyperref[sec:Destinazione]{destinazioni}\label{sec:RequisitiDestinazione}
@@ -95,12 +95,12 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
         \item le tappe (\hyperref[sec:RequisitiTappa]{v.req.13})\label{sec:RequisitiItinerarioTappe}
         \item destinazione di partenza (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiItinerarioDestinazioneDiPartenza}
         \begin{enumerate}
-            \item ora di partenza: DeltaOra\label{sec:RequisitiItinerarioDestinazioneDiPartenzaOra}
+            \item ora di partenza: \hyperref[sec:DeltaOra]{DeltaOra}\label{sec:RequisitiItinerarioDestinazioneDiPartenzaOra}
         \end{enumerate}
         \item destinazione di arrivo (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiItinerarioDestinazioneDiArrivo}
         \begin{enumerate}
-            \item ora di arrivo: DeltaOra\label{sec:RequisitiItinerarioDestinazioneDiArrivoOra}
-            \item giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiItinerarioPortoDiArrivoGiorno}
+            \item ora di arrivo: \hyperref[sec:DeltaOra]{DeltaOra}\label{sec:RequisitiItinerarioDestinazioneDiArrivoOra}
+            \item giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): \hyperref[sec:InteroGEZ]{InteroGEZ}\label{sec:RequisitiItinerarioPortoDiArrivoGiorno}
         \end{enumerate}
     \end{enumerate}
     \item Requisiti sui \hyperref[sec:PostoDaVedere]{posti da vedere}\label{sec:RequisitiPostoDaVedere}
@@ -110,7 +110,7 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
         \item fascia oraria consigliata (\hyperref[sec:RequisitiOrarioPostoDaVedere]{v.req.11})\label{sec:RequisitiPostoDaVedereFasciaOrariaConsigliata}
         \item la città in cui si trovano (\hyperref[sec:RequisitiCittà]{v.req.8})\label{sec:RequisitiPostoDaVedereCittà}
     \end{enumerate}
-    \item Requisiti sugli utenti\label{sec:RequisitiUtente}
+    \item Requisiti sugli \hyperref[sec:Utente]{utenti}\label{sec:RequisitiUtente}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiUtenteNome}
         \item cognome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiUtenteCognome}
@@ -142,7 +142,7 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
     \item Requisiti sui \hyperref[sec:Porto]{porti}\label{sec:RequisitiPorto}
     \begin{enumerate}
         \item nome: \hyperref[sec:StringaS]{StringaS}\label{sec:RequisitiPortoNome}
-        \item la destinazione (0 o 1) (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiPortoDestinazione}
+        \item la destinazione (0..1) (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiPortoDestinazione}
         \item la città in cui si trova (\hyperref[sec:RequisitiCittà]{v.req.8})\label{sec:RequisitiPortoCittà}
     \end{enumerate}
     \item Requisiti sugli \hyperref[sec:OrarioPostoDaVedere]{orari dei posti da vedere}\label{sec:RequisitiOrarioPostoDaVedere}
@@ -155,9 +155,9 @@ In questa sezione verranno descritte le fasi di raffinamento dei requisiti.
     \begin{enumerate}
         \item l'itinerario (\hyperref[sec:RequisitiItinerario]{v.req.4})\label{sec:RequisitiTappaItinerario}
         \item la destinazione (\hyperref[sec:RequisitiDestinazione]{v.req.3})\label{sec:RequisitiTappaDestinazione}
-        \item il giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiTappaGiornoDiArrivo}
+        \item il giorno di arrivo (rappresentato come differenza rispetto la data di inizio della crociera): \hyperref[sec:InteroGEZ]{InteroGEZ}\label{sec:RequisitiTappaGiornoDiArrivo}
         \item l'ora di arrivo: \hyperref[sec:DeltaOra]{DeltaOra}\label{sec:RequisitiTappaOraDiArrivo}
-        \item il giorno di partenza (rappresentato come differenza rispetto la data di inizio della crociera): InteroGEZ\label{sec:RequisitiTappaGiornoDiPartenza}
+        \item il giorno di partenza (rappresentato come differenza rispetto la data di inizio della crociera): \hyperref[sec:InteroGEZ]{InteroGEZ}\label{sec:RequisitiTappaGiornoDiPartenza}
         \item l'ora di partenza: \hyperref[sec:DeltaOra]{DeltaOra}\label{sec:RequisitiTappaOraDiPartenza}
     \end{enumerate}
 \end{enumerate}
@@ -187,10 +187,10 @@ In questa sezione verrà mostrato il diagramma UML delle classi.
     \item TipoCrocieraLunaDiMiele \{tradizionale, alternativa\}\label{sec:TipoCrocieraLunaDiMiele}
 \end{enumerate}
 
-Operazioni del tipo DeltaOra:
+Operazioni del tipo \hyperref[sec:DeltaOra]{DeltaOra}:\label{sec:OperazioniDeltaOra}
 
 \begin{enumerate}
-    \item < (d1: DeltaOra, d2: DeltaOra): booleano
+    \item $<$ (d1: \hyperref[sec:DeltaOra]{DeltaOra}, d2: \hyperref[sec:DeltaOra]{DeltaOra}): booleano
     \begin{enumerate}
         \item Pre: nessuna
         \item Post: no side effect
@@ -236,7 +236,7 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Crociera}
 \end{table}
 
-\subsection*{Classe Croc\_luna\_di\_miele}
+\subsection*{Classe Croc\_luna\_di\_miele, \hyperref[sec:RequisitiCrocieraTipoLunaDiMiele]{v.req.1.7.1.}}\label{sec:Croc_luna_di_miele}
 Tabella delle specifiche degli attributi:
 \begin{table}[h!]
     \centering
@@ -244,7 +244,7 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        tipo & TipoCrocieraLunaDiMiele & 1 & Tipo della crociera di luna di miele \\
+        tipo & \hyperref[sec:TipoCrocieraLunaDiMiele]{TipoCrocieraLunaDiMiele} & 1 & Tipo della crociera di luna di miele \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Classe Croc\_luna\_di\_miele}
@@ -252,7 +252,7 @@ Tabella delle specifiche degli attributi:
 
 Specifica delle operazioni della classe Croc\_luna\_di\_miele:
 
-tipCrocLdM(): TipoCrocieraLunaDiMiele
+tipCrocLdM$()$: \hyperref[sec:TipoCrocieraLunaDiMiele]{TipoCrocieraLunaDiMiele}
 \begin{enumerate}
     \item Pre: nessuna
     \item Post: no side effect
@@ -275,7 +275,7 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Classe Croc\_luna\_di\_miele}
 \end{table}
 
-\subsection*{Classe\ Croc\_per\_famiglie}
+\subsection*{Classe\ Croc\_per\_famiglie, \hyperref[sec:RequisitiCrocieraTipoPerFamiglie]{v.req.1.7.2.}}\label{sec:Croc_per_famiglie}
 
 Tabella delle specifiche degli attributi:
 \begin{table}[h!]
@@ -398,7 +398,7 @@ Tabella delle specifiche delle associazioni:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        ora & \hyperref[sec:Ora]{Ora} & 1 & Ora di partenza \\
+        ora & \hyperref[sec:DeltaOra]{DeltaOra} & 1 & Ora di partenza \\
         \hline
     \end{tabular}
     \caption{Attributi dell'association class Partenza'}
@@ -412,7 +412,7 @@ Tabella delle specifiche delle associazioni:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        ora & \hyperref[sec:Ora]{Ora} & 1 & Ora di arrivo \\
+        ora & \hyperref[sec:DeltaOra]{DeltaOra} & 1 & Ora di arrivo \\
         giorno & \hyperref[sec:InteroGEZ]{InteroGEZ} & 1 & Giorno di arrivo \\
         \hline
     \end{tabular}
@@ -634,9 +634,9 @@ Tabella delle specifiche degli attributi:
         \hline
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
-        giorno & Giorno & 1 & Giorno in cui è possibile visitare il posto \\
-        ora\_inizio & \hyperref[sec:Ora]{Ora} & 1 & Ora di inizio della visita \\
-        ora\_fine & \hyperref[sec:Ora]{Ora} & 1 & Ora di fine della visita \\
+        giorno & \hyperref[sec:Giorno]{Giorno} & 1 & Giorno in cui è possibile visitare il posto \\
+        ora\_inizio & \hyperref[sec:DeltaOra]{DeltaOra} & 1 & Ora di inizio della visita \\
+        ora\_fine & \hyperref[sec:DeltaOra]{DeltaOra} & 1 & Ora di fine della visita \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Orario Posto Da Vedere}
@@ -665,9 +665,9 @@ Tabella delle specifiche degli attributi:
         Attributo & Tipo & Cardinalità & Descrizione \\
         \hline
         giorno\_arrivo & \hyperref[sec:InteroGEZ]{InteroGEZ} & 1 & Giorno di arrivo della tappa \\
-        ora\_arrivo & \hyperref[sec:Ora]{Ora} & 1 & Ora di arrivo della tappa \\
+        ora\_arrivo & \hyperref[sec:DeltaOra]{DeltaOra} & 1 & Ora di arrivo della tappa \\
         giorno\_partenza & \hyperref[sec:InteroGEZ]{InteroGEZ} & 1 & Giorno di partenza della tappa \\
-        ora\_partenza & \hyperref[sec:Ora]{Ora} & 1 & Ora di partenza della tappa \\
+        ora\_partenza & \hyperref[sec:DeltaOra]{DeltaOra} & 1 & Ora di partenza della tappa \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Tappa}
@@ -675,7 +675,7 @@ Tabella delle specifiche degli attributi:
 
 Specifica delle operazioni della classe Tappa:
 
-ordineTappa(): InteroGZ
+ordineTappa(): \hyperref[sec:InteroGZ]{InteroGZ}
 \begin{enumerate}
     \item Pre: nessuna
     \item Post: no side effect
@@ -706,47 +706,39 @@ Tabella delle specifiche delle associazioni:
 \newpage
 \section{Specifiche dei vincoli esterni}
 
-\begin{enumerate}
-    \item V.Crociera.
+\section*{[V.\hyperref[sec:Crociera]{Crociera}.]}
+    [V.Crociera.data\_inizio\_leq\_data\_fine.]:
     \begin{enumerate}
-        \item V.Crociera.data\_inizio\_leq\_data\_fine.
-        \begin{enumerate}
-            \item data di inizio $\leq$ data di fine
-        \end{enumerate}
-        \item V.Crociera.prenotazioni\_leq\_numero\_massimo\_passeggeri.
-        \begin{enumerate}
-            \item La somma dei posti prenotati per la crociera $\leq$ numero massimo di passeggeri
-        \end{enumerate}
+        \item data di inizio $\leq$ data di fine
     \end{enumerate}
-    \item V.Nave.
-    \item V.Destinazione.
-    \item V.Itinerario.
-    \item V.PostoDaVedere.
-    \item V.Utente.
-    \item V.Prenotazione.
+    [V.Crociera.prenotazioni\_leq\_numero\_massimo\_passeggeri.]
     \begin{enumerate}
-        \item V.Prenotazione.istante\_di\_prenotazione\_less\_data\_inizio\_crociera.
-        \begin{enumerate}
-            \item istante di prenotazione $<$ data di inizio crociera
-        \end{enumerate}
+        \item La somma dei posti prenotati per la crociera $\leq$ numero massimo di passeggeri
     \end{enumerate}
-    \item V.Città.
-    \item V.Nazione.
-    \item V.Continente.
-    \item V.Porto.
-    \item V.OrarioPostoDaVedere.
+\section*{[V.\hyperref[sec:Nave]{Nave}.]}
+\section*{[V.\hyperref[sec:Destinazione]{Destinazione}.]}
+\section*{[V.\hyperref[sec:Itinerario]{Itinerario}.]}
+\section*{[V.\hyperref[sec:PostoDaVedere]{PostoDaVedere}.]}
+\section*{[V.\hyperref[sec:Utente]{Utente}.]}
+\section*{[V.\hyperref[sec:Prenotazione]{Prenotazione}.]}
+    [V.Prenotazione.istante\_di\_prenotazione\_less\_data\_inizio\_crociera.]
     \begin{enumerate}
-        \item V.OrarioPostoDaVedere.ora\_inizio\_less\_ora\_fine.
-        \begin{enumerate}
-            \item ora di inizio $<$ ora di fine
-        \end{enumerate}
+        \item istante di prenotazione $<$ data di inizio crociera
     \end{enumerate}
-    \item V.Tappa.
+\section*{[V.\hyperref[sec:Città]{Città}.]}
+\section*{[V.\hyperref[sec:Nazione]{Nazione}.]}
+\section*{[V.\hyperref[sec:Continente]{Continente}.]}
+\section*{[V.\hyperref[sec:Porto]{Porto}.]}
+\section*{[V.\hyperref[sec:OrarioPostoDaVedere]{OrarioPostoDaVedere}.]}
+    [V.OrarioPostoDaVedere.ora\_inizio\_less\_ora\_fine.]
+    \begin{enumerate}
+        \item ora di inizio $<$ ora di fine
+    \end{enumerate}
+\section*{[V.\hyperref[sec:Tappa]{Tappa}.]}
+    [V.Tappa.giorno\_arrivo\_leq\_giorno\_partenza.]
     \begin{enumerate}
         \item giorno di arrivo $\leq$ giorno di partenza
     \end{enumerate}
-\end{enumerate}
-
 
 \newpage
 \section{Specifiche delle operazioni}
