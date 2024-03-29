@@ -1,8 +1,0 @@
-*.aux
-*.fdb_latexmk
-*.fls
-*.log
-*.synctex.gz
-*.vpp.bak_*
-*.out
-*.vpp.lck
