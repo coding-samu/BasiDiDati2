@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage[left=1.5cm, right=1.5cm]{geometry}
 
 \hypersetup{
     colorlinks=true,
@@ -8,6 +9,14 @@
     filecolor=magenta,      
     urlcolor=cyan,
 }
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\makeatother
+
 % chktex-file 44
 \title{Travel To The Moon}
 \author{}
@@ -237,6 +246,8 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Crociera}
 \end{table}
 
+\hyperref[sec:VincoliCrociera]{Vincoli della classe Crociera}
+
 \subsection*{Classe Croc\_luna\_di\_miele, \hyperref[sec:RequisitiCrocieraTipoLunaDiMiele]{v.req.1.7.1.}}\label{sec:Croc_luna_di_miele}
 Tabella delle specifiche degli attributi:
 \begin{table}[h!]
@@ -331,6 +342,8 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Nave}
 \end{table}
 
+\hyperref[sec:VincoliNave]{Vincoli della classe Nave}
+
 \subsection*{Classe Destinazione, \hyperref[sec:RequisitiDestinazione]{v.req.3}}\label{sec:Destinazione}
 
 Tabella delle specifiche degli attributi:
@@ -360,6 +373,9 @@ Tabella delle specifiche delle associazioni:
     \end{tabular}
     \caption{Associazioni della classe Destinazione}
 \end{table}
+
+\hyperref[sec:VincoliDestinazione]{Vincoli della classe Destinazione}
+
 \subsection*{Classe Itinerario, \hyperref[sec:RequisitiItinerario]{v.req.4}}\label{sec:Itinerario}
 
 Tabella delle specifiche degli attributi:
@@ -390,6 +406,8 @@ Tabella delle specifiche delle associazioni:
     \end{tabular}
     \caption{Associazioni della classe Itinerario} 
 \end{table}
+
+\hyperref[sec:VincoliItinerario]{Vincoli della classe Itinerario}
 
 \subsection*{Association Class Partenza, \hyperref[sec:RequisitiItinerarioDestinazioneDiPartenza]{v.req.4.3.}}
 
@@ -451,6 +469,8 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Posto Da Vedere}
 \end{table}
 
+\hyperref[sec:VincoliPostoDaVedere]{Vincoli della classe Posto Da Vedere}
+
 \subsection*{Classe Utente, \hyperref[sec:RequisitiUtente]{v.req.6}}\label{sec:Utente}
 
 Tabella delle specifiche degli attributi:
@@ -482,6 +502,9 @@ Tabella delle specifiche delle associazioni:
     \end{tabular}
     \caption{Associazioni della classe Utente}
 \end{table}
+
+\hyperref[sec:VincoliUtente]{Vincoli della classe Utente}
+
 \subsection*{Classe Prenotazione, \hyperref[sec:RequisitiPrenotazione]{v.req.7}}\label{sec:Prenotazione}
 
 Tabella delle specifiche degli attributi:
@@ -511,6 +534,8 @@ Tabella delle specifiche delle associazioni:
     \end{tabular}
     \caption{Associazioni della classe Prenotazione}
 \end{table}
+
+\hyperref[sec:VincoliPrenotazione]{Vincoli della classe Prenotazione}
 
 \subsection*{Classe Città, \hyperref[sec:RequisitiCittà]{v.req.8}}\label{sec:Città}
 
@@ -543,6 +568,9 @@ Tabella delle specifiche delle associazioni:
     \end{tabular}
     \caption{Associazioni della classe Città}
 \end{table}
+
+\hyperref[sec:VincoliCittà]{Vincoli della classe Città}
+
 \subsection*{Classe Nazione, \hyperref[sec:RequisitiNazione]{v.req.9}}\label{sec:Nazione}
 
 Tabella delle specifiche degli attributi:
@@ -571,6 +599,9 @@ Tabella delle specifiche delle associazioni:
     \end{tabular}
     \caption{Associazioni della classe Nazione}
 \end{table}
+
+\hyperref[sec:VincoliNazione]{Vincoli della classe Nazione}
+
 \subsection*{Classe Continente, \hyperref[sec:RequisitiContinente]{v.req.10}}\label{sec:Continente}
 
 Tabella delle specifiche degli attributi:
@@ -598,6 +629,8 @@ Tabella delle specifiche delle associazioni:
     \end{tabular}
     \caption{Associazioni della classe Continente}
 \end{table}
+
+\hyperref[sec:VincoliContinente]{Vincoli della classe Continente}
 
 \subsection*{Classe Porto, \hyperref[sec:RequisitiPorto]{v.req.11}}\label{sec:Porto}
 
@@ -627,6 +660,9 @@ Tabella delle specifiche delle associazioni:
     \end{tabular}
     \caption{Associazioni della classe Porto}
 \end{table}
+
+\hyperref[sec:VincoliPorto]{Vincoli della classe Porto}
+
 \subsection*{Classe OrarioPostoDaVedere, \hyperref[sec:RequisitiOrarioPostoDaVedere]{v.req.12}}\label{sec:OrarioPostoDaVedere}
 Tabella delle specifiche degli attributi:
 \begin{table}[h!]
@@ -655,6 +691,8 @@ Tabella delle specifiche delle associazioni:
     \end{tabular}
     \caption{Associazioni della classe Orario Posto Da Vedere}
 \end{table}
+
+\hyperref[sec:VincoliOrarioPostoDaVedere]{Vincoli della classe Orario Posto Da Vedere}
 
 \subsection*{Classe Tappa, \hyperref[sec:RequisitiTappa]{v.req.13}}\label{sec:Tappa}
 
@@ -704,10 +742,12 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Tappa}
 \end{table}
 
+\hyperref[sec:VincoliTappa]{Vincoli della classe Tappa}
+
 \newpage
 \section{Specifiche dei vincoli esterni}
 
-\section*{[V.\hyperref[sec:Crociera]{Crociera}.]}
+\section*{[V.\hyperref[sec:Crociera]{Crociera}.]}\label{sec:VincoliCrociera}
     [V.Crociera.data\_inizio\_leq\_data\_fine.]:
     \begin{enumerate}
         \item data di inizio $\leq$ data di fine
@@ -716,26 +756,26 @@ Tabella delle specifiche delle associazioni:
     \begin{enumerate}
         \item La somma dei posti prenotati per la crociera $\leq$ numero massimo di passeggeri
     \end{enumerate}
-\section*{[V.\hyperref[sec:Nave]{Nave}.]}
-\section*{[V.\hyperref[sec:Destinazione]{Destinazione}.]}
-\section*{[V.\hyperref[sec:Itinerario]{Itinerario}.]}
-\section*{[V.\hyperref[sec:PostoDaVedere]{PostoDaVedere}.]}
-\section*{[V.\hyperref[sec:Utente]{Utente}.]}
-\section*{[V.\hyperref[sec:Prenotazione]{Prenotazione}.]}
+\section*{[V.\hyperref[sec:Nave]{Nave}.]}\label{sec:VincoliNave}
+\section*{[V.\hyperref[sec:Destinazione]{Destinazione}.]}\label{sec:VincoliDestinazione}
+\section*{[V.\hyperref[sec:Itinerario]{Itinerario}.]}\label{sec:VincoliItinerario}
+\section*{[V.\hyperref[sec:PostoDaVedere]{PostoDaVedere}.]}\label{sec:VincoliPostoDaVedere}
+\section*{[V.\hyperref[sec:Utente]{Utente}.]}\label{sec:VincoliUtente}
+\section*{[V.\hyperref[sec:Prenotazione]{Prenotazione}.]}\label{sec:VincoliPrenotazione}
     [V.Prenotazione.istante\_di\_prenotazione\_less\_data\_inizio\_crociera.]
     \begin{enumerate}
         \item istante di prenotazione $<$ data di inizio crociera
     \end{enumerate}
-\section*{[V.\hyperref[sec:Città]{Città}.]}
-\section*{[V.\hyperref[sec:Nazione]{Nazione}.]}
-\section*{[V.\hyperref[sec:Continente]{Continente}.]}
-\section*{[V.\hyperref[sec:Porto]{Porto}.]}
-\section*{[V.\hyperref[sec:OrarioPostoDaVedere]{OrarioPostoDaVedere}.]}
+\section*{[V.\hyperref[sec:Città]{Città}.]}\label{sec:VincoliCittà}
+\section*{[V.\hyperref[sec:Nazione]{Nazione}.]}\label{sec:VincoliNazione}
+\section*{[V.\hyperref[sec:Continente]{Continente}.]}\label{sec:VincoliContinente}
+\section*{[V.\hyperref[sec:Porto]{Porto}.]}\label{sec:VincoliPorto}
+\section*{[V.\hyperref[sec:OrarioPostoDaVedere]{OrarioPostoDaVedere}.]}\label{sec:VincoliOrarioPostoDaVedere}
     [V.OrarioPostoDaVedere.ora\_inizio\_less\_ora\_fine.]
     \begin{enumerate}
         \item ora di inizio $<$ ora di fine
     \end{enumerate}
-\section*{[V.\hyperref[sec:Tappa]{Tappa}.]}
+\section*{[V.\hyperref[sec:Tappa]{Tappa}.]}\label{sec:VincoliTappa}
     [V.Tappa.giorno\_arrivo\_leq\_giorno\_partenza.]
     \begin{enumerate}
         \item giorno di arrivo $\leq$ giorno di partenza
@@ -848,10 +888,13 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
 \subsection*{[isCrocieraInDestinazione$($Crociera c, Destinazione d$)$]}
 \begin{enumerate}
     \item Restituisce vero se la crociera raggiunge la destinazione, altrimenti falso.
-    \item return true se esistono i, t tale che tappa\_itin$(t, i)$ $\land$ tappa\_dest$(t, d)$ $\land$ itin\_croc$(i, c)$
-    \item $\lor$ se esiste i tale che arrivo$($i, d$)$ $\land$ itin\_croc$($i, c$)$
-    \item $\lor$ se esiste i tale che partenza$($i, d$)$ $\land$ itin\_croc$($i, c$)$
-    \item altrimenti false
+    \item return 
+    \begin{enumerate}
+        \item true se esistono i, t tale che tappa\_itin$(t, i)$ $\land$ tappa\_dest$(t, d)$ $\land$ itin\_croc$(i, c)$
+        \item $\lor$ se esiste i tale che arrivo$($i, d$)$ $\land$ itin\_croc$($i, c$)$
+        \item $\lor$ se esiste i tale che partenza$($i, d$)$ $\land$ itin\_croc$($i, c$)$
+        \item altrimenti false
+    \end{enumerate}
 \end{enumerate}
 
 \end{document}
