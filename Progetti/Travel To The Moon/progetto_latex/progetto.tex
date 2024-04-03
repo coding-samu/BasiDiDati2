@@ -183,6 +183,17 @@ In questa sezione verrà mostrato il diagramma UML delle classi.
 \end{figure}
 
 \newpage
+
+\section{Diagramma degli Use Case}
+
+In questa sezione verrà mostrato il diagramma degli Use Case.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{../Diagramma degli Use Case.pdf}
+    \caption{Diagramma degli Use Case}
+\end{figure}
+
+\newpage
 \section{Specifiche dei tipi di dati}
 
 \begin{enumerate}
@@ -225,7 +236,6 @@ Tabella delle specifiche degli attributi:
         \hline
         codice & \hyperref[sec:StringaS]{StringaS} & 1 & Codice della crociera \\
         data\_inizio & Data & 1 & Data di inizio della crociera \\
-        data\_fine & Data & 1 & Data di fine della crociera \\
         \hline
     \end{tabular}
     \caption{Attributi della classe Crociera}
@@ -246,8 +256,28 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Crociera}
 \end{table}
 
+Specifica delle operazioni della classe Crociera:
+
+data\_fine\_crociera$()$: Data
+\begin{enumerate}
+    \item Pre: nessuna
+    \item Post: no side effect
+    \item Siano arrivo, i, d, a tali che itin\_croc$($i, this$)$ $\land$ arrivo$($d,i$)$
+    \item durata = giorno$($a,d,i$)$
+    \item Return:
+    \begin{enumerate}
+        \item restituisce la data di fine della crociera, calcolata come data\_inizio$($this$)$ + durata
+    \end{enumerate}
+\end{enumerate}
+
+Specifica delle chiavi primarie della classe Crociera:
+\begin{enumerate}
+    \item codice
+\end{enumerate}
+
 \hyperref[sec:VincoliCrociera]{Vincoli della classe Crociera}
 
+\newpage
 \subsection*{Classe Croc\_luna\_di\_miele, \hyperref[sec:RequisitiCrocieraTipoLunaDiMiele]{v.req.1.7.1.}}\label{sec:Croc_luna_di_miele}
 Tabella delle specifiche degli attributi:
 \begin{table}[h!]
@@ -275,18 +305,7 @@ tipCrocLdM$()$: \hyperref[sec:TipoCrocieraLunaDiMiele]{TipoCrocieraLunaDiMiele}
     \end{enumerate}
 \end{enumerate}
 
-Tabella delle specifiche delle associazioni:
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{|c|c|c|c|}
-        \hline
-        Associazione & Cardinalità & Descrizione \\
-        \hline
-        \hline
-    \end{tabular}
-    \caption{Associazioni della classe Classe Croc\_luna\_di\_miele}
-\end{table}
-
+\newpage
 \subsection*{Classe\ Croc\_per\_famiglie, \hyperref[sec:RequisitiCrocieraTipoPerFamiglie]{v.req.1.7.2.}}\label{sec:Croc_per_famiglie}
 
 Tabella delle specifiche degli attributi:
@@ -302,17 +321,7 @@ Tabella delle specifiche degli attributi:
     \caption{Attributi della classe Classe Croc\_per\_famiglie}
 \end{table}
 
-Tabella delle specifiche delle associazioni:
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{|c|c|c|c|}
-        \hline
-        Associazione & Cardinalità & Descrizione \\
-        \hline
-    \end{tabular}
-    \caption{Associazioni della classe Classe\ Croc\_per\_famiglie}
-\end{table}
-
+\newpage
 \subsection*{Classe Nave, \hyperref[sec:RequisitiNave]{v.req.2}}\label{sec:Nave}
 Tabella delle specifiche degli attributi:
 \begin{table}[h!]
@@ -342,8 +351,14 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Nave}
 \end{table}
 
+Specifica delle chiavi primarie della classe Nave:
+\begin{enumerate}
+    \item nome
+\end{enumerate}
+
 \hyperref[sec:VincoliNave]{Vincoli della classe Nave}
 
+\newpage
 \subsection*{Classe Destinazione, \hyperref[sec:RequisitiDestinazione]{v.req.3}}\label{sec:Destinazione}
 
 Tabella delle specifiche degli attributi:
@@ -374,8 +389,14 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Destinazione}
 \end{table}
 
+Specifica delle chiavi primarie della classe Destinazione:
+\begin{enumerate}
+    \item $($nome, dest\_cit$)$
+\end{enumerate}
+
 \hyperref[sec:VincoliDestinazione]{Vincoli della classe Destinazione}
 
+\newpage
 \subsection*{Classe Itinerario, \hyperref[sec:RequisitiItinerario]{v.req.4}}\label{sec:Itinerario}
 
 Tabella delle specifiche degli attributi:
@@ -407,8 +428,14 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Itinerario} 
 \end{table}
 
+Specifica delle chiavi primarie della classe Itinerario:
+\begin{enumerate}
+    \item nome
+\end{enumerate}
+
 \hyperref[sec:VincoliItinerario]{Vincoli della classe Itinerario}
 
+\newpage
 \subsection*{Association Class Partenza, \hyperref[sec:RequisitiItinerarioDestinazioneDiPartenza]{v.req.4.3.}}
 
 \begin{table}[h!]
@@ -423,6 +450,7 @@ Tabella delle specifiche delle associazioni:
     \caption{Attributi dell'association class Partenza'}
 \end{table}
 
+\newpage
 \subsection*{Association Class Arrivo, \hyperref[sec:RequisitiItinerarioDestinazioneDiArrivo]{v.req.4.4.}}
 
 \begin{table}[h!]
@@ -438,6 +466,7 @@ Tabella delle specifiche delle associazioni:
     \caption{Attributi dell'association class Arrivo'}
 \end{table}
 
+\newpage
 \subsection*{Classe PostoDaVedere, \hyperref[sec:RequisitiPostoDaVedere]{v.req.5}}\label{sec:PostoDaVedere}
 
 Tabella delle specifiche degli attributi:
@@ -469,8 +498,14 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Posto Da Vedere}
 \end{table}
 
+Specifica delle chiavi primarie della classe Posto Da Vedere:
+\begin{enumerate}
+    \item nome
+\end{enumerate}
+
 \hyperref[sec:VincoliPostoDaVedere]{Vincoli della classe Posto Da Vedere}
 
+\newpage
 \subsection*{Classe Utente, \hyperref[sec:RequisitiUtente]{v.req.6}}\label{sec:Utente}
 
 Tabella delle specifiche degli attributi:
@@ -503,8 +538,14 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Utente}
 \end{table}
 
+Specifica delle chiavi primarie della classe Utente:
+\begin{enumerate}
+    \item $($nome, cognome, data\_nascita$)$
+\end{enumerate}
+
 \hyperref[sec:VincoliUtente]{Vincoli della classe Utente}
 
+\newpage
 \subsection*{Classe Prenotazione, \hyperref[sec:RequisitiPrenotazione]{v.req.7}}\label{sec:Prenotazione}
 
 Tabella delle specifiche degli attributi:
@@ -535,8 +576,20 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Prenotazione}
 \end{table}
 
+Specifica delle chiavi primarie della classe Prenotazione:
+\begin{enumerate}
+    \item $($pren\_croc, istante\_prenotazione$)$
+\end{enumerate}
+
 \hyperref[sec:VincoliPrenotazione]{Vincoli della classe Prenotazione}
 
+\newpage
+\subsection*{Classe\ Pren\_accettata}\label{sec:PrenotazioneAccettata}
+
+\newpage
+\subsection*{Classe\ Pren\_rifiutata}\label{sec:PrenotazioneRifiutata}
+
+\newpage
 \subsection*{Classe Città, \hyperref[sec:RequisitiCittà]{v.req.8}}\label{sec:Città}
 
 Tabella delle specifiche degli attributi:
@@ -569,8 +622,14 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Città}
 \end{table}
 
+Specifica delle chiavi primarie della classe Città:
+\begin{enumerate}
+    \item $($nome, cit\_naz$)$
+\end{enumerate}
+
 \hyperref[sec:VincoliCittà]{Vincoli della classe Città}
 
+\newpage
 \subsection*{Classe Nazione, \hyperref[sec:RequisitiNazione]{v.req.9}}\label{sec:Nazione}
 
 Tabella delle specifiche degli attributi:
@@ -600,8 +659,14 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Nazione}
 \end{table}
 
+Specifica delle chiavi primarie della classe Nazione:
+\begin{enumerate}
+    \item nome
+\end{enumerate}
+
 \hyperref[sec:VincoliNazione]{Vincoli della classe Nazione}
 
+\newpage
 \subsection*{Classe Continente, \hyperref[sec:RequisitiContinente]{v.req.10}}\label{sec:Continente}
 
 Tabella delle specifiche degli attributi:
@@ -630,8 +695,14 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Continente}
 \end{table}
 
+Specifica delle chiavi primarie della classe Continente:
+\begin{enumerate}
+    \item nome
+\end{enumerate}
+
 \hyperref[sec:VincoliContinente]{Vincoli della classe Continente}
 
+\newpage
 \subsection*{Classe Porto, \hyperref[sec:RequisitiPorto]{v.req.11}}\label{sec:Porto}
 
 Tabella delle specifiche degli attributi:
@@ -661,8 +732,14 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Porto}
 \end{table}
 
+Specifica delle chiavi primarie della classe Porto:
+\begin{enumerate}
+    \item $($nome, cit\_porto$)$
+\end{enumerate}
+
 \hyperref[sec:VincoliPorto]{Vincoli della classe Porto}
 
+\newpage
 \subsection*{Classe OrarioPostoDaVedere, \hyperref[sec:RequisitiOrarioPostoDaVedere]{v.req.12}}\label{sec:OrarioPostoDaVedere}
 Tabella delle specifiche degli attributi:
 \begin{table}[h!]
@@ -692,8 +769,14 @@ Tabella delle specifiche delle associazioni:
     \caption{Associazioni della classe Orario Posto Da Vedere}
 \end{table}
 
+Specifica delle chiavi primarie della classe Orario Posto Da Vedere:
+\begin{enumerate}
+    \item $($giorno, ora\_inizio, orari\_pdv$)$
+\end{enumerate}
+
 \hyperref[sec:VincoliOrarioPostoDaVedere]{Vincoli della classe Orario Posto Da Vedere}
 
+\newpage
 \subsection*{Classe Tappa, \hyperref[sec:RequisitiTappa]{v.req.13}}\label{sec:Tappa}
 
 Tabella delle specifiche degli attributi:
@@ -722,11 +805,10 @@ ordineTappa(): \hyperref[sec:InteroGZ]{InteroGZ}
     \begin{enumerate}
         \item sia I l'itinerario tale che tappa\_itin(this, I) = True
         \item sia T l'insieme delle tappe di I
-        \item sia T' = \{t' $\in$ T: (giorno\_arrivo(t') $\leq$ giorno\_arrivo(t)) \newline $\lor$ (giorno\_arrivo(t') = giorno\_arrivo(t) $\land$ ora\_partenza(t') $\leq$ ora\_arrivo(t))\}
+        \item sia T' = \{t' $\in$ T\: $($giorno\_arrivo$($t'$)$ $\leq$ giorno\_arrivo$($t$)$) \newline $\lor$ $($giorno\_arrivo$($t'$)$ = giorno\_arrivo$($t$)$ $\land$ ora\_partenza$($t'$)$ $\leq$ ora\_arrivo$($t$)$$)$\}
         \item restituisce la $|$T'$|$+1
     \end{enumerate}
 \end{enumerate}
-
 
 Tabella delle specifiche delle associazioni:
 \begin{table}[h!]
@@ -741,6 +823,11 @@ Tabella delle specifiche delle associazioni:
     \end{tabular}
     \caption{Associazioni della classe Tappa}
 \end{table}
+
+Specifica delle chiavi primarie della classe Tappa:
+\begin{enumerate}
+    \item $($tappa\_itin, giorno\_arrivo, ora\_arrivo$)$
+\end{enumerate}
 
 \hyperref[sec:VincoliTappa]{Vincoli della classe Tappa}
 
@@ -782,33 +869,17 @@ Tabella delle specifiche delle associazioni:
     \end{enumerate}
 
 \newpage
-\section{Specifiche delle operazioni}
+\section{\label{sec:Operazioni}Specifiche delle operazioni}
 
 In questa sezione verranno descritte le operazioni che il sistema deve essere in grado di eseguire.
-\subsection*{[getPostiDisponibili$($Crociera c$)$]}
-\begin{enumerate}
-    \item Restituisce il numero di posti disponibili data una determinata Crociera.
-    \item precondizioni: $\exists$ n $|$ nave\_croc$($n,c$)$
-    \item postcondizioni: no side effect
-    \item P = getPrenotazioni$($Crociera c $)$
-    \item num\_posti = num\_posti\_disponibili$($n$)$ $-$ $\sum_{p \in P} num\_posti\_prenotati(p)$
-    \item return num\_posti
-\end{enumerate}
 
-\subsection*{[getPrenotazioni$($Crociera c$)$]}
-\begin{enumerate}
-    \item Restituisce l'insieme delle prenotazioni di una determinata Crociera.
-    \item precondizioni: nessuna
-    \item postcondizioni: no side effect
-    \item return $\{p \in Prenotazione: pren\_croc(p,c)\}$
-\end{enumerate}
-
-\subsection*{[effettuaPrenotazione$($Crociera c, Utente u, InteroGZ num\_posti$)$]}
+\subsection*{\label{sec:OperazioneAccettaPrenotazione}[accettaPrenotazione$($Crociera c, Utente u, InteroGZ num\_posti$)$]}
 \begin{enumerate}
     \item Permette all'Ufficio Prenotazioni di effettuare una prenotazione. Restituisce un oggetto di tipo Prenotazione se getPostiDisponibili$(c)$ $\geq$ num\_posti, altrimenti rifiuta.
-    \item precondizioni: getPostiDisponibili$(c)$ $\geq$ num\_posti $\land$ istante\_corrente $\leq$ data\_inizio$(c)$
+    \item precondizioni: \hyperref[sec:OperazioneGetPostiDisponibili]{getPostiDisponibili}$(c)$ $\geq$ num\_posti $\land$ istante\_corrente $\leq$ data\_inizio$(c)$
+    \item Se la precondizione non è soddisfatta, restituisce un oggetto di tipo pren\_rifiutata.
     \item postcondizioni:
-    \item Viene creata una nuova prenotazione p:
+    \item Viene creata un nuovo oggetto p della classe pren\_accettata:
     \begin{enumerate}
         \item istante\_prenotazione$($p$)$ = istante\_corrente
         \item num\_posti\_prenotati$($p$)$ = num\_posti
@@ -821,24 +892,69 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
     \item return p
 \end{enumerate}
 
-\subsection*{[isDestinazioneEsotica$($Destinazione d$)$]}
+\subsection*{\label{sec:OperazioneGetEtàMediaClientiCheHannoPrenotatoInUnPeriodoUnaCrocieraConAlmenoUnaDestinazioneEsotica}[getEtàMediaClientiCheHannoPrenotatoInUnPeriodoUnaCrocieraConAlmenoUnaDestinazioneEsotica$($Data inizio, Data fine$)$]}
+\begin{enumerate}
+    \item Restituisce l'età media dei clienti che hanno prenotato in un periodo una crociera con almeno una destinazione esotica.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item P = \hyperref[sec:OperazioneGetPrenotazioniInUnDatoPeriodo]{getPrenotazioniInUnDatoPeriodo}$($inizio, fine$)$
+    \item C = \hyperref[sec:OperazioneGetCrociereDaPrenotazioni]{getCrociereDaPrenotazioni}$($P$)$
+    \item D = \hyperref[sec:OperazioneGetDestinazioniDaCrociere]{getDestinazioniDaCrociere}$($C$)$
+    \item D\_esotiche = $\{d \in D: $\hyperref[sec:OperazioneIsDestinazioneEsotica]{isDestinazioneEsotica}$(d)\}$
+    \item U = $\{u \in Utente: \exists p, c, I, t, d \land p \in P \land c \in C \land d \in D\_esotiche \land I \in Itinerario \land t \in Tappa \land pren\_utente(p,u) \land pren\_croc(p,c) \land itin\_croc(I,c) \land tappa\_itin(t,I) \land tappa\_dest(t,d)\}$
+    \item return \hyperref[sec:OperazioneGetEtàMediaUtenti]{getEtàMediaUtenti}$($U$)$
+\end{enumerate}
+
+\subsection*{\label{sec:OperazioneGetPercentualeDestinazioniGettonateInUnDatoPeriodo}[getPercentualeDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$]}
+\begin{enumerate}
+    \item Restituisce la percentuale di destinazioni gettonate in un dato periodo.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item D = l'insieme di tutte le destinazioni
+    \item R = \hyperref[sec:OperazioneGetDestinazioniGettonateInUnDatoPeriodo]{getDestinazioniGettonateInUnDatoPeriodo}$($inizio, fine$)$
+    \item return $|$R$|$*100/$|$D$|$
+\end{enumerate}
+
+\subsection*{\label{sec:OperazioneGetPostiDisponibili}[getPostiDisponibili$($Crociera c$)$]}
+\begin{enumerate}
+    \item Restituisce il numero di posti disponibili data una determinata Crociera.
+    \item precondizioni: $\exists$ n $|$ nave\_croc$($n,c$)$
+    \item postcondizioni: no side effect
+    \item P = getPrenotazioniAccettate$($Crociera c $)$
+    \item num\_posti = num\_posti\_disponibili$($n$)$ $-$ $\sum_{p \in P} num\_posti\_prenotati(p)$
+    \item return num\_posti
+\end{enumerate}
+
+\subsection*{\label{sec:OperazioneGetPrenotazioniAccettate}[getPrenotazioniAccettate$($Crociera c$)$]}
+\begin{enumerate}
+    \item Restituisce l'insieme delle prenotazioni accettate di una determinata Crociera.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item return $\{p \in Prenotazione: pren\_croc(p,c) \land Pren\_accettata(p)\}$
+\end{enumerate}
+
+\subsection*{\label{sec:OperazioneEffettuaRichiestaPrenotazione}[effettuaRichiestaPrenotazione$($Crociera c, Utente u, InteroGZ num\_posti$)$]}
+\begin{enumerate}
+    \item Permette all'Utente di effettuare una richiesta di prenotazione. Restituisce un oggetto di tipo Prenotazione.
+    \item precondizioni: nessuna
+    \item postcondizioni: viene modificato l'aspetto estensionale dei dati
+    \item Viene creato una nuova istanza p della classe Prenotazione
+    \item istante\_prenotazione$($p$)$ = istante\_corrente
+    \item num\_posti\_prenotati$($p$)$ = num\_posti
+    \item Viene creata l'associazione pren\_croc$(p,c)$
+    \item Viene creata l'associazione pren\_utente$(p,u)$
+    \item return p
+\end{enumerate}
+
+\subsection*{\label{sec:OperazioneIsDestinazioneEsotica}[isDestinazioneEsotica$($Destinazione d$)$]}
 \begin{enumerate}
     \item Restituisce vero se la destinazione è esotica (se il suo continente è diverso da Europa), altrimenti falso.
     \item precondizioni: $\exists$ cit, naz, cont $|$ dest\_cit$($d,cit$)$ $\land$ cit\_naz$($cit,naz$)$ $\land$ naz\_cont$($naz,cont$)$
     \item postcondizioni: no side effect
-    \item return: naz\_cont$($naz,cont$)$ $\neq$ nome$($cont$)$ $\neq$ Europa
+    \item return: nome$($cont$)$ $\neq$ Europa
 \end{enumerate}
 
-\subsection*{[isAlmenoUnaDestinazioneEsotica$($Destinazione[] D$)$]}
-\begin{enumerate}
-    \item Restituisce vero se almeno una destinazione è esotica, altrimenti falso.
-    \item precondizioni: nessuna
-    \item postcondizioni: no side effect
-    \item return true se $\exists d \in D: isDestinazioneEsotica(d)$
-    \item altrimenti false
-\end{enumerate}
-
-\subsection*{[isPrenotazioneInPeriodo$($Prenotazione p, Data inizio, Data fine$)$]}
+\subsection*{\label{sec:OperazioneIsPrenotazioneInPeriodo}[isPrenotazioneInPeriodo$($Prenotazione p, Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce vero se la prenotazione è in un periodo compreso tra inizio e fine, altrimenti falso.
     \item precondizioni: nessuna
@@ -846,15 +962,16 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
     \item return istante\_prenotazione$($p$)$ $\geq$ inizio $\land$ istante\_prenotazione$($p$)$ $\leq$ fine
 \end{enumerate}
 
-\subsection*{[getEtàMediaUtenti$($Utente[] U$)$]}
+\subsection*{\label{sec:OperazioneGetEtàMediaUtenti}[getEtàMediaUtenti$($Utente[] U$)$]}
 \begin{enumerate}
     \item Restituisce l'età media degli utenti.
     \item precondizioni: nessuna
     \item postcondizioni: no side effect
-    \item return $\frac{\sum_{i=0}^{|U|} get\_eta(U[i])}{|U|}$
+    \item return $\frac{\sum_{i=0}^{|U|} getEta(U[i])}{|U|}$
+    \item (operazione \hyperref[sec:OperazioneGetEta]{getEta})
 \end{enumerate}
 
-\subsection*{[get\_eta$($Utente u$)$]}
+\subsection*{\label{sec:OperazioneGetEta}[getEta$($Utente u$)$]}
 \begin{enumerate}
     \item Restituisce l'età dell'utente.
     \item precondizioni: nessuna
@@ -862,15 +979,15 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
     \item return istante\_corrente $-$ data\_di\_nascita$($u$)$
 \end{enumerate}
 
-\subsection*{[getPrenotazioniInUnDatoPeriodo$($Data inizio, Data fine$)$]}
+\subsection*{\label{sec:OperazioneGetPrenotazioniInUnDatoPeriodo}[getPrenotazioniInUnDatoPeriodo$($Data inizio, Data fine$)$]}
 \begin{enumerate}
-    \item Restituisce l'insieme delle prenotazioni in un dato periodo.
+    \item Restituisce l'insieme delle prenotazioni accettate in un dato periodo.
     \item precondizioni: nessuna
     \item postcondizioni: no side effect
-    \item return $\{p \in Prenotazione: isPrenotazioneInPeriodo(p, inizio, fine)\}$
+    \item return $\{p \in Pren\_accettata: $\hyperref[sec:OperazioneIsPrenotazioneInPeriodo]{isPrenotazioneInPeriodo}$(p, inizio, fine)\}$
 \end{enumerate}
 
-\subsection*{[getCrociereDaPrenotazioni$($Prenotazione[] P$)$]}
+\subsection*{\label{sec:OperazioneGetCrociereDaPrenotazioni}[getCrociereDaPrenotazioni$($Prenotazione[] P$)$]}
 \begin{enumerate}
     \item Restituisce l'insieme delle crociere a partire da un insieme di prenotazioni.
     \item precondizioni: nessuna
@@ -878,7 +995,7 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
     \item return $\{c \in Crociera: p \in P \land pren\_croc(p,c)\}$
 \end{enumerate}
 
-\subsection*{[getDestinazioniDaCrociere$($Crociere[] C$)$]}
+\subsection*{\label{sec:OperazioneGetDestinazioniDaCrociere}[getDestinazioniDaCrociere$($Crociere[] C$)$]}
 \begin{enumerate}
     \item Restituisce l'insieme delle destinazioni a partire da un insieme di crociere.
     \item precondizioni: nessuna
@@ -886,60 +1003,47 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
     \item return $\{d \in Destinazione: \exists c \in C: tappa\_dest(t,d) \land t \in Tappa \land tappa\_itin(t,I) \land I \in Itinerario \land itin\_croc(I,c)\}$
 \end{enumerate}
 
-\subsection*{[getEtàMediaClientiCheHannoPrenotatoInUnPeriodoUnaCrocieraConAlmenoUnaDestinazioneEsotica$($Data inizio, Data fine$)$]}
-\begin{enumerate}
-    \item Restituisce l'età media dei clienti che hanno prenotato in un periodo una crociera con almeno una destinazione esotica.
-    \item precondizioni: nessuna
-    \item postcondizioni: no side effect
-    \item P = getPrenotazioniInUnDatoPeriodo$($inizio, fine$)$
-    \item C = getCrociereDaPrenotazioni$($P$)$
-    \item D = getDestinazioniDaCrociere$($C$)$
-    \item D\_esotiche = $\{d \in D: isDestinazioneEsotica(d)\}$
-    \item U = $\{u \in Utente: \exists p, c, I, t, d \land p \in P \land c \in C \land d \in D\_esotiche \land I \in Itinerario \land t \in Tappa \land pren\_utente(p,u) \land pren\_croc(p,c) \land itin\_croc(I,c) \land tappa\_itin(t,I) \land tappa\_dest(t,d)\}$
-    \item return getEtàMediaUtenti$($U$)$
-\end{enumerate}
-
-\subsection*{[getDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$]}
+\subsection*{\label{sec:OperazioneGetDestinazioniGettonateInUnDatoPeriodo}[getDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce il numero di destinazioni da considerarsi gettonate in un dato periodo. Una destinazione è gettonata se è raggiunta da almeno 10 crociere luna di miele in quel periodo oppure da almeno 15 crociere per famiglia.
     \item precondizioni: nessuna
     \item postcondizioni: no side effect
     \item D = l'insieme di tutte le destinazioni
-    \item R = $\{d \in D: isDestinazioneGettonataInUnDatoPeriodo(d, inizio, fine)\}$
+    \item R = $\{d \in D: $\hyperref[sec:OperazioneIsDestinazioneGettonataInUnDatoPeriodo]{isDestinazioneGettonataInUnDatoPeriodo}$(d, inizio, fine)\}$
     \item return R
 \end{enumerate}
 
-\subsection*{[isDestinazioneGettonataInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]}
+\subsection*{\label{sec:OperazioneIsDestinazioneGettonataInUnDatoPeriodo}[isDestinazioneGettonataInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce vero se la destinazione è gettonata in un dato periodo, altrimenti falso.
     \item precondizioni: nessuna
     \item postcondizioni: no side effect
-    \item CpF = getCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($d, inizio, fine$)$
-    \item CLdM = getCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($d, inizio, fine$)$
+    \item CpF = \hyperref[sec:OperazioneGetCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo]{getCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo}$($d, inizio, fine$)$
+    \item CLdM = \hyperref[sec:OperazioneGetCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo]{getCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo}$($d, inizio, fine$)$
     \item return True se $|$CpF$|$ $\geq$ 15 $\lor$ $|$CLdM$|$ $\geq$ 10, altrimenti False
 \end{enumerate}
 
-\subsection*{[getCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]}
+\subsection*{\label{sec:OperazioneGetCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo}[getCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce le crociere per famiglie che raggiungono una data destinazione in un dato periodo.
     \item precondizioni: nessuna
     \item postcondizioni: no side effect
-    \item P = getCrocierePerFamiglieInUnDatoPeriodo$($inizio, fine$)$
-    \item D = getCrocierePerFamiglieInDestinazione$($d$)$
+    \item P = \hyperref[sec:OperazioneGetCrocierePerFamiglieInUnDatoPeriodo]{getCrocierePerFamiglieInUnDatoPeriodo}$($inizio, fine$)$
+    \item D = \hyperref[sec:OperazioneGetCrocierePerFamiglieInDestinazione]{getCrocierePerFamiglieInDestinazione}$($d$)$
     \item return P $\cap$ D
 \end{enumerate}
 
-\subsection*{[getCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]}
+\subsection*{\label{sec:OperazioneGetCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo}[getCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce le crociere luna di miele che raggiungono una data destinazione in un dato periodo.
     \item precondizioni: nessuna
     \item postcondizioni: no side effect
-    \item P = getCrociereLunaDiMieleInUnDatoPeriodo$($inizio, fine$)$
-    \item D = getCrociereLunaDiMieleInDestinazione$($d$)$
+    \item P = \hyperref[sec:OperazioneGetCrociereLunaDiMieleInUnDatoPeriodo]{getCrociereLunaDiMieleInUnDatoPeriodo}$($inizio, fine$)$
+    \item D = \hyperref[sec:OperazioneGetCrociereLunaDiMieleInDestinazione]{getCrociereLunaDiMieleInDestinazione}$($d$)$
     \item return P $\cap$ D
 \end{enumerate}
 
-\subsection*{[isCrocieraInPeriodo$($Crociera c, Data inizio, Data fine$)$]}
+\subsection*{\label{sec:OperazioneIsCrocieraInPeriodo}[isCrocieraInPeriodo$($Crociera c, Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce vero se la crociera è in un periodo compreso tra inizio e fine, altrimenti falso.
     \item precondizioni: nessuna
@@ -947,49 +1051,39 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
     \item return true se data\_inizio$($c$)$ $\geq$ inizio $\land$ data\_fine$($c$)$ $\leq$ fine, altrimenti false
 \end{enumerate}
 
-\subsection*{[getPercentualeDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$]}
-\begin{enumerate}
-    \item Restituisce la percentuale di destinazioni gettonate in un dato periodo.
-    \item precondizioni: nessuna
-    \item postcondizioni: no side effect
-    \item D = l'insieme di tutte le destinazioni
-    \item R = getDestinazioniGettonateInUnDatoPeriodo$($inizio, fine$)$
-    \item return $|$R$|$*100/$|$D$|$
-\end{enumerate}
-
-\subsection*{[getCrocierePerFamiglieInUnDatoPeriodo$($Data inizio, Data fine$)$]}
+\subsection*{\label{sec:OperazioneGetCrocierePerFamiglieInUnDatoPeriodo}[getCrocierePerFamiglieInUnDatoPeriodo$($Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce le crociere per famiglie in un dato periodo.
     \item precondizioni: nessuna
     \item postcondizioni: no side effect
-    \item return $\{c \in Crociere: isCrocieraInPeriodo(c, inizio, fine) \land c \in CrocierePerFamiglie\}$
+    \item return $\{c \in Crociere: $\hyperref[sec:OperazioneIsCrocieraInPeriodo]{isCrocieraInPeriodo}$(c, inizio, fine) \land c \in CrocierePerFamiglie\}$
 \end{enumerate}
 
-\subsection*{[getCrociereLunaDiMieleInUnDatoPeriodo$($Data inizio, Data fine$)$]}
+\subsection*{\label{sec:OperazioneGetCrociereLunaDiMieleInUnDatoPeriodo}[getCrociereLunaDiMieleInUnDatoPeriodo$($Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce le crociere luna di miele in un dato periodo.
     \item precondizioni: nessuna
     \item postcondizioni: no side effect
-    \item return $\{c \in Crociere: isCrocieraInPeriodo(c, inizio, fine) \land c \in CrociereLunaDiMiele\}$
+    \item return $\{c \in Crociere: $\hyperref[sec:OperazioneIsCrocieraInPeriodo]{isCrocieraInPeriodo}$(c, inizio, fine) \land c \in CrociereLunaDiMiele\}$
 \end{enumerate}
 
-\subsection*{[getCrociereLunaDiMieleInDestinazione$($Destinazione d$)$]}
+\subsection*{\label{sec:OperazioneGetCrociereLunaDiMieleInDestinazione}[getCrociereLunaDiMieleInDestinazione$($Destinazione d$)$]}
 \begin{enumerate}
     \item Restituisce le crociere luna di miele che raggiungono una data destinazione.
     \item precondizioni: nessuna
     \item postcondizioni: no side effect
-    \item return $\{c \in CrociereLunaDiMiele: isCrocieraInDestinazione(c, d)\}$
+    \item return $\{c \in CrociereLunaDiMiele: $\hyperref[sec:OperazioneIsCrocieraInDestinazione]{isCrocieraInDestinazione}$(c, d)\}$
 \end{enumerate}
 
-\subsection*{[getCrocierePerFamiglieInDestinazione$($Destinazione d$)$]}
+\subsection*{\label{sec:OperazioneGetCrocierePerFamiglieInDestinazione}[getCrocierePerFamiglieInDestinazione$($Destinazione d$)$]}
 \begin{enumerate}
     \item Restituisce le crociere per famiglie che raggiungono una data destinazione.
     \item precondizioni: nessuna
     \item postcondizioni: no side effect
-    \item return $\{c \in CrocierePerFamiglie: isCrocieraInDestinazione(c, d)\}$
+    \item return $\{c \in CrocierePerFamiglie: $\hyperref[sec:OperazioneIsCrocieraInDestinazione]{isCrocieraInDestinazione}$(c, d)\}$
 \end{enumerate}
 
-\subsection*{[isCrocieraInDestinazione$($Crociera c, Destinazione d$)$]}
+\subsection*{\label{sec:OperazioneIsCrocieraInDestinazione}[isCrocieraInDestinazione$($Crociera c, Destinazione d$)$]}
 \begin{enumerate}
     \item Restituisce vero se la crociera raggiunge la destinazione, altrimenti falso.
     \item precondizioni: nessuna
