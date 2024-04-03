@@ -829,24 +829,81 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
     \item return: naz\_cont$($naz,cont$)$ $\neq$ nome$($cont$)$ $\neq$ Europa
 \end{enumerate}
 
+\subsection*{[isAlmenoUnaDestinazioneEsotica$($Destinazione[] D$)$]}
+\begin{enumerate}
+    \item Restituisce vero se almeno una destinazione è esotica, altrimenti falso.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item return true se $\exists d \in D: isDestinazioneEsotica(d)$
+    \item altrimenti false
+\end{enumerate}
+
 \subsection*{[isPrenotazioneInPeriodo$($Prenotazione p, Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce vero se la prenotazione è in un periodo compreso tra inizio e fine, altrimenti falso.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item return istante\_prenotazione$($p$)$ $\geq$ inizio $\land$ istante\_prenotazione$($p$)$ $\leq$ fine
 \end{enumerate}
 
-\subsection*{[getEtàMediaUtenti$($Utente[] u$)$]}
+\subsection*{[getEtàMediaUtenti$($Utente[] U$)$]}
 \begin{enumerate}
     \item Restituisce l'età media degli utenti.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item return $\frac{\sum_{i=0}^{|U|} get\_eta(U[i])}{|U|}$
+\end{enumerate}
+
+\subsection*{[get\_eta$($Utente u$)$]}
+\begin{enumerate}
+    \item Restituisce l'età dell'utente.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item return istante\_corrente $-$ data\_di\_nascita$($u$)$
+\end{enumerate}
+
+\subsection*{[getPrenotazioniInUnDatoPeriodo$($Data inizio, Data fine$)$]}
+\begin{enumerate}
+    \item Restituisce l'insieme delle prenotazioni in un dato periodo.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item return $\{p \in Prenotazione: isPrenotazioneInPeriodo(p, inizio, fine)\}$
+\end{enumerate}
+
+\subsection*{[getCrociereDaPrenotazioni$($Prenotazione[] P$)$]}
+\begin{enumerate}
+    \item Restituisce l'insieme delle crociere a partire da un insieme di prenotazioni.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item return $\{c \in Crociera: p \in P \land pren\_croc(p,c)\}$
+\end{enumerate}
+
+\subsection*{[getDestinazioniDaCrociere$($Crociere[] C$)$]}
+\begin{enumerate}
+    \item Restituisce l'insieme delle destinazioni a partire da un insieme di crociere.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item return $\{d \in Destinazione: \exists c \in C: tappa\_dest(t,d) \land t \in Tappa \land tappa\_itin(t,I) \land I \in Itinerario \land itin\_croc(I,c)\}$
 \end{enumerate}
 
 \subsection*{[getEtàMediaClientiCheHannoPrenotatoInUnPeriodoUnaCrocieraConAlmenoUnaDestinazioneEsotica$($Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce l'età media dei clienti che hanno prenotato in un periodo una crociera con almeno una destinazione esotica.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item P = getPrenotazioniInUnDatoPeriodo$($inizio, fine$)$
+    \item C = getCrociereDaPrenotazioni$($P$)$
+    \item D = getDestinazioniDaCrociere$($C$)$
+    \item D\_esotiche = $\{d \in D: isDestinazioneEsotica(d)\}$
+    \item U = $\{u \in Utente: \exists p, c, I, t, d \land p \in P \land c \in C \land d \in D\_esotiche \land I \in Itinerario \land t \in Tappa \land pren\_utente(p,u) \land pren\_croc(p,c) \land itin\_croc(I,c) \land tappa\_itin(t,I) \land tappa\_dest(t,d)\}$
+    \item return getEtàMediaUtenti$($U$)$
 \end{enumerate}
 
 \subsection*{[getDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce il numero di destinazioni da considerarsi gettonate in un dato periodo. Una destinazione è gettonata se è raggiunta da almeno 10 crociere luna di miele in quel periodo oppure da almeno 15 crociere per famiglia.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item D = l'insieme di tutte le destinazioni
     \item R = $\{d \in D: isDestinazioneGettonataInUnDatoPeriodo(d, inizio, fine)\}$
     \item return R
@@ -855,6 +912,8 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
 \subsection*{[isDestinazioneGettonataInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce vero se la destinazione è gettonata in un dato periodo, altrimenti falso.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item CpF = getCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($d, inizio, fine$)$
     \item CLdM = getCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($d, inizio, fine$)$
     \item return True se $|$CpF$|$ $\geq$ 15 $\lor$ $|$CLdM$|$ $\geq$ 10, altrimenti False
@@ -863,6 +922,8 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
 \subsection*{[getCrocieraPerFamiglieCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce le crociere per famiglie che raggiungono una data destinazione in un dato periodo.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item P = getCrocierePerFamiglieInUnDatoPeriodo$($inizio, fine$)$
     \item D = getCrocierePerFamiglieInDestinazione$($d$)$
     \item return P $\cap$ D
@@ -871,6 +932,8 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
 \subsection*{[getCrocieraLunaDiMieleCheRaggiungeUnaDataDestinazioneInUnDatoPeriodo$($Destinazione d, Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce le crociere luna di miele che raggiungono una data destinazione in un dato periodo.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item P = getCrociereLunaDiMieleInUnDatoPeriodo$($inizio, fine$)$
     \item D = getCrociereLunaDiMieleInDestinazione$($d$)$
     \item return P $\cap$ D
@@ -879,12 +942,16 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
 \subsection*{[isCrocieraInPeriodo$($Crociera c, Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce vero se la crociera è in un periodo compreso tra inizio e fine, altrimenti falso.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item return true se data\_inizio$($c$)$ $\geq$ inizio $\land$ data\_fine$($c$)$ $\leq$ fine, altrimenti false
 \end{enumerate}
 
 \subsection*{[getPercentualeDestinazioniGettonateInUnDatoPeriodo$($Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce la percentuale di destinazioni gettonate in un dato periodo.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item D = l'insieme di tutte le destinazioni
     \item R = getDestinazioniGettonateInUnDatoPeriodo$($inizio, fine$)$
     \item return $|$R$|$*100/$|$D$|$
@@ -893,30 +960,40 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
 \subsection*{[getCrocierePerFamiglieInUnDatoPeriodo$($Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce le crociere per famiglie in un dato periodo.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item return $\{c \in Crociere: isCrocieraInPeriodo(c, inizio, fine) \land c \in CrocierePerFamiglie\}$
 \end{enumerate}
 
 \subsection*{[getCrociereLunaDiMieleInUnDatoPeriodo$($Data inizio, Data fine$)$]}
 \begin{enumerate}
     \item Restituisce le crociere luna di miele in un dato periodo.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item return $\{c \in Crociere: isCrocieraInPeriodo(c, inizio, fine) \land c \in CrociereLunaDiMiele\}$
 \end{enumerate}
 
 \subsection*{[getCrociereLunaDiMieleInDestinazione$($Destinazione d$)$]}
 \begin{enumerate}
     \item Restituisce le crociere luna di miele che raggiungono una data destinazione.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item return $\{c \in CrociereLunaDiMiele: isCrocieraInDestinazione(c, d)\}$
 \end{enumerate}
 
 \subsection*{[getCrocierePerFamiglieInDestinazione$($Destinazione d$)$]}
 \begin{enumerate}
     \item Restituisce le crociere per famiglie che raggiungono una data destinazione.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item return $\{c \in CrocierePerFamiglie: isCrocieraInDestinazione(c, d)\}$
 \end{enumerate}
 
 \subsection*{[isCrocieraInDestinazione$($Crociera c, Destinazione d$)$]}
 \begin{enumerate}
     \item Restituisce vero se la crociera raggiunge la destinazione, altrimenti falso.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
     \item return 
     \begin{enumerate}
         \item true se esistono i, t tale che tappa\_itin$(t, i)$ $\land$ tappa\_dest$(t, d)$ $\land$ itin\_croc$(i, c)$
