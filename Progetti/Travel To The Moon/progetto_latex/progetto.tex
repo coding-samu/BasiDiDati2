@@ -788,16 +788,45 @@ In questa sezione verranno descritte le operazioni che il sistema deve essere in
 \subsection*{[getPostiDisponibili$($Crociera c$)$]}
 \begin{enumerate}
     \item Restituisce il numero di posti disponibili data una determinata Crociera.
+    \item precondizioni: $\exists$ n $|$ nave\_croc$($n,c$)$
+    \item postcondizioni: no side effect
+    \item P = getPrenotazioni$($Crociera c $)$
+    \item num\_posti = num\_posti\_disponibili$($n$)$ $-$ $\sum_{p \in P} num\_posti\_prenotati(p)$
+    \item return num\_posti
+\end{enumerate}
+
+\subsection*{[getPrenotazioni$($Crociera c$)$]}
+\begin{enumerate}
+    \item Restituisce l'insieme delle prenotazioni di una determinata Crociera.
+    \item precondizioni: nessuna
+    \item postcondizioni: no side effect
+    \item return $\{p \in Prenotazione: pren\_croc(p,c)\}$
 \end{enumerate}
 
 \subsection*{[effettuaPrenotazione$($Crociera c, Utente u, InteroGZ num\_posti$)$]}
 \begin{enumerate}
     \item Permette all'Ufficio Prenotazioni di effettuare una prenotazione. Restituisce un oggetto di tipo Prenotazione se getPostiDisponibili$(c)$ $\geq$ num\_posti, altrimenti rifiuta.
+    \item precondizioni: getPostiDisponibili$(c)$ $\geq$ num\_posti $\land$ istante\_corrente $\leq$ data\_inizio$(c)$
+    \item postcondizioni:
+    \item Viene creata una nuova prenotazione p:
+    \begin{enumerate}
+        \item istante\_prenotazione$($p$)$ = istante\_corrente
+        \item num\_posti\_prenotati$($p$)$ = num\_posti
+    \end{enumerate}
+    \item E vengono create le seguenti nuove associazioni:
+    \begin{enumerate}
+        \item pren\_croc$(p,c)$
+        \item pren\_utente$(p,u)$
+    \end{enumerate}
+    \item return p
 \end{enumerate}
 
 \subsection*{[isDestinazioneEsotica$($Destinazione d$)$]}
 \begin{enumerate}
     \item Restituisce vero se la destinazione è esotica (se il suo continente è diverso da Europa), altrimenti falso.
+    \item precondizioni: $\exists$ cit, naz, cont $|$ dest\_cit$($d,cit$)$ $\land$ cit\_naz$($cit,naz$)$ $\land$ naz\_cont$($naz,cont$)$
+    \item postcondizioni: no side effect
+    \item return: naz\_cont$($naz,cont$)$ $\neq$ nome$($cont$)$ $\neq$ Europa
 \end{enumerate}
 
 \subsection*{[isPrenotazioneInPeriodo$($Prenotazione p, Data inizio, Data fine$)$]}
