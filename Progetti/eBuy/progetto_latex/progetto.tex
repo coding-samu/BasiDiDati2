@@ -1,0 +1,131 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[left=1.5cm, right=1.5cm]{geometry}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\renewcommand{\contentsname}{Indice} % Change the title of the table of contents
+
+% chktex-file 44
+\title{eBuy}
+\author{}
+\date{}
+
+\renewcommand{\labelenumi}{\arabic{enumi}.}
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}.}
+\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.}
+\renewcommand{\labelenumiv}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.\arabic{enumiv}.}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{\label{sec:DiagrammaDelleClassi}Diagramma delle classi}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../Diagrammi/diagramma delle classi.pdf}
+    \caption{Diagramma delle classi}
+\end{figure}
+
+\newpage
+\section{\label{Sec:SpecificaTipoDiDato}Specifica dei tipi di dato}
+
+\begin{enumerate}
+    \item\label{sec:TipoStringS}StringS$:$ stringa di 50 caratteri
+    \item\label{sec:TipoStringM}StringM$:$ stringa di 500 caratteri
+    \item\label{sec:TipoStringL}StringL$:$stringa di 5000 caratteri
+    \item\label{sec:TipoValAffidabilita}ValAffidabilita$:$ Reale in [0,1]
+    \item\label{sec:TipoValVendProf}ValVendProf$:$ {Bassa, Media, Alta}
+    \item\label{sec:TipoInteroGEZ}InteroGEZ$:$ Intero $\geq$ 0
+    \item\label{sec:TipoMesiGaranziaNuovo}MesiGaranziaNuovo$:$ Intero $\geq$ 24
+    \item\label{sec:TipoMesiGaranzia}MesiGaranzia$:$ Intero $\geq$ 0
+    \item\label{sec:TipoCondizioniUsato}CondizioniUsato$:$ {Ottimo, Buono, Discreto, Da Sistemare}
+    \item\label{sec:TipoPrezzo}Denaro$:$ Reale $>$ 0
+\end{enumerate}
+
+\newpage
+\section{\label{sec:SpecificaMetodi}Specifica dei metodi}
+
+\subsection{\label{sec:MetodiUtente}Metodi di Utente}
+
+\begin{enumerate}
+    \item\label{sec:MetodiUtenteAffidabilita}affidabilita$()$: Da definire
+\end{enumerate}
+
+\subsection{\label{sec:MetodiVendProf}Metodi di Vend\_prof}
+
+\begin{enumerate}
+    \item\label{sec:MetodiVendProfPopolarita}popolarita$()$: Da definire
+\end{enumerate}
+
+\subsection{\label{sec:MetodiPostAsta}Metodi di Post\_asta}
+
+Metodo aggiudicante
+\begin{enumerate}
+    \item\label{sec:MetodiPostAstaAggiudicante}aggiudicante$()$: Utente\_privato
+    \item precondizioni:
+    \begin{enumerate}
+        \item istante\_corrente > istante\_scad(this)
+        \item AND
+        \item $\exists$ up, b bid\_up$($b,up$)$ $\land$ bid\_pa$($b,this$)$
+    \end{enumerate}
+    \item postcondizioni:
+    \begin{enumerate}
+        \item no side effect
+    \end{enumerate}
+    \item return:
+    \begin{enumerate}
+        \item aggiudicante = $\{$ bidder: $\forall$ b',b'',up $\exists$ bidder
+        \item bid\_up$($b',up$)$ $\land$ bid\_up$($b'',bidder$)$ $\land$
+        \item bid\_pa$($b',this$)$ $\land$ bid\_pa$($b'',this$)$ $\land$ bidder $\neq$ up
+        \item $\rightarrow$ istante$($b''$)$ $>$ istante$($b'$)$
+        \item $\}$
+        \item return aggiudicante
+    \end{enumerate}
+\end{enumerate}
+
+Metodo prezzo
+\begin{enumerate}
+    \item\label{sec:MetodiPostAstaPrezzo}prezzo$()$: Denaro
+    \item precondizioni:
+    \begin{enumerate}
+        \item nessuna
+    \end{enumerate}
+    \item postcondizioni:
+    \begin{enumerate}
+        \item no side effect
+    \end{enumerate}
+    \item return:
+    \begin{enumerate}
+        \item B = $\{$ b | ALL b bid\_pa$($b,this$)$ $\}$
+        \item prezzo = prezzo\_iniziale$($this$)$ + rialzo$($this$)$ * $|$B$|$
+        \item return prezzo
+    \end{enumerate}
+\end{enumerate}
+
+\section{\label{sec:SpecificaVincoli}Specifica dei vincoli}
+
+\begin{enumerate}
+    \item Istante del bid $<$ Istante scadenza per quel Post asta
+    \begin{enumerate}
+        \item ALL b, pa bid\_pa$($b,pa$)$ $\rightarrow$ istante$($b$)$ $<$ istante\_scad$($pa$)$
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
