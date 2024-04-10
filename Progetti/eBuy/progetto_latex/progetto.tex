@@ -56,7 +56,7 @@
     \item\label{sec:TipoMesiGaranziaNuovo}MesiGaranziaNuovo$:$ Intero $\geq$ 24
     \item\label{sec:TipoMesiGaranzia}MesiGaranzia$:$ Intero $\geq$ 0
     \item\label{sec:TipoCondizioniUsato}CondizioniUsato$:$ {Ottimo, Buono, Discreto, Da Sistemare}
-    \item\label{sec:TipoPrezzo}Denaro$:$ Reale $>$ 0
+    \item\label{sec:TipoDenaro}Denaro$:$ Reale $>$ 0
 \end{enumerate}
 
 \newpage
@@ -76,13 +76,14 @@
 
 \subsection{\label{sec:MetodiPostAsta}Metodi di Post\_asta}
 
-Metodo aggiudicante
+\subsection*{aggiudicante$()$: Utente\_privato}
 \begin{enumerate}
     \item\label{sec:MetodiPostAstaAggiudicante}aggiudicante$()$: Utente\_privato
     \item precondizioni:
     \begin{enumerate}
-        \item istante\_corrente > istante\_scad(this)
-        \item AND
+        \item $\exists$ sc istante\_scad$($this, sc$)$
+        \item istante\_corrente $>$ sc
+        \item $\land$
         \item $\exists$ up, b bid\_up$($b,up$)$ $\land$ bid\_pa$($b,this$)$
     \end{enumerate}
     \item postcondizioni:
@@ -91,18 +92,19 @@ Metodo aggiudicante
     \end{enumerate}
     \item return:
     \begin{enumerate}
-        \item aggiudicante = $\{$ bidder: $\forall$ b',b'',up $\exists$ bidder
-        \item bid\_up$($b',up$)$ $\land$ bid\_up$($b'',bidder$)$ $\land$
-        \item bid\_pa$($b',this$)$ $\land$ bid\_pa$($b'',this$)$ $\land$ bidder $\neq$ up
-        \item $\rightarrow$ istante$($b''$)$ $>$ istante$($b'$)$
+        \item aggiudicante = $\{$ up'': $\forall$ b',b'',up' $\exists$ i',i''
+        \item bid\_up$($b',up'$)$ $\land$ bid\_up$($b'',up''$)$ $\land$
+        \item bid\_pa$($b',this$)$ $\land$ bid\_pa$($b'',this$)$ $\land$ up' $\neq$ up''
+        \item $\land$ istante$($b',i'$)$ $\land$ istante$($b'',i''$)$
+        \item $\rightarrow$ i'' $>$ i'
         \item $\}$
         \item return aggiudicante
     \end{enumerate}
 \end{enumerate}
 
-Metodo prezzo
+\subsection*{prezzo$()$: \hyperref[sec:TipoDenaro]{Denaro}}
 \begin{enumerate}
-    \item\label{sec:MetodiPostAstaPrezzo}prezzo$()$: Denaro
+    \item\label{sec:MetodiPostAstaPrezzo}prezzo$()$: \hyperref[sec:TipoDenaro]{Denaro}
     \item precondizioni:
     \begin{enumerate}
         \item nessuna
