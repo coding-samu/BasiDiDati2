@@ -115,7 +115,7 @@
     \end{enumerate}
     \item return:
     \begin{enumerate}
-        \item B = $\{$ b $|$ $\forall$ b bid\_pa$($b,this$)$ $\}$
+        \item B = $\{$ b $|$ bid\_pa$($b,this$)$ $\}$
         \item Sia p tale che prezzo\_iniziale$($this,p$)$,
         \item Sia r tale che rialzo$($this,r$)$
         \item prezzo = p + r * $|$B$|$
@@ -128,7 +128,7 @@
 \begin{enumerate}
     \item Istante del bid $<$ Istante scadenza per quel Post asta
     \begin{enumerate}
-        \item ALL b, pa bid\_pa$($b,pa$)$ $\rightarrow$ istante$($b$)$ $<$ istante\_scad$($pa$)$
+        \item ALL b, i, sc, pa bid\_pa$($b,pa$)$ $\land$ istante$($b,i$)$ $\land$ istante\_scad$($b,sc$)$ $\rightarrow$ i $<$ sc
     \end{enumerate}
 \end{enumerate}
 
