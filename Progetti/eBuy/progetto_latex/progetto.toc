@@ -1,7 +1,0 @@
-\contentsline {section}{\numberline {1}Diagramma delle classi}{2}{section.1}%
-\contentsline {section}{\numberline {2}Specifica dei tipi di dato}{3}{section.2}%
-\contentsline {section}{\numberline {3}Specifica delle operazioni}{4}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Operazioni di Utente}{4}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Operazioni di Vend\_prof}{4}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Operazioni di Post\_asta}{4}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Specifica dei vincoli}{5}{section.4}%
