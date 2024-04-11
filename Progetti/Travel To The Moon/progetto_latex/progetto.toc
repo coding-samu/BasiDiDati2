@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Specifiche del progetto}{2}{section.1}%
+\contentsline {section}{\numberline {2}Raffinamento dei requisiti}{3}{section.2}%
+\contentsline {section}{\numberline {3}Diagramma UML delle classi}{6}{section.3}%
+\contentsline {section}{\numberline {4}Diagramma degli Use Case}{7}{section.4}%
+\contentsline {section}{\numberline {5}Specifiche dei tipi di dati}{8}{section.5}%
+\contentsline {section}{\numberline {6}Specifiche delle classi e delle associazioni}{9}{section.6}%
+\contentsline {section}{\numberline {7}Specifiche dei vincoli esterni}{28}{section.7}%
+\contentsline {section}{\numberline {8}Specifiche delle operazioni}{30}{section.8}%
