@@ -8,16 +8,34 @@
 
 \maketitle
 
-\begin{enumerate}
-    \item $\forall$ c $\exists$ n Crociera$(c)$ $\land$ Nave$(n)$ $\rightarrow$ utilizza$(c,n)$
-    \item $\forall$ c $\exists$ i Crociera$(c)$ $\land$ Itinerario$(i)$ $\rightarrow$ segue$(c,i)$
-    \item $\forall$ i',i'', n', n'' Itinerario$(i')$ $\land$ Itinerario$(i'')$ $\land$ nome$(i',n')$ $\land$ nome$(i'',n'')$ $\land$ i' $\neq$ i'' $\rightarrow$ n' $\neq$ n''
-    \item $\forall$ c $\exists$ d Crociera$(c)$ $\land$ Destinazione$(d)$ $\rightarrow$ tocca$(c,d)$
-    \item \begin{enumerate}
-        \item $\forall$ c Crociera$(c)$ (($\exists$ c' Croc\_ldm$(c')$ $\land$ c $=$ c') $\lor$ ($\exists$ c'' Croc\_pf$(c'')$ $\land$ c $=$ c''))
-        \item $\land$
-        \item $\forall$ c,c',c'' Crociera$(c)$ $\land$ Croc\_ldm$(c')$ $\land$ Croc\_pf$(c'')$\newline ((c $=$ c' $\rightarrow$ c $\neq$ c'') $\land$ (c $=$ c'' $\rightarrow$ c $\neq$ c'))
-    \end{enumerate}
-\end{enumerate}
-
+\section{Punto 1}
+F = \{usa/1\}
+\newline
+P = \{Crociera/1, Nave/1\}
+\newline
+$\forall$ c Crociera$(c)$ $\rightarrow$ Nave$($usa$($c$)$$)$
+\section{Punto 2}
+F = \{\}
+\newline
+P = \{Crociera/1, Itinerario/1,cro\_iti/2\}
+\newline
+$\forall$ c Crociera$(c)$ $\rightarrow$ $\exists$ i $($Itinerario$($i$)$ $\land$ cro\_iti$($c,i$)$$)$
+\section{Punto 3}
+F = \{nome/1\}
+\newline
+P = \{Itinerario/1\}
+\newline
+$\forall$ i' $\forall$ i'' $($ i' $\neq$ i'' $\land$ Itinerario$($i'$)$ $\land$ Itinerario$($i''$)$ $\rightarrow$ nome$($i'$)$ $\neq$ nome$($i'$)$$)$
+\section{Punto 4}
+F = \{\}
+\newline
+P = \{Crociera/1, Destinazione/1, tocca/2\}
+\newline
+$\forall$ c $\exists$ d Crociera$(c)$ $\land$ Destinazione$(d)$ $\rightarrow$ tocca$($c,d$)$
+\section{Punto 5}
+F = \{\}
+\newline
+P = \{Crociera/1, LdM/1, Famiglia/1\}
+\newline
+$\forall$ c $($Crociera$($c$)$ $\rightarrow$ $($Ldm$($c$)$ $\land$ $\neg$ Famiglia$($c$)$$)$ $\lor$ $($$\neg$ Ldm$($c$)$ $\land$ Famiglia$($c$)$$)$$)$
 \end{document}
