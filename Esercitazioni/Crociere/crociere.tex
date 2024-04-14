@@ -1,0 +1,23 @@
+\documentclass{article}
+
+\begin{document}
+
+\title{Crociere}
+\author{Gruppo 50}
+\date{}
+
+\maketitle
+
+\begin{enumerate}
+    \item $\forall$ c $\exists$ n Crociera$(c)$ $\land$ Nave$(n)$ $\rightarrow$ utilizza$(c,n)$
+    \item $\forall$ c $\exists$ i Crociera$(c)$ $\land$ Itinerario$(i)$ $\rightarrow$ segue$(c,i)$
+    \item $\forall$ i',i'', n', n'' Itinerario$(i')$ $\land$ Itinerario$(i'')$ $\land$ nome$(i',n')$ $\land$ nome$(i'',n'')$ $\land$ i' $\neq$ i'' $\rightarrow$ n' $\neq$ n''
+    \item $\forall$ c $\exists$ d Crociera$(c)$ $\land$ Destinazione$(d)$ $\rightarrow$ tocca$(c,d)$
+    \item \begin{enumerate}
+        \item $\forall$ c Crociera$(c)$ (($\exists$ c' Croc\_ldm$(c')$ $\land$ c $=$ c') $\lor$ ($\exists$ c'' Croc\_pf$(c'')$ $\land$ c $=$ c''))
+        \item $\land$
+        \item $\forall$ c,c',c'' Crociera$(c)$ $\land$ Croc\_ldm$(c')$ $\land$ Croc\_pf$(c'')$\newline ((c $=$ c' $\rightarrow$ c $\neq$ c'') $\land$ (c $=$ c'' $\rightarrow$ c $\neq$ c'))
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
