@@ -83,7 +83,7 @@
 \subsection{\label{sec:OperazioniUtente}Operazioni di Utente}
 
 \begin{enumerate}
-    \item\label{sec:OperazioniUtenteAffidabilita}affidabilita$()$: ValAffidabilita
+    \item\label{sec:OperazioniUtenteAffidabilita}affidabilita$()$: \hyperref[sec:TipoValAffidabilita]{ValAffidabilita}
     \item precondizioni: $\exists$ p,f f\_p$($f,p$)$ $\land$ p\_ut$($p,this$)$
     \item postcondizioni: nessuna
     \item return: $\frac{mediaFeedback(this) * (1 - percentualeFeedbackNegativi(this))}{5}$
@@ -92,12 +92,12 @@
 \subsection{\label{sec:OperazioniVendProf}Operazioni di Vend\_prof}
 
 \begin{enumerate}
-    \item\label{sec:OperazioniVendProfPopolarita}popolarita$()$: ValVendProf
+    \item\label{sec:OperazioniVendProfPopolarita}popolarita$()$: \hyperref[sec:TipoValVendProf]{ValVendProf}
     \item precondizioni: nessuna
     \item postcondizioni: nessuna
     \item return:
     \begin{enumerate}
-        \item x = conta\_n\_bid\_ricevuti$($this$)$ + conta\_n\_acquisti\_ricevuti$($this$)$
+        \item x = contaNumeroBidRicevuti$($this$)$ + contaNumeroAcquistiRicevuti$($this$)$
         \begin{enumerate}
             \item return Bassa se x $<$ 50
             \item return Media se 50 $\leq$ x $\leq$ 300
@@ -190,7 +190,7 @@
 \section{\label{sec:SpecificaOperazioni}Specifica delle operazioni}
 
 \begin{enumerate}
-    \item Un utente privato deve poter effettuare un bid su un post Asta
+    \item\label{sec:effettuaBid} Un utente privato deve poter effettuare un bid su un post Asta
     \begin{enumerate}
         \item effettuaBid$($up: Utente\_privato, pa: Post\_asta$)$: Bid
         \item precondizioni: sia sc tale che istante\_scad$($pa, sc$)$ allora deve essere che sc $>$ istante\_corrente
@@ -207,7 +207,8 @@
         \end{enumerate}
         \item return b
     \end{enumerate}
-    \item Un utente privato deve poter effettuare un acquisto di un post Compralo Subito
+    \newpage
+    \item\label{sec:effettuaAcquisto} Un utente privato deve poter effettuare un acquisto di un post Compralo Subito
     \begin{enumerate}
         \item effettuaAcquisto$($up: Utente\_privato, pcs: Post\_CS$)$
         \item precondizioni: $\forall$ up' $\neg$ pcs\_up$($pcs, up'$)$
@@ -219,7 +220,8 @@
             \end{enumerate}
         \end{enumerate}
     \end{enumerate}
-    \item Un utente deve poter pubblicare un post Asta per oggetti nuovi
+    \newpage
+    \item\label{sec:pubblicaPostAstaNuovo} Un utente deve poter pubblicare un post Asta per oggetti nuovi
     \begin{enumerate}
         \item pubblicaPostAstaNuovo$($u: Utente, c: Categoria, titolo: StringS, descrizione: StringL, prezzoIniziale: Denaro, rialzo: Denaro, istanteScadenza: DataOra, mesiGaranzia: MesiGaranziaNuovo$)$: Post\_asta
         \item precondizioni: $\forall$ p,n p\_ut$($p,u$)$ $\land$ nome$($p,n$)$ $\rightarrow$ n $\neq$ titolo
@@ -242,7 +244,8 @@
             \item return p
         \end{enumerate}
     \end{enumerate}
-    \item Un utente deve poter pubblicare un post Asta per oggetti usati
+    \newpage
+    \item\label{sec:pubblicaPostAstaUsato} Un utente deve poter pubblicare un post Asta per oggetti usati
     \begin{enumerate}
         \item pubblicaPostAstaUsato$($u: Utente, c: Categoria, titolo: StringS, descrizione: StringL,\newline prezzoIniziale: Denaro, rialzo: Denaro, istanteScadenza: DataOra, mesiGaranzia: MesiGaranzia, condizioni: CondizioniUsato$)$: Post\_asta
         \item precondizioni: $\forall$ p,n p\_ut$($p,u$)$ $\land$ nome$($p,n$)$ $\rightarrow$ n $\neq$ titolo
@@ -270,7 +273,8 @@
             \item return p
         \end{enumerate}
     \end{enumerate}
-    \item Un utente deve poter pubblicare un post Compralo Subito per oggetti nuovi
+    \newpage
+    \item\label{sec:pubblicaPostCSNuovo} Un utente deve poter pubblicare un post Compralo Subito per oggetti nuovi
     \begin{enumerate}
         \item pubblicaPostCSNuovo$($u: Utente, c: Categoria, titolo: StringS, descrizione: StringL, prezzo: Denaro, mesiGaranzia: MesiGaranziaNuovo$)$: Post\_CS
         \item precondizioni: $\forall$ p,n p\_ut$($p,u$)$ $\land$ nome$($p,n$)$ $\rightarrow$ n $\neq$ titolo
@@ -291,7 +295,8 @@
             \item return p
         \end{enumerate}
     \end{enumerate}
-    \item Un utente deve poter pubblicare un post Compralo Subito per oggetti usati
+    \newpage
+    \item\label{sec:pubblicaPostCSUsato} Un utente deve poter pubblicare un post Compralo Subito per oggetti usati
     \begin{enumerate}
         \item pubblicaPostCSUsato$($u: Utente, c: Categoria, titolo: StringS, descrizione: StringL,\newline prezzo: Denaro, mesiGaranzia: MesiGaranzia, condizioni: CondizioniUsato$)$: Post\_CS
         \item precondizioni: $\forall$ p,n p\_ut$($p,u$)$ $\land$ nome$($p,n$)$ $\rightarrow$ n $\neq$ titolo
@@ -317,7 +322,8 @@
             \item return p
         \end{enumerate}
     \end{enumerate}
-    \item Data una determinata categoria, restituire l'insieme delle sue sottocategorie
+    \newpage
+    \item\label{sec:sottocategorie} Data una determinata categoria, restituire l'insieme delle sue sottocategorie
     \begin{enumerate}
         \item sottocategorie$($c: Categoria$)$: Categoria 0..*
         \item precondizioni: nessuna
@@ -325,15 +331,16 @@
         \item return:
         \begin{enumerate}
             \item C = \{c' $|$ superSottoCat$($c,c'$)$\}
-            \item R = {}
+            \item R = \{\}
             \item Per ogni c' in C
             \begin{enumerate}
-                \item R = R $\cup$ sottocategorie$($c'$)$
+                \item R = R $\cup$ \hyperref[sec:sottocategorie]{sottocategorie}$($c'$)$
             \end{enumerate}
             \item return C $\cup$ R
         \end{enumerate}
     \end{enumerate}
-    \item Un utente privato deve poter lasciare un feedback su un post Compralo Subito con commento testuale
+    \newpage
+    \item\label{sec:lasciaFeedbackCSConCommento} Un utente privato deve poter lasciare un feedback su un post Compralo Subito con commento testuale
     \begin{enumerate}
         \item lasciaFeedbackCSConCommento$($up: Utente\_privato, pcs: Post\_CS, valutazione: Valutazione, testo: StringL$)$: Feedback
         \item precondizioni: pcs\_up$($pcs,up$)$
@@ -353,7 +360,8 @@
         \end{enumerate}
         \item return f
     \end{enumerate}
-    \item Un utente privato deve poter lasciare un feedback su un post Compralo Subito senza commento testuale
+    \newpage
+    \item\label{sec:lasciaFeedbackCSSenzaCommento} Un utente privato deve poter lasciare un feedback su un post Compralo Subito senza commento testuale
     \begin{enumerate}
         \item lasciaFeedbackCSSenzaCommento$($up: Utente\_privato, pcs: Post\_CS, valutazione: Valutazione$)$: Feedback
         \item precondizioni: pcs\_up$($pcs,up$)$
@@ -372,7 +380,8 @@
         \end{enumerate}
         \item return f
     \end{enumerate}
-    \item Un utente privato deve poter lasciare un feedback su un post Asta del quale risulta bidder aggiudicatario con commento testuale
+    \newpage
+    \item\label{sec:lasciaFeedbackAstaConCommento} Un utente privato deve poter lasciare un feedback su un post Asta del quale risulta bidder aggiudicatario con commento testuale
     \begin{enumerate}
         \item lasciaFeedbackAstaConCommento$($up: Utente\_privato, pa: Post\_asta, valutazione: Valutazione,\newline testo: StringL$)$: Feedback
         \item precondizioni: aggiudicante$()$ = up
@@ -392,7 +401,8 @@
         \end{enumerate}
         \item return f
     \end{enumerate}
-    \item Un utente privato deve poter lasciare un feedback su un post Asta del quale risulta bidder aggiudicatario senza commento testuale
+    \newpage
+    \item\label{sec:lasciaFeedbackAstaSenzaCommento} Un utente privato deve poter lasciare un feedback su un post Asta del quale risulta bidder aggiudicatario senza commento testuale
     \begin{enumerate}
         \item lasciaFeedbackAstaSenzaCommento$($up: Utente\_privato, pa: Post\_asta, valutazione: Valutazione$)$: Feedback
         \item precondizioni: aggiudicante$()$ = up
@@ -411,9 +421,10 @@
         \end{enumerate}
         \item return f
     \end{enumerate}
-    \item Conta il numero di bid ricevuti da un Utente
+    \newpage
+    \item\label{sec:contaNumeroBidRicevuti} Conta il numero di bid ricevuti da un Utente
     \begin{enumerate}
-        \item conta\_n\_bid\_ricevuti$($u: Utente$)$: InteroGEZ
+        \item contaNumeroBidRicevuti$($u: Utente$)$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
         \item precondizioni: nessuna
         \item postcondizioni: nessuna
         \item return:
@@ -422,9 +433,10 @@
             \item return $|$B$|$
         \end{enumerate}
     \end{enumerate}
-    \item Conta il numero di acquisti ricevuti da un Utente
+    \newpage
+    \item\label{sec:contaNumeroAcquistiRicevuti} Conta il numero di acquisti ricevuti da un Utente
     \begin{enumerate}
-        \item conta\_n\_acquisti\_ricevuti$($u: Utente$)$: InteroGEZ
+        \item contaNumeroAcquistiRicevuti$($u: Utente$)$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
         \item precondizioni: nessuna
         \item postcondizioni: nessuna
         \item return:
@@ -433,39 +445,51 @@
             \item return $|$A$|$
         \end{enumerate}
     \end{enumerate}
-    \item Calcola la media dei Feedback ricevuti da un Utente
+    \newpage
+    \item\label{sec:mediaFeedback} Calcola la media dei Feedback ricevuti da un Utente
     \begin{enumerate}
-        \item mediaFeedback$($u: Utente$)$: MediaValutazione
+        \item mediaFeedback$($u: Utente$)$: \hyperref[sec:TipoMediaValutazione]{MediaValutazione}
         \item precondizioni: $\exists$ f,p f\_p$($f,p$)$ $\land$ p\_ut$($p,u$)$
         \item postcondizioni: nessuna
         \item return:
         \begin{enumerate}
-            \item F = feedbackRicevuti$($u$)$
+            \item F = \hyperref[sec:feedbackRicevuti]{feedbackRicevuti}$($u$)$
             \item Sia v la somma dei voti di tutti i feedback in F
             \item v = $\sum_{f \in F} v | voto(f,v)$
             \item return $\frac{v}{|F|}$
         \end{enumerate}
     \end{enumerate}
-    \item Calcola la percentuale di Feedback negativi ricevuti da un Utente
+    \newpage
+    \item\label{sec:percentualeFeedbackNegativi} Calcola la percentuale di Feedback negativi ricevuti da un Utente
     \begin{enumerate}
-        \item percentualeFeedbackNegativi$($u: Utente$)$: PercentualeFeedbackNegativi
+        \item percentualeFeedbackNegativi$($u: Utente$)$: \hyperref[sec:TipoPercentualeFeedbackNegativi]{PercentualeFeedbackNegativi}
         \item precondizioni: nessuna
         \item postcondizioni: nessuna
-        \item return: $\frac{100*feedbackNegativiRicevuti(u)}{feedbackRicevuti(u)}$
+        \item return: $\frac{100*\hyperref[sec:feedbackNegativiRicevuti]{feedbackNegativiRicevuti}(u)}{\hyperref[sec:feedbackRicevuti]{feedbackRicevuti}(u)}$
     \end{enumerate}
-    \item Restituisce l'insieme di tutti i Feedback ricevuti da un utente
+    \newpage
+    \item\label{sec:feedbackRicevuti} Restituisce l'insieme di tutti i Feedback ricevuti da un utente
     \begin{enumerate}
         \item feedbackRicevuti$($u: Utente$)$: Feedback 0..*
         \item precondizioni: nessuna
         \item postcondizioni: nessuna
-        \item return $\{$ f $|$ $\forall$ p f\_p$($f,p$)$ $\land$ p\_ut$($p,u$)$ $\}$
+        \item return \hyperref[sec:feedbackRicevutiConValoreMassimo]{feedbackRicevutiConValoreMassimo}$($u,5$)$
     \end{enumerate}
-    \item Restituisce l'insieme di tutti i Feedback negativi (con voto $\leq$ 2) ricevuti da un utente
+    \newpage
+    \item\label{sec:feedbackNegativiRicevuti} Restituisce l'insieme di tutti i Feedback negativi (con voto $\leq$ 2) ricevuti da un utente
     \begin{enumerate}
         \item feedbackNegativiRicevuti$($u: Utente$)$: Feedback 0..*
         \item precondizioni: nessuna
         \item postcondizioni: nessuna
-        \item return $\{$ f $|$ $\forall$ p,v f\_p$($f,p$)$ $\land$ p\_ut$($p,u$)$ $\land$ voto$($f,v$)$ $\land$ v $\leq$ 2 $\}$
+        \item return \hyperref[sec:feedbackRicevutiConValoreMassimo]{feedbackRicevutiConValoreMassimo}$($u,2$)$
+    \end{enumerate}
+    \newpage
+    \item\label{sec:feedbackRicevutiConValoreMassimo} Restituisce l'insieme di tutti i Feedback ricevuti da un utente con un valore massimo
+    \begin{enumerate}
+        \item feedbackRicevutiConValoreMassimo$($u: Utente, massimo: Valutazione$)$: Feedback 0..*
+        \item precondizioni: nessuna
+        \item postcondizioni: nessuna
+        \item return $\{$ f $|$ $\forall$ p,v f\_p$($f,p$)$ $\land$ p\_ut$($p,u$)$ $\land$ voto$($f,v$)$ $\land$ v $\leq$ massimo $\}$
     \end{enumerate}
 \end{enumerate}
 
