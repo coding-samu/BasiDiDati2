@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage[left=1.5cm, right=1.5cm]{geometry}
@@ -12,8 +13,8 @@
 
 \makeatletter
 \renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
-                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
-                                     {1.5ex \@plus .2ex}%
+                                     {-3.25ex\@plus-1ex \@minus-.2ex}%
+                                     {1.5ex \@plus.2ex}%
                                      {\normalfont\normalsize\bfseries}}
 \makeatother
 
@@ -57,7 +58,23 @@
     \item\label{sec:TipoMesiGaranzia}MesiGaranzia$: $ Intero $\geq$ 0
     \item\label{sec:TipoCondizioniUsato}CondizioniUsato$: $ \{Ottimo, Buono, Discreto, Da Sistemare\}
     \item\label{sec:TipoDenaro}Denaro$: $ Reale $>$ 0
-    \item\label{sec:Valutazione}Valutazione$: $ Intero in [0,5]
+    \item\label{sec:TipoValutazione}Valutazione$: $ Intero in [0,5]
+    \item\label{sec:TipoMediaValutazione}MediaValutazione$: $ Reale in [0,5]
+    \item\label{sec:TipoPercentualeFeedbackNegativi}PercentualeFeedbackNegativi$: $ Reale in [0,1]
+\end{enumerate}
+
+\newpage
+\section{\label{sec:SpecificaAssociazioni}Specifica delle associazioni}
+\begin{enumerate}
+    \item $\forall$ p,u p\_ut$($p,u$)$ $\rightarrow$ Post$($p$)$ $\land$ Utente$($u$)$
+    \item $\forall$ mp,p mp\_post$($mp,p$)$ $\rightarrow$ Metodo\_pagamento$($mp$)$ $\land$ Post$($p$)$
+    \item $\forall$ c,p c\_p$($c,p$)$ $\rightarrow$ Categoria$($c$)$ $\land$ Post$($p$)$
+    \item $\forall$ c',c'' superSottoCat$($c',c''$)$ $\rightarrow$ Categoria$($c'$)$ $\land$ Categoria$($c''$)$ $\land$ c' $\neq$ c''
+    \item $\forall$ f,p f\_p$($f,p$)$ $\rightarrow$ Feedback$($f$)$ $\land$ Post$($p$)$
+    \item $\forall$ f,up f\_up$($f,up$)$ $\rightarrow$ Feedback$($f$)$ $\land$ Utente\_privato$($up$)$
+    \item $\forall$ b,pa bid\_pa$($b,pa$)$ $\rightarrow$ Bid$($b$)$ $\land$ Post\_asta$($pa$)$
+    \item $\forall$ b,up bid\_up$($b,up$)$ $\rightarrow$ Bid$($b$)$ $\land$ Utente\_privato$($up$)$
+    \item $\forall$ pcs,up pcs\_up$($pcs,up$)$ $\rightarrow$ Post\_CS$($pcs$)$ $\land$ Utente\_privato$($up$)$
 \end{enumerate}
 
 \newpage
@@ -66,13 +83,27 @@
 \subsection{\label{sec:OperazioniUtente}Operazioni di Utente}
 
 \begin{enumerate}
-    \item\label{sec:OperazioniUtenteAffidabilita}affidabilita$()$: Da definire
+    \item\label{sec:OperazioniUtenteAffidabilita}affidabilita$()$: ValAffidabilita
+    \item precondizioni: $\exists$ p,f f\_p$($f,p$)$ $\land$ p\_ut$($p,this$)$
+    \item postcondizioni: nessuna
+    \item return: $\frac{mediaFeedback(this) * (1 - percentualeFeedbackNegativi(this))}{5}$
 \end{enumerate}
 
 \subsection{\label{sec:OperazioniVendProf}Operazioni di Vend\_prof}
 
 \begin{enumerate}
-    \item\label{sec:OperazioniVendProfPopolarita}popolarita$()$: Da definire
+    \item\label{sec:OperazioniVendProfPopolarita}popolarita$()$: ValVendProf
+    \item precondizioni: nessuna
+    \item postcondizioni: nessuna
+    \item return:
+    \begin{enumerate}
+        \item x = conta\_n\_bid\_ricevuti$($this$)$ + conta\_n\_acquisti\_ricevuti$($this$)$
+        \begin{enumerate}
+            \item return Bassa se x $<$ 50
+            \item return Media se 50 $\leq$ x $\leq$ 300
+            \item return Alta se x $>$ 300
+        \end{enumerate}
+    \end{enumerate}
 \end{enumerate}
 
 \subsection{\label{sec:OperazioniPostAsta}Operazioni di Post\_asta}
@@ -124,6 +155,7 @@
     \end{enumerate}
 \end{enumerate}
 
+\newpage
 \section{\label{sec:SpecificaVincoli}Specifica dei vincoli}
 
 \begin{enumerate}
@@ -154,19 +186,287 @@
     \end{enumerate}
 \end{enumerate}
 
+\newpage
 \section{\label{sec:SpecificaOperazioni}Specifica delle operazioni}
 
 \begin{enumerate}
     \item Un utente privato deve poter effettuare un bid su un post Asta
+    \begin{enumerate}
+        \item effettuaBid$($up: Utente\_privato, pa: Post\_asta$)$: Bid
+        \item precondizioni: sia sc tale che istante\_scad$($pa, sc$)$ allora deve essere che sc $>$ istante\_corrente
+        \item postcondizioni: 
+        \begin{enumerate}
+            \item viene creata una nuova istanza b di bid
+            \item Bid$($b$)$
+            \item istante$($b, istante\_corrente$)$
+        \end{enumerate}
+        \item vengono create le seguenti associazioni:
+        \begin{enumerate}
+            \item bid\_up$($b, up$)$
+            \item bid\_pa$($b, pa$)$
+        \end{enumerate}
+        \item return b
+    \end{enumerate}
     \item Un utente privato deve poter effettuare un acquisto di un post Compralo Subito
+    \begin{enumerate}
+        \item effettuaAcquisto$($up: Utente\_privato, pcs: Post\_CS$)$
+        \item precondizioni: $\forall$ up' $\neg$ pcs\_up$($pcs, up'$)$
+        \item postcondizioni:
+        \begin{enumerate}
+            \item Viene creata la seguente nuova associazione:
+            \begin{enumerate}
+                \item pcs\_up$($pcs, up$)$
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
     \item Un utente deve poter pubblicare un post Asta per oggetti nuovi
+    \begin{enumerate}
+        \item pubblicaPostAstaNuovo$($u: Utente, c: Categoria, titolo: StringS, descrizione: StringL, prezzoIniziale: Denaro, rialzo: Denaro, istanteScadenza: DataOra, mesiGaranzia: MesiGaranziaNuovo$)$: Post\_asta
+        \item precondizioni: $\forall$ p,n p\_ut$($p,u$)$ $\land$ nome$($p,n$)$ $\rightarrow$ n $\neq$ titolo
+        \item postcondizioni:
+        \begin{enumerate}
+            \item Viene creata la seguente nuova istanza p di Post
+            \begin{enumerate}
+                \item Post$($p$)$
+                \item nome$($p,titolo$)$
+                \item descrizione$($p,descrizione$)$
+                \item garanziaMesi$($p,mesiGaranzia$)$
+            \end{enumerate}
+            \item Viene creata la seguente nuova istanza di Post\_asta in relazione IS-A con p
+            \begin{enumerate}
+                \item Post\_asta$($p$)$
+                \item prezzo\_iniziale$($p,prezzoIniziale$)$
+                \item rialzo$($p,rialzo$)$
+                \item istante\_scad$($p,istanteScadenza$)$
+            \end{enumerate}
+            \item return p
+        \end{enumerate}
+    \end{enumerate}
     \item Un utente deve poter pubblicare un post Asta per oggetti usati
+    \begin{enumerate}
+        \item pubblicaPostAstaUsato$($u: Utente, c: Categoria, titolo: StringS, descrizione: StringL,\newline prezzoIniziale: Denaro, rialzo: Denaro, istanteScadenza: DataOra, mesiGaranzia: MesiGaranzia, condizioni: CondizioniUsato$)$: Post\_asta
+        \item precondizioni: $\forall$ p,n p\_ut$($p,u$)$ $\land$ nome$($p,n$)$ $\rightarrow$ n $\neq$ titolo
+        \item postcondizioni:
+        \begin{enumerate}
+            \item Viene creata la seguente nuova istanza p di Post
+            \begin{enumerate}
+                \item Post$($p$)$
+                \item nome$($p,titolo$)$
+                \item descrizione$($p,descrizione$)$
+                \item garanziaMesi$($p,mesiGaranzia$)$
+            \end{enumerate}
+            \item Viene creata la seguente nuova istanza di Post\_asta in relazione IS-A con p
+            \begin{enumerate}
+                \item Post\_asta$($p$)$
+                \item prezzo\_iniziale$($p,prezzoIniziale$)$
+                \item rialzo$($p,rialzo$)$
+                \item istante\_scad$($p,istanteScadenza$)$
+            \end{enumerate}
+            \item Viene creata la seguente nuova istanza di Post\_usato in relazione IS-A con p
+            \begin{enumerate}
+                \item Post\_usato$($p$)$
+                \item condizioni$($p,condizioni$)$
+            \end{enumerate}
+            \item return p
+        \end{enumerate}
+    \end{enumerate}
     \item Un utente deve poter pubblicare un post Compralo Subito per oggetti nuovi
+    \begin{enumerate}
+        \item pubblicaPostCSNuovo$($u: Utente, c: Categoria, titolo: StringS, descrizione: StringL, prezzo: Denaro, mesiGaranzia: MesiGaranziaNuovo$)$: Post\_CS
+        \item precondizioni: $\forall$ p,n p\_ut$($p,u$)$ $\land$ nome$($p,n$)$ $\rightarrow$ n $\neq$ titolo
+        \item postcondizioni:
+        \begin{enumerate}
+            \item Viene creata la seguente nuova istanza p di Post
+            \begin{enumerate}
+                \item Post$($p$)$
+                \item nome$($p,titolo$)$
+                \item descrizione$($p,descrizione$)$
+                \item garanziaMesi$($p,mesiGaranzia$)$
+            \end{enumerate}
+            \item Viene creata la seguente nuova istanza di Post\_CS in relazione IS-A con p
+            \begin{enumerate}
+                \item Post\_CS$($p$)$
+                \item prezzo$($p,prezzo$)$
+            \end{enumerate}
+            \item return p
+        \end{enumerate}
+    \end{enumerate}
     \item Un utente deve poter pubblicare un post Compralo Subito per oggetti usati
+    \begin{enumerate}
+        \item pubblicaPostCSUsato$($u: Utente, c: Categoria, titolo: StringS, descrizione: StringL,\newline prezzo: Denaro, mesiGaranzia: MesiGaranzia, condizioni: CondizioniUsato$)$: Post\_CS
+        \item precondizioni: $\forall$ p,n p\_ut$($p,u$)$ $\land$ nome$($p,n$)$ $\rightarrow$ n $\neq$ titolo
+        \item postcondizioni:
+        \begin{enumerate}
+            \item Viene creata la seguente nuova istanza p di Post
+            \begin{enumerate}
+                \item Post$($p$)$
+                \item nome$($p,titolo$)$
+                \item descrizione$($p,descrizione$)$
+                \item garanziaMesi$($p,mesiGaranzia$)$
+            \end{enumerate}
+            \item Viene creata la seguente nuova istanza di Post\_CS in relazione IS-A con p
+            \begin{enumerate}
+                \item Post\_CS$($p$)$
+                \item prezzo$($p,prezzo$)$
+            \end{enumerate}
+            \item Viene creata la seguente nuova istanza di Post\_usato in relazione IS-A con p
+            \begin{enumerate}
+                \item Post\_usato$($p$)$
+                \item condizioni$($p,condizioni$)$
+            \end{enumerate}
+            \item return p
+        \end{enumerate}
+    \end{enumerate}
     \item Data una determinata categoria, restituire l'insieme delle sue sottocategorie
-    \item Un utente privato deve poter lasciare un feedback su un post Compralo Subito
-    \item Un utente privato deve poter lasciare un feedback su un post Asta del quale risulta bidder aggiudicatario
+    \begin{enumerate}
+        \item sottocategorie$($c: Categoria$)$: Categoria 0..*
+        \item precondizioni: nessuna
+        \item postcondizioni: nessuna
+        \item return:
+        \begin{enumerate}
+            \item C = \{c' $|$ superSottoCat$($c,c'$)$\}
+            \item R = {}
+            \item Per ogni c' in C
+            \begin{enumerate}
+                \item R = R $\cup$ sottocategorie$($c'$)$
+            \end{enumerate}
+            \item return C $\cup$ R
+        \end{enumerate}
+    \end{enumerate}
+    \item Un utente privato deve poter lasciare un feedback su un post Compralo Subito con commento testuale
+    \begin{enumerate}
+        \item lasciaFeedbackCSConCommento$($up: Utente\_privato, pcs: Post\_CS, valutazione: Valutazione, testo: StringL$)$: Feedback
+        \item precondizioni: pcs\_up$($pcs,up$)$
+        \item postcondizioni:
+        \begin{enumerate}
+            \item Viene creata la seguente nuova istanza f di Feedback
+            \begin{enumerate}
+                \item Feedback$($f$)$
+                \item voto$($f,valutazione$)$
+                \item commento$($f,testo$)$
+            \end{enumerate}
+            \item Vengono create le seguenti nuove associazioni:
+            \begin{enumerate}
+                \item f\_p$($f,pa$)$
+                \item f\_up$($f,up$)$
+            \end{enumerate}
+        \end{enumerate}
+        \item return f
+    \end{enumerate}
+    \item Un utente privato deve poter lasciare un feedback su un post Compralo Subito senza commento testuale
+    \begin{enumerate}
+        \item lasciaFeedbackCSSenzaCommento$($up: Utente\_privato, pcs: Post\_CS, valutazione: Valutazione$)$: Feedback
+        \item precondizioni: pcs\_up$($pcs,up$)$
+        \item postcondizioni:
+        \begin{enumerate}
+            \item Viene creata la seguente nuova istanza f di Feedback
+            \begin{enumerate}
+                \item Feedback$($f$)$
+                \item voto$($f,valutazione$)$
+            \end{enumerate}
+            \item Vengono create le seguenti nuove associazioni:
+            \begin{enumerate}
+                \item f\_p$($f,pa$)$
+                \item f\_up$($f,up$)$
+            \end{enumerate}
+        \end{enumerate}
+        \item return f
+    \end{enumerate}
+    \item Un utente privato deve poter lasciare un feedback su un post Asta del quale risulta bidder aggiudicatario con commento testuale
+    \begin{enumerate}
+        \item lasciaFeedbackAstaConCommento$($up: Utente\_privato, pa: Post\_asta, valutazione: Valutazione,\newline testo: StringL$)$: Feedback
+        \item precondizioni: aggiudicante$()$ = up
+        \item postcondizioni:
+        \begin{enumerate}
+            \item Viene creata la seguente nuova istanza f di Feedback
+            \begin{enumerate}
+                \item Feedback$($f$)$
+                \item voto$($f,valutazione$)$
+                \item commento$($f,testo$)$
+            \end{enumerate}
+            \item Vengono create le seguenti nuove associazioni:
+            \begin{enumerate}
+                \item f\_p$($f,pa$)$
+                \item f\_up$($f,up$)$
+            \end{enumerate}
+        \end{enumerate}
+        \item return f
+    \end{enumerate}
+    \item Un utente privato deve poter lasciare un feedback su un post Asta del quale risulta bidder aggiudicatario senza commento testuale
+    \begin{enumerate}
+        \item lasciaFeedbackAstaSenzaCommento$($up: Utente\_privato, pa: Post\_asta, valutazione: Valutazione$)$: Feedback
+        \item precondizioni: aggiudicante$()$ = up
+        \item postcondizioni:
+        \begin{enumerate}
+            \item Viene creata la seguente nuova istanza f di Feedback
+            \begin{enumerate}
+                \item Feedback$($f$)$
+                \item voto$($f,valutazione$)$
+            \end{enumerate}
+            \item Vengono create le seguenti nuove associazioni:
+            \begin{enumerate}
+                \item f\_p$($f,pa$)$
+                \item f\_up$($f,up$)$
+            \end{enumerate}
+        \end{enumerate}
+        \item return f
+    \end{enumerate}
+    \item Conta il numero di bid ricevuti da un Utente
+    \begin{enumerate}
+        \item conta\_n\_bid\_ricevuti$($u: Utente$)$: InteroGEZ
+        \item precondizioni: nessuna
+        \item postcondizioni: nessuna
+        \item return:
+        \begin{enumerate}
+            \item B = $\{$ b $|$ $\forall$ pa b\_pa$($b,pa$)$ $\land$ p\_ut$($pa,u$)$ $\}$
+            \item return $|$B$|$
+        \end{enumerate}
+    \end{enumerate}
+    \item Conta il numero di acquisti ricevuti da un Utente
+    \begin{enumerate}
+        \item conta\_n\_acquisti\_ricevuti$($u: Utente$)$: InteroGEZ
+        \item precondizioni: nessuna
+        \item postcondizioni: nessuna
+        \item return:
+        \begin{enumerate}
+            \item A = $\{$ p $|$ $\forall$ p,up pcs\_up$($p,up$)$ $\land$ p\_ut$($p,u$)$ $\}$
+            \item return $|$A$|$
+        \end{enumerate}
+    \end{enumerate}
+    \item Calcola la media dei Feedback ricevuti da un Utente
+    \begin{enumerate}
+        \item mediaFeedback$($u: Utente$)$: MediaValutazione
+        \item precondizioni: $\exists$ f,p f\_p$($f,p$)$ $\land$ p\_ut$($p,u$)$
+        \item postcondizioni: nessuna
+        \item return:
+        \begin{enumerate}
+            \item F = feedbackRicevuti$($u$)$
+            \item Sia v la somma dei voti di tutti i feedback in F
+            \item v = $\sum_{f \in F} v | voto(f,v)$
+            \item return $\frac{v}{|F|}$
+        \end{enumerate}
+    \end{enumerate}
+    \item Calcola la percentuale di Feedback negativi ricevuti da un Utente
+    \begin{enumerate}
+        \item percentualeFeedbackNegativi$($u: Utente$)$: PercentualeFeedbackNegativi
+        \item precondizioni: nessuna
+        \item postcondizioni: nessuna
+        \item return: $\frac{100*feedbackNegativiRicevuti(u)}{feedbackRicevuti(u)}$
+    \end{enumerate}
+    \item Restituisce l'insieme di tutti i Feedback ricevuti da un utente
+    \begin{enumerate}
+        \item feedbackRicevuti$($u: Utente$)$: Feedback 0..*
+        \item precondizioni: nessuna
+        \item postcondizioni: nessuna
+        \item return $\{$ f $|$ $\forall$ p f\_p$($f,p$)$ $\land$ p\_ut$($p,u$)$ $\}$
+    \end{enumerate}
+    \item Restituisce l'insieme di tutti i Feedback negativi (con voto $\leq$ 2) ricevuti da un utente
+    \begin{enumerate}
+        \item feedbackNegativiRicevuti$($u: Utente$)$: Feedback 0..*
+        \item precondizioni: nessuna
+        \item postcondizioni: nessuna
+        \item return $\{$ f $|$ $\forall$ p,v f\_p$($f,p$)$ $\land$ p\_ut$($p,u$)$ $\land$ voto$($f,v$)$ $\land$ v $\leq$ 2 $\}$
+    \end{enumerate}
 \end{enumerate}
-
 
 \end{document}
