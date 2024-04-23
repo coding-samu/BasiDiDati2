@@ -128,7 +128,7 @@
 \begin{enumerate}
     \item Istante del bid $<$ Istante scadenza per quel Post asta
     \begin{enumerate}
-        \item ALL b, i, sc, pa bid\_pa$($b,pa$)$ $\land$ istante$($b,i$)$ $\land$ istante\_scad$($b,sc$)$ $\rightarrow$ i $<$ sc
+        \item ALL b, i, sc, pa bid\_pa$($b,pa$)$ $\land$ istante$($b,i$)$ $\land$ istante\_scad$($pa,sc$)$ $\rightarrow$ i $<$ sc
     \end{enumerate}
 \end{enumerate}
 
@@ -136,6 +136,20 @@
     \item Istante del bid $\geq$ Data di registrazione dell'utente
     \begin{enumerate}
         \item ALL b, i, up, d bid\_up$($b,up$)$ $\land$ istante$($b,i$)$ $\land$ data\_reg$($up,d$)$ $\rightarrow$ i $\geq$ d
+    \end{enumerate}
+\end{enumerate}
+
+\begin{enumerate}
+    \item Il Feedback per un post Compralo Subito è dell'utente che ha effettuato l'acquisto
+    \begin{enumerate}
+        \item ALL f, up, pcs f\_up$($f,up$)$ $\land$ f\_p$($pcs$)$ $\land$ Post\_CS$($pcs$)$ $\rightarrow$ pcs\_up$($pcs,up$)$
+    \end{enumerate}
+\end{enumerate}
+
+\begin{enumerate}
+    \item Il Feedback per un post Asta è dell'utente che ha vinto l'asta
+    \begin{enumerate}
+        \item ALL f, up, pa f\_up$($f,up$)$ $\land$ f\_p$($pa$)$ $\land$ Post\_asta$($pa$)$ $\rightarrow$ aggiudicante$()$ = up
     \end{enumerate}
 \end{enumerate}
 
