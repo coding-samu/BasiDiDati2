@@ -69,7 +69,7 @@
     \item $\forall$ p,u p\_ut$($p,u$)$ $\rightarrow$ Post$($p$)$ $\land$ Utente$($u$)$
     \item $\forall$ mp,p mp\_post$($mp,p$)$ $\rightarrow$ Metodo\_pagamento$($mp$)$ $\land$ Post$($p$)$
     \item $\forall$ c,p c\_p$($c,p$)$ $\rightarrow$ Categoria$($c$)$ $\land$ Post$($p$)$
-    \item $\forall$ c',c'' superSottoCat$($c',c''$)$ $\rightarrow$ Categoria$($c'$)$ $\land$ Categoria$($c''$)$ $\land$ c' $\neq$ c''
+    \item $\forall$ c',c'' superSottoCat$($c',c''$)$ $\rightarrow$ Categoria$($c'$)$ $\land$ Categoria$($c''$)$
     \item $\forall$ f,p f\_p$($f,p$)$ $\rightarrow$ Feedback$($f$)$ $\land$ Post$($p$)$
     \item $\forall$ f,up f\_up$($f,up$)$ $\rightarrow$ Feedback$($f$)$ $\land$ Utente\_privato$($up$)$
     \item $\forall$ b,pa bid\_pa$($b,pa$)$ $\rightarrow$ Bid$($b$)$ $\land$ Post\_asta$($pa$)$
@@ -155,6 +155,24 @@
     \end{enumerate}
 \end{enumerate}
 
+\subsection{\label{sec:OperazioniCategoria}Operazioni di Categoria}
+\subsection*{getLivello$()$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}}
+\begin{enumerate}
+    \item getLivello$()$: InteroGEZ
+    \item precondizioni:
+    \begin{enumerate}
+        \item nessuna
+    \end{enumerate}
+    \item postcondizioni:
+    \begin{enumerate}
+        \item no side effect
+    \end{enumerate}
+    \item return:
+    \begin{enumerate}
+        \item Il livello al quale appartiene questa categoria (la radice è 0) [DA IMPLEMENTARE]
+    \end{enumerate}
+\end{enumerate}
+
 \newpage
 \section{\label{sec:SpecificaVincoli}Specifica dei vincoli}
 
@@ -183,6 +201,27 @@
     \item Il Feedback per un post Asta è dell'utente che ha vinto l'asta
     \begin{enumerate}
         \item ALL f, up, pa f\_up$($f,up$)$ $\land$ f\_p$($pa$)$ $\land$ Post\_asta$($pa$)$ $\rightarrow$ aggiudicante$()$ = up
+    \end{enumerate}
+\end{enumerate}
+
+\begin{enumerate}
+    \item Date due categorie c' e c'', se c' è supercategoria di c'' allora il livello di c' è minore di quello di c''
+    \begin{enumerate}
+        \item ALL c', c'' superSottoCat$($c',c''$)$ $\rightarrow$ getLivello$()($c'$)$ $<$ getLivello$()($c''$)$
+    \end{enumerate}
+\end{enumerate}
+
+\begin{enumerate}
+    \item Una categoria non può essere sottocategoria o supercategoria di se stessa
+    \begin{enumerate}
+        \item ALL c',c'' superSottoCat$($c',c''$)$ $\rightarrow$ c' $\neq$ c''
+    \end{enumerate}
+\end{enumerate}
+
+\begin{enumerate}
+    \item Una categoria può avere al massimo una supercategoria
+    \begin{enumerate}
+        \item ALL c, c', c'' superSottoCat$($c',c$)$ $\land$ superSottoCat$($c'',c$)$ $\rightarrow$ c' = c''
     \end{enumerate}
 \end{enumerate}
 
