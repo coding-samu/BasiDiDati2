@@ -61,6 +61,7 @@
     \item\label{sec:TipoValutazione}Valutazione$: $ Intero in [0,5]
     \item\label{sec:TipoMediaValutazione}MediaValutazione$: $ Reale in [0,5]
     \item\label{sec:TipoPercentualeFeedbackNegativi}PercentualeFeedbackNegativi$: $ Reale in [0,1]
+    \item\label{sec:TipoValuta}Valuta$: $ Stringa secondo standard ISO 4217
 \end{enumerate}
 
 \newpage
@@ -70,11 +71,10 @@
     \item $\forall$ mp,p mp\_post$($mp,p$)$ $\rightarrow$ Metodo\_pagamento$($mp$)$ $\land$ Post$($p$)$
     \item $\forall$ c,p c\_p$($c,p$)$ $\rightarrow$ Categoria$($c$)$ $\land$ Post$($p$)$
     \item $\forall$ c',c'' superSottoCat$($c',c''$)$ $\rightarrow$ Categoria$($c'$)$ $\land$ Categoria$($c''$)$
-    \item $\forall$ f,p f\_p$($f,p$)$ $\rightarrow$ Feedback$($f$)$ $\land$ Post$($p$)$
-    \item $\forall$ f,up f\_up$($f,up$)$ $\rightarrow$ Feedback$($f$)$ $\land$ Utente\_privato$($up$)$
     \item $\forall$ b,pa bid\_pa$($b,pa$)$ $\rightarrow$ Bid$($b$)$ $\land$ Post\_asta$($pa$)$
     \item $\forall$ b,up bid\_up$($b,up$)$ $\rightarrow$ Bid$($b$)$ $\land$ Utente\_privato$($up$)$
     \item $\forall$ pcs,up pcs\_up$($pcs,up$)$ $\rightarrow$ Post\_CS$($pcs$)$ $\land$ Utente\_privato$($up$)$
+    \item $\forall$ p,v post\_valuta$($p,v$)$ $\rightarrow$ Post$($p$)$ $\land$ Valuta$($v$)$
 \end{enumerate}
 
 \newpage
@@ -134,12 +134,12 @@
     \item Ritorna l'ultimo bid effettuato (ordinato per l'attributo istante) su questo Post\_asta
 \end{enumerate}
 
-\subsection*{prezzo$()$: \hyperref[sec:TipoDenaro]{Denaro}}
+\subsection*{prezzoVendita$()$: \hyperref[sec:TipoDenaro]{Denaro}}
 \begin{enumerate}
-    \item\label{sec:OperazioniPostAstaPrezzo}prezzo$()$: \hyperref[sec:TipoDenaro]{Denaro}
+    \item\label{sec:OperazioniPostAstaPrezzoVendita}prezzoVendita$()$: \hyperref[sec:TipoDenaro]{Denaro}
     \item precondizioni:
     \begin{enumerate}
-        \item nessuna
+        \item Utente\_privato$($this.aggiudicante$())$
     \end{enumerate}
     \item postcondizioni:
     \begin{enumerate}
@@ -153,6 +153,40 @@
         \item prezzo = p + r * $|$B$|$
         \item return prezzo
     \end{enumerate}
+\end{enumerate}
+
+\subsection{\label{sec:OperazioniPostCS}Operazioni di Post\_CS}
+
+\subsection*{prezzoVendita$()$: \hyperref[sec:TipoDenaro]{Denaro}}
+\begin{enumerate}
+    \item\label{sec:OperazioniPostCSPrezzoVendita}prezzoVendita$()$: \hyperref[sec:TipoDenaro]{Denaro}
+    \item precondizioni:
+    \begin{enumerate}
+        \item Utente\_privato$($this.aggiudicante$())$
+    \end{enumerate}
+    \item postcondizioni:
+    \begin{enumerate}
+        \item no side effect
+    \end{enumerate}
+    \item return:
+    \begin{enumerate}
+        \item Sia p tale che prezzo\_iniziale$($this,p$)$
+        \item return p
+    \end{enumerate}
+\end{enumerate}
+
+\subsection*{aggiudicante$()$: Utente\_privato}
+\begin{enumerate}
+    \item\label{sec:OperazioniPostCSAggiudicante}aggiudicante$()$: Utente\_privato
+    \item precondizioni:
+    \begin{enumerate}
+        \item $\exists$ up pcs\_up$($this,up$)$
+    \end{enumerate}
+    \item postcondizioni:
+    \begin{enumerate}
+        \item no side effect
+    \end{enumerate}
+    \item return up
 \end{enumerate}
 
 \subsection{\label{sec:OperazioniCategoria}Operazioni di Categoria}
@@ -173,56 +207,68 @@
     \end{enumerate}
 \end{enumerate}
 
+\subsection{\label{sec:OperazioniBid}Operazioni di Bid}
+
+\subsection*{prezzoOfferto$()$: \hyperref[sec:TipoDenaro]{Denaro}}
+\begin{enumerate}
+    \item\label{sec:OperazioniBidPrezzoOfferto}prezzoOfferto$()$: \hyperref[sec:TipoDenaro]{Denaro}
+    \item precondizioni:
+    \begin{enumerate}
+        \item nessuna
+    \end{enumerate}
+    \item postcondizioni:
+    \begin{enumerate}
+        \item no side effect
+    \end{enumerate}
+    \item return:
+    \begin{enumerate}
+        \item B = $\{$ b $|$ $\forall$ i',i'',pa bid\_pa$($b,pa$)$ $\land$ bid\_pa$($this,pa$)$ $\land$ istante$($b,i'$)$ $\land$ istante$($this,i''$)$ $\rightarrow$ i' $<$ i''$\}$
+        \item Sia p tale che prezzo\_iniziale$($this,p$)$,
+        \item Sia r tale che rialzo$($this,r$)$
+        \item prezzo = p + r * $|$B$|$
+        \item return prezzo
+    \end{enumerate}
+\end{enumerate}
+
 \newpage
 \section{\label{sec:SpecificaVincoli}Specifica dei vincoli}
-
 \begin{enumerate}
+    
     \item Istante del bid $<$ Istante scadenza per quel Post asta
     \begin{enumerate}
         \item ALL b, i, sc, pa bid\_pa$($b,pa$)$ $\land$ istante$($b,i$)$ $\land$ istante\_scad$($pa,sc$)$ $\rightarrow$ i $<$ sc
     \end{enumerate}
-\end{enumerate}
 
-\begin{enumerate}
     \item Istante del bid $\geq$ Data di registrazione dell'utente
     \begin{enumerate}
         \item ALL b, i, up, d bid\_up$($b,up$)$ $\land$ istante$($b,i$)$ $\land$ data\_reg$($up,d$)$ $\rightarrow$ i $\geq$ d
     \end{enumerate}
-\end{enumerate}
 
-\begin{enumerate}
-    \item Il Feedback per un post Compralo Subito è dell'utente che ha effettuato l'acquisto
-    \begin{enumerate}
-        \item ALL f, up, pcs f\_up$($f,up$)$ $\land$ f\_p$($pcs$)$ $\land$ Post\_CS$($pcs$)$ $\rightarrow$ pcs\_up$($pcs,up$)$
-    \end{enumerate}
-\end{enumerate}
-
-\begin{enumerate}
-    \item Il Feedback per un post Asta è dell'utente che ha vinto l'asta
-    \begin{enumerate}
-        \item ALL f, up, pa f\_up$($f,up$)$ $\land$ f\_p$($pa$)$ $\land$ Post\_asta$($pa$)$ $\rightarrow$ aggiudicante$()$ = up
-    \end{enumerate}
-\end{enumerate}
-
-\begin{enumerate}
     \item Date due categorie c' e c'', se c' è supercategoria di c'' allora il livello di c' è minore di quello di c''
     \begin{enumerate}
         \item ALL c', c'' superSottoCat$($c',c''$)$ $\rightarrow$ getLivello$()($c'$)$ $<$ getLivello$()($c''$)$
     \end{enumerate}
-\end{enumerate}
 
-\begin{enumerate}
     \item Una categoria non può essere sottocategoria o supercategoria di se stessa
     \begin{enumerate}
         \item ALL c',c'' superSottoCat$($c',c''$)$ $\rightarrow$ c' $\neq$ c''
     \end{enumerate}
-\end{enumerate}
 
-\begin{enumerate}
     \item Una categoria può avere al massimo una supercategoria
     \begin{enumerate}
         \item ALL c, c', c'' superSottoCat$($c',c$)$ $\land$ superSottoCat$($c'',c$)$ $\rightarrow$ c' = c''
     \end{enumerate}
+
+    \item La data di registrazione di un Utente non può essere successiva alla data corrente
+    \begin{enumerate}
+        \item ALL u, d data\_reg$($u,d$)$ $\rightarrow$ d $\leq$ istante\_corrente
+    \end{enumerate}
+
+    \item La data di registrazione di un Utente non può essere successiva alla data di registrazione di un suo Post
+    \begin{enumerate}
+        \item ALL u, p, d data\_reg$($u,d$)$ $\land$ p\_ut$($p,u$)$ $\land$ istante\_pubblicazione$($p,i$)$ $\rightarrow$ d $\leq$ i
+    \end{enumerate}
+
 \end{enumerate}
 
 \newpage
@@ -379,86 +425,20 @@
         \end{enumerate}
     \end{enumerate}
     \newpage
-    \item\label{sec:lasciaFeedbackCSConCommento} Un utente privato deve poter lasciare un feedback su un post Compralo Subito con commento testuale
+    \item\label{sec:lasciaFeedback} Un utente privato deve poter lasciare un feedback su un post con commento testuale opzionale
     \begin{enumerate}
-        \item lasciaFeedbackCSConCommento$($up: Utente\_privato, pcs: Post\_CS, valutazione: Valutazione, testo: StringL$)$: Feedback
-        \item precondizioni: pcs\_up$($pcs,up$)$
+        \item lasciaFeedback$($up: Utente\_privato, p: Post, valutazione: Valutazione, testo: StringL $(0..1)$ $)$: Post\_con\_feedback
+        \item precondizioni: up = p.aggiudicante$()$
         \item postcondizioni:
         \begin{enumerate}
-            \item Viene creata la seguente nuova istanza f di Feedback
+            \item Viene creata la seguente nuova istanza pcf di Post\_con\_feedback
             \begin{enumerate}
-                \item Feedback$($f$)$
-                \item voto$($f,valutazione$)$
-                \item commento$($f,testo$)$
-            \end{enumerate}
-            \item Vengono create le seguenti nuove associazioni:
-            \begin{enumerate}
-                \item f\_p$($f,pa$)$
-                \item f\_up$($f,up$)$
+                \item Post\_con\_feedback$($pcf$)$
+                \item voto$($pcf,valutazione$)$
+                \item commento$($pcf,testo$)$
             \end{enumerate}
         \end{enumerate}
-        \item return f
-    \end{enumerate}
-    \newpage
-    \item\label{sec:lasciaFeedbackCSSenzaCommento} Un utente privato deve poter lasciare un feedback su un post Compralo Subito senza commento testuale
-    \begin{enumerate}
-        \item lasciaFeedbackCSSenzaCommento$($up: Utente\_privato, pcs: Post\_CS, valutazione: Valutazione$)$: Feedback
-        \item precondizioni: pcs\_up$($pcs,up$)$
-        \item postcondizioni:
-        \begin{enumerate}
-            \item Viene creata la seguente nuova istanza f di Feedback
-            \begin{enumerate}
-                \item Feedback$($f$)$
-                \item voto$($f,valutazione$)$
-            \end{enumerate}
-            \item Vengono create le seguenti nuove associazioni:
-            \begin{enumerate}
-                \item f\_p$($f,pa$)$
-                \item f\_up$($f,up$)$
-            \end{enumerate}
-        \end{enumerate}
-        \item return f
-    \end{enumerate}
-    \newpage
-    \item\label{sec:lasciaFeedbackAstaConCommento} Un utente privato deve poter lasciare un feedback su un post Asta del quale risulta bidder aggiudicatario con commento testuale
-    \begin{enumerate}
-        \item lasciaFeedbackAstaConCommento$($up: Utente\_privato, pa: Post\_asta, valutazione: Valutazione,\newline testo: StringL$)$: Feedback
-        \item precondizioni: aggiudicante$()$ = up
-        \item postcondizioni:
-        \begin{enumerate}
-            \item Viene creata la seguente nuova istanza f di Feedback
-            \begin{enumerate}
-                \item Feedback$($f$)$
-                \item voto$($f,valutazione$)$
-                \item commento$($f,testo$)$
-            \end{enumerate}
-            \item Vengono create le seguenti nuove associazioni:
-            \begin{enumerate}
-                \item f\_p$($f,pa$)$
-                \item f\_up$($f,up$)$
-            \end{enumerate}
-        \end{enumerate}
-        \item return f
-    \end{enumerate}
-    \newpage
-    \item\label{sec:lasciaFeedbackAstaSenzaCommento} Un utente privato deve poter lasciare un feedback su un post Asta del quale risulta bidder aggiudicatario senza commento testuale
-    \begin{enumerate}
-        \item lasciaFeedbackAstaSenzaCommento$($up: Utente\_privato, pa: Post\_asta, valutazione: Valutazione$)$: Feedback
-        \item precondizioni: aggiudicante$()$ = up
-        \item postcondizioni:
-        \begin{enumerate}
-            \item Viene creata la seguente nuova istanza f di Feedback
-            \begin{enumerate}
-                \item Feedback$($f$)$
-                \item voto$($f,valutazione$)$
-            \end{enumerate}
-            \item Vengono create le seguenti nuove associazioni:
-            \begin{enumerate}
-                \item f\_p$($f,pa$)$
-                \item f\_up$($f,up$)$
-            \end{enumerate}
-        \end{enumerate}
-        \item return f
+        \item return pcf
     \end{enumerate}
     \newpage
     \item\label{sec:contaNumeroBidRicevuti} Conta il numero di bid ricevuti da un Utente
@@ -509,7 +489,7 @@
     \newpage
     \item\label{sec:feedbackRicevuti} Restituisce l'insieme di tutti i Feedback ricevuti da un utente
     \begin{enumerate}
-        \item feedbackRicevuti$($u: Utente$)$: Feedback 0..*
+        \item feedbackRicevuti$($u: Utente$)$: Post\_con\_feedback 0..*
         \item precondizioni: nessuna
         \item postcondizioni: nessuna
         \item return \hyperref[sec:feedbackRicevutiConValoreMassimo]{feedbackRicevutiConValoreMassimo}$($u,5$)$
@@ -517,7 +497,7 @@
     \newpage
     \item\label{sec:feedbackNegativiRicevuti} Restituisce l'insieme di tutti i Feedback negativi (con voto $\leq$ 2) ricevuti da un utente
     \begin{enumerate}
-        \item feedbackNegativiRicevuti$($u: Utente$)$: Feedback 0..*
+        \item feedbackNegativiRicevuti$($u: Utente$)$: Post\_con\_feedback 0..*
         \item precondizioni: nessuna
         \item postcondizioni: nessuna
         \item return \hyperref[sec:feedbackRicevutiConValoreMassimo]{feedbackRicevutiConValoreMassimo}$($u,2$)$
@@ -525,10 +505,10 @@
     \newpage
     \item\label{sec:feedbackRicevutiConValoreMassimo} Restituisce l'insieme di tutti i Feedback ricevuti da un utente con un valore massimo
     \begin{enumerate}
-        \item feedbackRicevutiConValoreMassimo$($u: Utente, massimo: Valutazione$)$: Feedback 0..*
+        \item feedbackRicevutiConValoreMassimo$($u: Utente, massimo: Valutazione$)$: Post\_con\_feedback 0..*
         \item precondizioni: nessuna
         \item postcondizioni: nessuna
-        \item return $\{$ f $|$ $\forall$ p,v f\_p$($f,p$)$ $\land$ p\_ut$($p,u$)$ $\land$ voto$($f,v$)$ $\land$ v $\leq$ massimo $\}$
+        \item return $\{$ pcf $|$ $\exists$ v Post\_con\_feedback$($pcf$)$ $\land$ p\_ut$($pcf,u$)$ $\land$ voto$($pcf,v$)$ $\land$ v $\leq$ massimo $\}$
     \end{enumerate}
 \end{enumerate}
 
