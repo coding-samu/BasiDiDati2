@@ -1,0 +1,174 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[left=1.5cm, right=1.5cm]{geometry}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus-1ex \@minus-.2ex}%
+                                     {1.5ex \@plus.2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\renewcommand{\contentsname}{Indice} % Change the title of the table of contents
+
+% chktex-file 44
+\title{TuTubi}
+\author{}
+\date{}
+
+\renewcommand{\labelenumi}{\arabic{enumi}.}
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}.}
+\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.}
+\renewcommand{\labelenumiv}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.\arabic{enumiv}.}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{\label{sec:Requisiti}Requisiti}
+\begin{enumerate}
+    \item\label{sec:RequisitiUtente} Utente
+    \begin{enumerate}
+        \item nome: \hyperref[sec:TipoStringS]{StringS}
+        \item dataIscrizione: DataOra
+        \item I \hyperref[sec:RequisitiVideo]{video} pubblicati dall'utente
+        \item Le \hyperref[sec:RequisitiValutazione]{valutazioni} che ha espresso
+        \item I \hyperref[sec:RequisitiCommento]{commenti} che ha pubblicato
+    \end{enumerate}
+    \item\label{sec:RequisitiVideo} Video
+    \begin{enumerate}
+        \item titolo: \hyperref[sec:TipoStringS]{StringS}
+        \item La durata (operazione)
+        \item descrizione: \hyperref[sec:TipoStringL]{StringL}
+        \item nomeFile: \hyperref[sec:TipoStringM]{StringM}
+        \item La \hyperref[sec:RequisitiCategoria]{categoria} (unica)
+        \item I \hyperref[sec:RequisitiTag]{tag} (almeno uno)
+        \item Se è un video in risposta a un altro video:
+        \begin{enumerate}
+            \item Il video a cui risponde
+            \item Non può essere in risposta a un video pubblicato dallo stesso utente (vincolo)
+        \end{enumerate}
+        \item Numero di visualizzazioni (operazione)
+        \item Media valutazioni (operazione)
+        \item Se è stato \hyperref[sec:RequisitiVideoCensurato]{censurato}
+        \item Numero di valutazioni (operazione)
+    \end{enumerate}
+    \item\label{sec:RequisitiCategoria} Categoria
+    \begin{enumerate}
+        \item nome: \hyperref[sec:TipoStringS]{StringS}
+    \end{enumerate}
+    \item\label{sec:RequisitiTag} Tag
+    \begin{enumerate}
+        \item nome: \hyperref[sec:TipoStringS]{StringS}
+    \end{enumerate}
+    \item\label{sec:RequisitiCronologia} Cronologia
+    \begin{enumerate}
+        \item L'\hyperref[sec:RequisitiUtente]{utente} che ha effettuato la visualizzazione
+        \item Il \hyperref[sec:RequisitiVideo]{video} visualizzato
+        \item dataVisualizzazione: DataOra
+    \end{enumerate}
+    \item\label{sec:RequisitiValutazione} Valutazione
+    \begin{enumerate}
+        \item voto: \hyperref[sec:TipoVoto]{Voto}
+        \item L'utente che ha pubblicato il video non può votarlo (vincolo)
+        \item Gli altri utenti possono votare un video al più una sola volta (vincolo)
+        \item Un utente può esprimere una valutazione solo su un video che ha visualizzato (vincolo)
+        \item L'\hyperref[sec:RequisitiUtente]{utente} che ha espresso la valutazione
+        \item Il \hyperref[sec:RequisitiVideo]{video} valutato
+    \end{enumerate}
+    \item\label{sec:RequisitiCommento} Commento
+    \begin{enumerate}
+        \item testo: \hyperref[sec:TipoStringL]{StringL}
+        \item dataPubblicazione: DataOra
+        \item Gli utenti possono esprimere più commenti sullo stesso video (vincolo)
+        \item Un utente può scrivere un commento solo su un video che ha visualizzato (vincolo)
+    \end{enumerate}
+    \item\label{sec:RequisitiPlaylist} Playlist
+    \begin{enumerate}
+        \item I \hyperref[sec:RequisitiVideo]{video} ordinati
+        \begin{enumerate}
+            \item DataOra di inserimento in playlist
+        \end{enumerate}
+        \item nome: \hyperref[sec:TipoStringS]{StringS}
+        \item dataCreazione: DataOra
+        \item stato: \hyperref[sec:TipoStatoPlaylist]{StatoPlaylist}
+    \end{enumerate}
+    \item\label{sec:RequisitiVideoCensurato} Video Censurato
+    \begin{enumerate}
+        \item La \hyperref[sec:RequisitiMotivazioneCensura]{motivazione} della censura
+        \item Non può essere visualizzato (vincolo)
+        \item Non può essere valutato (vincolo)
+        \item Non può essere commentato (vincolo)
+        \item Non può essere inserito in una \hyperref[sec:RequisitiPlaylist]{playlist} (vincolo)
+        \item Non può essere restituito come risultato di una ricerca (vincolo)
+        \item Una volta censurato non può più essere ripristinato (vincolo)
+        \item commentoAggiuntivo: \hyperref[sec:TipoStringL]{StringL}
+    \end{enumerate}
+    \item\label{sec:RequisitiMotivazioneCensura} MotivazioneCensura
+    \begin{enumerate}
+        \item nome: \hyperref[sec:TipoStringS]{StringS}
+        \item descrizione: \hyperref[sec:TipoStringL]{StringL}
+    \end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\section{\label{sec:TipoDiDato}Specifica dei tipi di dato}
+\begin{enumerate}
+    \item\label{sec:TipoInteroGZ} InteroGZ$: $Intero $>$ 0
+    \item\label{sec:TipoInteroGEZ} InteroGEZ$: $Intero $\geq$ 0
+    \item\label{sec:TipoStringS} StringS$: $Stringa di 75 caratteri
+    \item\label{sec:TipoStringM} StringM$: $Stringa di 600 caratteri
+    \item\label{sec:TipoStringL} StringL$: $Stringa di 4200 caratteri
+    \item\label{sec:TipoVoto} Voto$: $Intero tra 0 e 5
+    \item\label{sec:TipoRealeGEZ} RealeGEZ$: $Reale $\geq$ 0
+    \item\label{sec:TipoDurata} Durata$: $Durata in formato hh:mm:ss
+    \item\label{sec:TipoStatoPlaylist} StatoPlaylist$: $\{Pubblica, Privata\}
+\end{enumerate}
+
+\newpage
+
+\section{\label{sec:Operazioni}Specifica delle operazioni}
+
+\begin{enumerate}
+    \item\label{sec:OperazioniUtente} L'Utente deve poter:
+    \begin{enumerate}
+        \item pubblicare video
+        \item visualizzare video
+        \item esprimere valutazioni sui video
+        \item esprimere commenti testuali sui video
+        \item pubblicare playlist
+        \item ottenere le playlist pubbliche di un utente
+        \item iscriversi
+        \item data una categoria, un insieme di tag, la valutazione v tra 0 e 5, deve restituire tutti i video disponibili per quella categoria, con almeno uno dei tag specificati e una valutazione media >= v (se non ha valutazioni deve essere restituito lo stesso)
+        \item la ricerca data una categoria che hanno il numero maggiore di video in risposta
+    \end{enumerate}
+    \item\label{sec:OperazioniRedazione} La Redazione deve poter:
+    \begin{enumerate}
+        \item censurare video
+    \end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\section{\label{sec:DiagrammaDelleClassi}Diagramma delle classi}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../Diagrammi/diagramma delle classi.pdf}
+    \caption{Diagramma delle classi}
+\end{figure}
+
+\newpage
+
+\end{document}
