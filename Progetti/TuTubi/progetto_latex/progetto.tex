@@ -133,8 +133,25 @@
     \item\label{sec:TipoStringL} StringL$: $Stringa di 4200 caratteri
     \item\label{sec:TipoVoto} Voto$: $Intero tra 0 e 5
     \item\label{sec:TipoRealeGEZ} RealeGEZ$: $Reale $\geq$ 0
-    \item\label{sec:TipoDurata} Durata$: $Durata in formato hh:mm:ss
     \item\label{sec:TipoStatoPlaylist} StatoPlaylist$: $\{Pubblica, Privata\}
+    \item\label{sec:TipoVideo} Video$: $File video
+\end{enumerate}
+
+\newpage
+
+\section{\label{sec:Associazioni}Specifica delle associazioni}
+\begin{enumerate}
+    \item $\forall$ u,v utVid$($u,v$)$ $\rightarrow$ Utente$($u$)$ $\land$ Video$($v$)$
+    \item $\forall$ c,v cronVId$($c,v$)$ $\rightarrow$ Cronologia$($c$)$ $\land$ Video$($v$)$
+    \item $\forall$ u,v valutazione$($u,v$)$ $\rightarrow$ Utente$($u$)$ $\land$ Video$($v$)$
+    \item $\forall$ c,v comVid$($c,v$)$ $\rightarrow$ Commento$($c$)$ $\land$ Video$($v$)$
+    \item $\forall$ c,u comUt$($c,u$)$ $\rightarrow$ Commento$($c$)$ $\land$ Utente$($u$)$
+    \item $\forall$ p,v plVId$($p,v$)$ $\rightarrow$ Playlist$($p$)$ $\land$ Video$($v$)$
+    \item $\forall$ p,u plUt$($p,u$)$ $\rightarrow$ Playlist$($p$)$ $\land$ Utente$($u$)$
+    \item $\forall$ c,v catVid$($c,v$)$ $\rightarrow$ Categoria$($c$)$ $\land$ Video$($v$)$
+    \item $\forall$ t,v tagVid$($t,v$)$ $\rightarrow$ Tag$($t$)$ $\land$ Video$($v$)$
+    \item $\forall$ v',v'' vidInRispostaA$($v',v''$)$ $\rightarrow$ Video$($v'$)$ $\land$ Video$($v''$)$
+    \item $\forall$ v,m motCenVidCen$($m,v$)$ $\rightarrow$ MotivazioneCensura$($m$)$ $\land$ VideoCensurato$($v$)$
 \end{enumerate}
 
 \newpage
@@ -144,19 +161,185 @@
 \begin{enumerate}
     \item\label{sec:OperazioniUtente} L'Utente deve poter:
     \begin{enumerate}
-        \item pubblicare video
-        \item visualizzare video
-        \item esprimere valutazioni sui video
-        \item esprimere commenti testuali sui video
+        \item pubblicaVideo$($u: Utente, t: \hyperref[sec:TipoStringS]{StringS}, d: \hyperref[sec:TipoStringL]{StringL}, f: \hyperref[sec:TipoVideo]{Video}, cat: \hyperref[sec:TipoStringS]{StringS}, tag: \hyperref[sec:TipoStringS]{StringS}$)$
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item $\forall$ v utVid$($u,v$)$ $\rightarrow$ $\neg$ titolo$($v,t$)$
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item Viene creata una nuova istanza v di Video e viene associata all'utente u tale che:
+                \item Video$($v$)$ 
+                \item titolo$($v,t$)$
+                \item descrizione$($v,d$)$
+                \item file$($v,f$)$ 
+                \item catVid$($cat,v$)$ 
+                \item tagVid$($tag,v$)$
+                \item utVid$($u,v$)$
+            \end{enumerate}
+        \end{enumerate}
+        \item pubblicaVideoInRisposta$($u: Utente, t: \hyperref[sec:TipoStringS]{StringS}, d: \hyperref[sec:TipoStringL]{StringL}, f: \hyperref[sec:TipoVideo]{Video}, cat: \hyperref[sec:TipoStringS]{StringS}, tag: \hyperref[sec:TipoStringS]{StringS}, v': Video$)$
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item $\forall$ v utVid$($u,v$)$ $\rightarrow$ $\neg$ titolo$($v,t$)$
+                \item Sia u' l'utente che ha pubblicato v', allora u' $\neq$ u
+                \item $\neg$ VideoCensurato$($v'$)$
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item Viene pubblicato un nuovo video: pubblicaVideo$($u,t,d,f,cat,tag$)$
+                \item Viene creata una nuova associazione: vidInRispostaA$($v,v'$)$
+            \end{enumerate}
+        \end{enumerate}
+        \item visualizzaVideo$($u: Utente, v: Video$)$
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item $\neg$ VideoCensurato$($v$)$
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item Viene creata una nuova istanza c di Cronologia e viene associata all'utente u e al video v tale che:
+                \item Cronologia$($c$)$
+                \item dataVisualizzazione$($c,istanteCorrente$)$
+                \item cronVid$($c,v$)$
+                \item cronUt$($c,u$)$
+            \end{enumerate}
+        \end{enumerate}
+        \item valutaVideo$($u: Utente, v: Video, val: \hyperref[sec:TipoVoto]{Voto}$)$
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item Sia u' l'utente che ha pubblicato v, allora u' $\neq$ u
+                \item $\neg$ VideoCensurato$($v$)$
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item Viene creata una nuova istanza dell'associazione Valutazione associata all'utente u e al video v tale che:
+                \item Valutazione$($u,v$)$
+                \item voto$($u,v,val$)$
+                \item dataValutazione$($u,v,istanteCorrente$)$
+            \end{enumerate}
+        \end{enumerate}
+        \item pubblicaCommento$($u: Utente, v: Video, com: \hyperref[sec:TipoStringL]{StringL}$)$
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item $\neg$ VideoCensurato$($v$)$
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item Viene creata una nuova istanza c di Commento e viene associata all'utente u e al video v tale che:
+                \item Commento$($c$)$
+                \item testo$($c,com$)$
+                \item dataPubblicazione$($c,istanteCorrente$)$
+                \item comVid$($c,v$)$
+                \item comUt$($c,u$)$
+            \end{enumerate}
+        \end{enumerate}s
         \item pubblicare playlist
-        \item ottenere le playlist pubbliche di un utente
-        \item iscriversi
+        \item ottieniPlaylist$($u: Utente$)$: Playlist [0..*]
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item nessuna
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item No side effects
+            \end{enumerate}
+            \item return:
+            \begin{enumerate}
+                \item Sia P = \{p $|$ $\forall$ p,s plUt$($p,u$)$ $\land$ stato$($p,s$)$ $\rightarrow$ s = \"Pubblica\"\}
+                \item return P
+            \end{enumerate}
+        \end{enumerate}
+        \item iscrizioneUtente$($u: Utente, nome: \hyperref[sec:TipoStringS]{StringS}$)$
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item $\forall$ u' Utente$($u'$)$ $\rightarrow$ $\neg$ nome$($u',nome$)$
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item Viene creata una nuova istanza u di Utente tale che:
+                \item Utente$($u$)$
+                \item nome$($u,nome$)$
+                \item dataIscrizione$($u,istanteCorrente$)$
+            \end{enumerate}
+        \end{enumerate}
         \item data una categoria, un insieme di tag, la valutazione v tra 0 e 5, deve restituire tutti i video disponibili per quella categoria, con almeno uno dei tag specificati e una valutazione media >= v (se non ha valutazioni deve essere restituito lo stesso)
         \item la ricerca data una categoria che hanno il numero maggiore di video in risposta
+        
     \end{enumerate}
     \item\label{sec:OperazioniRedazione} La Redazione deve poter:
     \begin{enumerate}
         \item censurare video
+    \end{enumerate}
+    \item\label{sec:OperazioniSistema} Il Sistema deve poter:
+    \begin{enumerate}
+        \item ottieniVideoDaCategoria$($cat: \hyperref[sec:TipoStringS]{StringS}$)$: Video [0..*]
+        \item ottieniVideoDaTag$($tag: \hyperref[sec:TipoStringS]{StringS}$)$: Video [0..*]
+    \end{enumerate}
+    \item\label{sec:OperazioniVideo} Il Video deve poter:
+    \begin{enumerate}
+        \item durataSecondi$()$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
+        \item numeroVisualizzazioni$()$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
+        \item mediaValutazioni$()$: \hyperref[sec:TipoRealeGEZ]{RealeGEZ}
+        \item numeroValutazioni$()$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
+    \end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\section{\label{sec:Vincoli}Specifica dei Vincoli}
+
+\begin{enumerate}
+    \item V.Video:
+    \begin{enumerate}
+        \item V.Video.VideoInRisposta.AutoreRispostaDiversoDaAutoreVideo: 
+        \begin{enumerate}
+            \item $\forall$ v,v',u,u' vidInRispostaA$($v,v'$)$ $\land$ utVid$($u,v$)$ $\land$ utVid$($u',v'$)$ $\rightarrow$ u $\neq$ u'
+        \end{enumerate}
+        \item V.Video.VideoCensuratoNonVisualizzabile:
+        \begin{enumerate}
+            \item $\forall$ v,dc,dv,c VideoCensurato$($v$)$ $\land$ dataCensura$($v,dc$)$ $\land$ cronVid$($c,v$)$ $\land$ dataVisualizzazione$($c,dv$)$ $\rightarrow$ dv $<$ dc
+        \end{enumerate}
+        \item V.Video.VideoCensuratoNonValutabile:
+        \begin{enumerate}
+            \item $\forall$ v,dc,val,dv VideoCensurato$($v$)$ $\land$ dataCensura$($v,dc$)$ $\land$ valutazione$($val,v$)$ $\land$ dataValutazione$($val,dv$)$ $\rightarrow$ dv $<$ dc
+        \end{enumerate}
+        \item V.Video.VideoCensuratoNonCommentabile:
+        \begin{enumerate}
+            \item $\forall$ v,dc,com,dp VideoCensurato$($v$)$ $\land$ dataCensura$($v,dc$)$ $\land$ comVid$($com,v$)$ $\land$ dataPubblicazione$($com,dp$)$ $\rightarrow$ dp $<$ dc
+        \end{enumerate}
+    \end{enumerate}
+    \item V.Cronologia:
+    \begin{enumerate}
+        \item V.Cronologia.VideoVisualizzatoDopoCreazioneUtente
+        \begin{enumerate}
+            \item $\forall$ u,c,dv,di cronUt$($c,u$)$ $\land$ dataVisualizzazione$($c,di$)$ $\land$ dataIscrizione$($u,di$)$ $\rightarrow$ dv $\geq$ di
+        \end{enumerate}
+    \end{enumerate}
+    \item V.Valutazione:
+    \begin{enumerate}
+        \item V.Valutazione.VideoAutoreNonPuòValutareSeStesso:
+        \begin{enumerate}
+            \item $\forall$ u,v $\land$ valutazione$($u,v$)$ $\rightarrow$ $\neg$ utVid$($u,v$)$
+        \end{enumerate}
+        \item V.Valutazione.UtentePuòValutareSoloVideoCheHaVisualizzato:
+        \begin{enumerate}
+            \item $\forall$ u,v valutazione$($u,v$)$ $\rightarrow$ $\exists$ c cronVid$($c,v$)$ $\land$ cronUt$($c,u$)$
+        \end{enumerate}
+    \end{enumerate}
+    \item V.Commento:
+    \begin{enumerate}
+        \item V.Commento.UtentePuòCommentareSoloVideoCheHaVisualizzato:
+        \begin{enumerate}
+            \item $\forall$ u,com,v comVid$($com,v$)$ $\land$ comUt$($com,u$)$ $\rightarrow$ $\exists$ c cronVid$($c,v$)$ $\land$ cronUt$($c,u$)$
+        \end{enumerate}
     \end{enumerate}
 \end{enumerate}
 
