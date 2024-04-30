@@ -238,8 +238,8 @@
                 \item comVid$($c,v$)$
                 \item comUt$($c,u$)$
             \end{enumerate}
-        \end{enumerate}s
-        \item pubblicare playlist
+        \end{enumerate}
+        \item pubblicare playlist [TODO: completare]
         \item ottieniPlaylist$($u: Utente$)$: Playlist [0..*]
         \begin{enumerate}
             \item precondizioni:
@@ -270,25 +270,140 @@
                 \item dataIscrizione$($u,istanteCorrente$)$
             \end{enumerate}
         \end{enumerate}
-        \item data una categoria, un insieme di tag, la valutazione v tra 0 e 5, deve restituire tutti i video disponibili per quella categoria, con almeno uno dei tag specificati e una valutazione media >= v (se non ha valutazioni deve essere restituito lo stesso)
-        \item la ricerca data una categoria che hanno il numero maggiore di video in risposta
+        \item F.videoDaCatTagVal$($cat: \hyperref[sec:TipoStringS]{StringS}, tag: \hyperref[sec:TipoStringS]{StringS}, val: \hyperref[sec:TipoVoto]{Voto}$)$: Video [0..*]
+        \begin{enumerate}
+            \item precondizioni: nessuna
+            \item postcondizioni: nessuna
+            \item return:
+            \begin{enumerate}
+                \item Sia C = ottieniVideoDaCategoria$($cat$)$
+                \item Sia T = ottieniVideoDaTag$($tag$)$
+                \item CT = C $\cap$ T
+                \item Sia V = \{v $|$ v $\in$ CT $\land$ $($mediaValutazioni$($v$)$ $\geq$ val $\lor$ numeroValutazioni$($v$)$ = 0$)$\}
+                \item return V
+            \end{enumerate}
+        \end{enumerate}
+        \item F.videoConMaggiorNumeroVideoInRisposta$($c: Categoria$)$: Video [0..*] Ordinati in modo decrescente
+        \begin{enumerate}
+            \item precondizioni: nessuna
+            \item postcondizioni: nessuna
+            \item return:
+            \begin{enumerate}
+                \item V = ottieniVideoDaCategoria$($c$)$
+                \item Sia V' = \{(contaNumeroVideoInRisposta$($v$)$,v) $|$ v $\in$ V\}
+                \item return V' ordinato in modo decrescente
+            \end{enumerate}
+        \end{enumerate}
         
     \end{enumerate}
     \item\label{sec:OperazioniRedazione} La Redazione deve poter:
     \begin{enumerate}
-        \item censurare video
+        \item censuraVideo$($v: Video, c: \hyperref[sec:TipoStringL]{StringL}, m: \hyperref[sec:TipoStringS]{StringS}$)$
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item $\neg$ VideoCensurato$($v$)$
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item Viene creata una nuova istanza di VideoCensurato e viene associata a una nuova istanza di MotivazioneCensura tale che:
+                \item VideoCensurato$($v$)$
+                \item dataCensura$($v,istanteCorrente$)$
+                \item commentoAggiuntivo$($v,c$)$
+                \item motCenVidCen$($m,v$)$
+            \end{enumerate}
+        \end{enumerate}
     \end{enumerate}
     \item\label{sec:OperazioniSistema} Il Sistema deve poter:
     \begin{enumerate}
         \item ottieniVideoDaCategoria$($cat: \hyperref[sec:TipoStringS]{StringS}$)$: Video [0..*]
+        \begin{enumerate}
+            \item precondizioni: nessuna
+            \item postcondizioni: nessuna
+            \item return:
+            \begin{enumerate}
+                \item Sia V = \{v $|$ catVid$($cat,v$)$ $\land$ $\neg$ VideoCensurato$($v$)$\}
+                \item return V
+            \end{enumerate}
+        \end{enumerate}
         \item ottieniVideoDaTag$($tag: \hyperref[sec:TipoStringS]{StringS}$)$: Video [0..*]
+        \begin{enumerate}
+            \item precondizioni: nessuna
+            \item postcondizioni: nessuna
+            \item return:
+            \begin{enumerate}
+                \item Sia V = \{v $|$ tagVid$($tag,v$)$ $\land$ $\neg$ VideoCensurato$($v$)$\}
+                \item return V
+            \end{enumerate}
+        \end{enumerate}
+        \item contaNumeroVideoInRisposta$($v: Video$)$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
+        \begin{enumerate}
+            \item precondizioni: $\neg$ VideoCensurato$($v$)$
+            \item postcondizioni: nessuna
+            \item return:
+            \begin{enumerate}
+                \item Sia V = \{v' $|$ vidInRispostaA$($v',v$)$ $\land$ $\neg$ VideoCensurato$($v'$)$\}
+                \item t = $\sum_{v' \in V} contaNumeroVideoInRisposta(v')$
+                \item return t
+            \end{enumerate}
+        \end{enumerate}
+        \item sommaValutazioni$($v: Video$)$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
+        \begin{enumerate}
+            \item precondizioni: $\neg$ VideoCensurato$($v$)$
+            \item postcondizioni: nessuna
+            \item return:
+            \begin{enumerate}
+                \item Sia V = \{(u,v,val) $|$ $\forall$ u,v,val valutazione$($u,v$)$ $\land$ voto$($u,v,val$)$\}
+                \item t = $\sum_{(x,y,z) \in V} contaNumeroVideoInRisposta(z)$
+                \item return t
+            \end{enumerate}
+        \end{enumerate}
+        \item numeroValutazioni$($v: Video$)$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
+        \begin{enumerate}
+            \item precondizioni: $\neg$ VideoCensurato$($v$)$
+            \item postcondizioni: nessuna
+            \item return:
+            \begin{enumerate}
+                \item Sia V = \{(u,v) $|$ $\forall$ valutazione$($u,v$)$\}
+                \item return $\mid$V$\mid$
+            \end{enumerate}
+        \end{enumerate}
     \end{enumerate}
     \item\label{sec:OperazioniVideo} Il Video deve poter:
     \begin{enumerate}
         \item durataSecondi$()$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
+        \begin{enumerate}
+            \item precondizioni: nessuna
+            \item postcondizioni: nessuna
+            \item return: durata in secondi
+        \end{enumerate}
         \item numeroVisualizzazioni$()$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
+        \begin{enumerate}
+            \item precondizioni: nessuna
+            \item postcondizioni: nessuna
+            \item return:
+            \begin{enumerate}
+                \item Sia C = \{c $|$ cronVid$($c,this$)$\}
+                \item return $\mid$C$\mid$
+            \end{enumerate}
+        \end{enumerate}
         \item mediaValutazioni$()$: \hyperref[sec:TipoRealeGEZ]{RealeGEZ}
-        \item numeroValutazioni$()$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item numeroValutazioni$()$ $>$ 0
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item nessuna
+            \end{enumerate}
+            \item return:
+            \begin{enumerate}
+                \item Sia s = sommaValutazioni$($this$)$
+                \item sia n = numeroValutazioni$($this$)$
+                \item return $\frac{s}{n}$
+            \end{enumerate}
+        \end{enumerate}
     \end{enumerate}
 \end{enumerate}
 
