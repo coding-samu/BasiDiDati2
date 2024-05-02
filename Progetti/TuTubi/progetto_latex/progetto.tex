@@ -150,7 +150,7 @@
     \item $\forall$ p,u plUt$($p,u$)$ $\rightarrow$ Playlist$($p$)$ $\land$ Utente$($u$)$
     \item $\forall$ c,v catVid$($c,v$)$ $\rightarrow$ Categoria$($c$)$ $\land$ Video$($v$)$
     \item $\forall$ t,v tagVid$($t,v$)$ $\rightarrow$ Tag$($t$)$ $\land$ Video$($v$)$
-    \item $\forall$ v',v'' vidInRispostaA$($v',v''$)$ $\rightarrow$ Video$($v'$)$ $\land$ Video$($v''$)$
+    \item $\forall$ v',v'' vidInRispostaA$($v',v''$)$ $\rightarrow$ Video$($v'$)$ $\land$ Video$($v''$)$ $\land$ rispostaVid$($v'$)$ $\land$ superVid$($v''$)$
     \item $\forall$ v,m motCenVidCen$($m,v$)$ $\rightarrow$ MotivazioneCensura$($m$)$ $\land$ VideoCensurato$($v$)$
 \end{enumerate}
 
@@ -179,6 +179,7 @@
                 \item utVid$($u,v$)$
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item pubblicaVideoInRisposta$($u: Utente, t: \hyperref[sec:TipoStringS]{StringS}, d: \hyperref[sec:TipoStringL]{StringL}, f: \hyperref[sec:TipoVideo]{Video}, cat: \hyperref[sec:TipoStringS]{StringS}, tag: \hyperref[sec:TipoStringS]{StringS}, v': Video$)$
         \begin{enumerate}
             \item precondizioni:
@@ -193,6 +194,7 @@
                 \item Viene creata una nuova associazione: vidInRispostaA$($v,v'$)$
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item visualizzaVideo$($u: Utente, v: Video$)$
         \begin{enumerate}
             \item precondizioni:
@@ -208,6 +210,7 @@
                 \item cronUt$($c,u$)$
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item valutaVideo$($u: Utente, v: Video, val: \hyperref[sec:TipoVoto]{Voto}$)$
         \begin{enumerate}
             \item precondizioni:
@@ -223,6 +226,7 @@
                 \item dataValutazione$($u,v,istanteCorrente$)$
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item pubblicaCommento$($u: Utente, v: Video, com: \hyperref[sec:TipoStringL]{StringL}$)$
         \begin{enumerate}
             \item precondizioni:
@@ -239,7 +243,67 @@
                 \item comUt$($c,u$)$
             \end{enumerate}
         \end{enumerate}
-        \item pubblicare playlist [TODO: completare]
+        \newpage
+        \item creaPlaylist$($u: Utente, n: \hyperref[sec:TipoStringS]{StringS}, d: DataOra, s: StatoPlaylist$)$
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item $\forall$ p plUt$($p,u$)$ $\rightarrow$ $\neg$ nome$($p,n$)$
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item Viene creata una nuova istanza p di Playlist e viene associata all'utente u tale che:
+                \item Playlist$($p$)$
+                \item nome$($p,n$)$
+                \item dataCreazione$($p,d$)$
+                \item stato$($p,s$)$
+                \item plUt$($p,u$)$
+            \end{enumerate}
+        \end{enumerate}
+        \newpage
+        \item aggiungiVideoAPlaylist$($u: Utente, p: Playlist, v: Video$)$
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item plUt$($p,u$)$
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item viene creata una nuova associazione plVid$($p,v$)$ tale che:
+                \item plVid$($p,v$)$
+                \item dataInserimento$($p,v,istanteCorrente$)$
+            \end{enumerate}
+        \end{enumerate}
+        \newpage
+        \item rimuoviVideoDaPlaylist$($u: Utente, p: Playlist, v: Video$)$
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item plUt$($p,u$)$
+                \item plVid$($p,v$)$
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item viene rimossa l'associazione plVid$($p,v$)$
+            \end{enumerate}
+        \end{enumerate}
+        \newpage
+        \item ottieniVideoInPlaylist$($p: Playlist$)$: Video [0..*]
+        \begin{enumerate}
+            \item precondizioni:
+            \begin{enumerate}
+                \item Sia s tale che stato$($p,s$)$ $\rightarrow$ s = Pubblica
+            \end{enumerate}
+            \item postcondizioni:
+            \begin{enumerate}
+                \item no side effects
+            \end{enumerate}
+            \item return:
+            \begin{enumerate}
+                \item Sia V = \{$($d,v$)$ $|$ $\forall$ v,d plVid$($p,v$)$ $\land$ dataInserimento$($p,v,d$)$\}
+            \end{enumerate}
+        \end{enumerate}
+        \newpage
         \item ottieniPlaylist$($u: Utente$)$: Playlist [0..*]
         \begin{enumerate}
             \item precondizioni:
@@ -252,10 +316,11 @@
             \end{enumerate}
             \item return:
             \begin{enumerate}
-                \item Sia P = \{p $|$ $\forall$ p,s plUt$($p,u$)$ $\land$ stato$($p,s$)$ $\rightarrow$ s = \"Pubblica\"\}
+                \item Sia P = \{p $|$ $\forall$ p,s plUt$($p,u$)$ $\land$ stato$($p,s$)$ $\rightarrow$ s = Pubblica\}
                 \item return P
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item iscrizioneUtente$($u: Utente, nome: \hyperref[sec:TipoStringS]{StringS}$)$
         \begin{enumerate}
             \item precondizioni:
@@ -270,6 +335,7 @@
                 \item dataIscrizione$($u,istanteCorrente$)$
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item F.videoDaCatTagVal$($cat: \hyperref[sec:TipoStringS]{StringS}, tag: \hyperref[sec:TipoStringS]{StringS}, val: \hyperref[sec:TipoVoto]{Voto}$)$: Video [0..*]
         \begin{enumerate}
             \item precondizioni: nessuna
@@ -283,6 +349,7 @@
                 \item return V
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item F.videoConMaggiorNumeroVideoInRisposta$($c: Categoria$)$: Video [0..*] Ordinati in modo decrescente
         \begin{enumerate}
             \item precondizioni: nessuna
@@ -296,6 +363,7 @@
         \end{enumerate}
         
     \end{enumerate}
+    \newpage
     \item\label{sec:OperazioniRedazione} La Redazione deve poter:
     \begin{enumerate}
         \item censuraVideo$($v: Video, c: \hyperref[sec:TipoStringL]{StringL}, m: \hyperref[sec:TipoStringS]{StringS}$)$
@@ -314,6 +382,7 @@
             \end{enumerate}
         \end{enumerate}
     \end{enumerate}
+    \newpage
     \item\label{sec:OperazioniSistema} Il Sistema deve poter:
     \begin{enumerate}
         \item ottieniVideoDaCategoria$($cat: \hyperref[sec:TipoStringS]{StringS}$)$: Video [0..*]
@@ -326,6 +395,7 @@
                 \item return V
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item ottieniVideoDaTag$($tag: \hyperref[sec:TipoStringS]{StringS}$)$: Video [0..*]
         \begin{enumerate}
             \item precondizioni: nessuna
@@ -336,6 +406,7 @@
                 \item return V
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item contaNumeroVideoInRisposta$($v: Video$)$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
         \begin{enumerate}
             \item precondizioni: $\neg$ VideoCensurato$($v$)$
@@ -347,6 +418,7 @@
                 \item return t
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item sommaValutazioni$($v: Video$)$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
         \begin{enumerate}
             \item precondizioni: $\neg$ VideoCensurato$($v$)$
@@ -358,6 +430,7 @@
                 \item return t
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item numeroValutazioni$($v: Video$)$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
         \begin{enumerate}
             \item precondizioni: $\neg$ VideoCensurato$($v$)$
@@ -369,6 +442,7 @@
             \end{enumerate}
         \end{enumerate}
     \end{enumerate}
+    \newpage
     \item\label{sec:OperazioniVideo} Il Video deve poter:
     \begin{enumerate}
         \item durataSecondi$()$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
@@ -377,6 +451,7 @@
             \item postcondizioni: nessuna
             \item return: durata in secondi
         \end{enumerate}
+        \newpage
         \item numeroVisualizzazioni$()$: \hyperref[sec:TipoInteroGEZ]{InteroGEZ}
         \begin{enumerate}
             \item precondizioni: nessuna
@@ -387,6 +462,7 @@
                 \item return $\mid$C$\mid$
             \end{enumerate}
         \end{enumerate}
+        \newpage
         \item mediaValutazioni$()$: \hyperref[sec:TipoRealeGEZ]{RealeGEZ}
         \begin{enumerate}
             \item precondizioni:
