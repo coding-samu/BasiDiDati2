@@ -8,5 +8,10 @@ SELECT persona.id, persona.nome, persona.cognome FROM persona,assenza WHERE pers
 
 SELECT persona.id, persona.nome, persona.cognome FROM persona, assenza WHERE persona.id = assenza.persona and assenza.tipo = 'Malattia' and persona.posizione = 'Professore Ordinario' GROUP BY persona.id HAVING COUNT(*) > 1;
 
+SELECT persona.id, persona.nome, persona.cognome FROM persona, attivitanonprogettuale WHERE persona.id = attivitanonprogettuale.persona AND attivitanonprogettuale.tipo = 'Didattica' AND persona.posizione = 'Ricercatore' GROUP BY persona.id HAVING COUNT(*) >= 1;
+
 SELECT persona.id, persona.nome, persona.cognome FROM persona, attivitanonprogettuale WHERE persona.id = attivitanonprogettuale.persona AND attivitanonprogettuale.tipo = 'Didattica' AND persona.posizione = 'Ricercatore' GROUP BY persona.id HAVING COUNT(*) > 1;
+
+SELECT persona.id, persona.nome, persona.cognome FROM persona, attivitaprogetto, attivitanonprogettuale WHERE persona.id = attivitanonprogettuale.persona and persona.id = attivitaprogetto.persona and attivitaprogetto.giorno = attivitanonprogettuale.giorno GROUP BY persona.id HAVING COUNT(*) >= 1;
+
 
