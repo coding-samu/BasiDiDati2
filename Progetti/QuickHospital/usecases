@@ -1,0 +1,111 @@
+specifica use-case itineriario
+
+itinerario(): Stanza [0..*]
+
+pre-condizioni: nessuna
+
+post-condizioni:
+
+non modifica lo spazio estensionale
+Sia Medico(m) il medico che si è autenticato nel sistema e che sta usando lo use-case
+
+Sia P = {p | EXISTS r paz_ric(p,r) AND med_ric(m,r) AND NonDimesso(r)}
+
+Sia L = {l | EXISTS n Occupato(n,l) AND n IN P}
+
+Sia S = {s | EXISTS l pos_sta(l,s) AND l IN L}
+
+result = S // poi in SQL verrà ordinato
+
+specifica dello use-case registraPazienti
+
+registrazionePersona(codiceFiscale: CF, nome: Stringa, cognome: Stringa, dataN: Data): Persona
+
+pre-condizioni: ALL p1 Persona(p1) -> NOT codiceFiscale(p1,codiceFiscale)
+post-condizioni:
+
+Modica dello spazio estenzionle:
+
+elementi del dominio di interpretazione: alpha
+Nuove ennuple:
+    - Persona(alpha)
+    - codiceFiscale(alpha,codiceFiscale)
+    - nome(alpha,nome)
+    - cognome(alpha,cognome)
+    - dataN(alpha,dataN)
+
+result = Persona
+
+registrazionePaziente(p: Persona, telefoni: Tel [1..*],email: Email, posta: Posta): Paziente
+
+pre-condizioni: NOT Paziente(p)
+
+post-condizioni:
+
+Modica dello spazio estenzionle:
+
+Nuove ennuple:
+    - Paziente(p)
+    - telefono(p,telefoni)
+    - email(p,email)
+    - posta(p,posta)
+
+result = Paziente
+
+possibiliMedici(s: Specializzazione): Medico [0..*]
+
+pre-condizioni: nessuna
+post-condizioni: non modifica lo spazio estensionale
+Sia P = {m | primaria(m,s)}
+Sia S = {m | secondaria(m,s)}
+
+|P| > 0 -> result = P
+    AND
+|P| = 0 -> result = S
+
+
+accettaPrestazione(p: Paziente, s: Specializzazione,dataRichiesta: Data, descrizione: Stringa): Prestazione
+
+pre-condizione: ALL M possibiliMedici_{s}(s,M) -> |M| > 0 AND (
+    ALL d data(adesso,d) -> dataRichiesta >= d
+)
+post-condizioni:
+Modifica dello spazio estensionale:
+elementi del dominio di interpretazione: alpha
+
+Nuove ennuple:
+
+- Prestazione(alpha)
+- dataRichiesta(alpha,dataRichiesta)
+- descrizione(alpha,descrizione)
+- paz_pre(p,alpha)
+- pre_spe(alpha,s)
+
+result = alpha 
+
+specifica dello use-case accettaRicoveri
+
+
+postiLettoLiberi(): PostoLetto[0..*]
+pre-condizioni: nessuna
+post-condizioni: non viene modificato lo spazio estenzionale dei dati
+
+L = {l | NOT EXISTS n Occupato(l,n)}
+
+result = L
+
+accettaRicoveri(p: Paziente): NonDimesso
+
+pre-condizioni: (NOT EXISTS r paz_ric(p,r) AND NonDimesso(r)) and (ALL L postiLettoLiberi(L) -> |L| > 0)
+post-condizioni: 
+modifica dello spazio estenzionale
+Sia l un elemento a caso in {l | NOT EXISTS n Occupato(l,n)}
+elementi del dominio di interpretazione: alpha
+
+Nuove ennuple:
+- NonDimesso(alpha)
+- Ricovero(alpha)
+- Storico(alpha,l)
+- pos_sta(alpha,l)
+
+result = alpha

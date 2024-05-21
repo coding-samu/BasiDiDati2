@@ -1,0 +1,21 @@
+1. Persona
+    1.1. nome
+    1.2. cognome
+    1.3. data nascita
+    1.4. Paziente
+        1.4.1. recapiti telefonici [1..*]
+        1.4.2. recapito email 1..1
+        1.4.3. recapito postale 1..1
+        1.4.4. ricoverato o dimesso
+    1.5. Medico
+        1.5.1. specializzazione
+        1.5.2. pazienti in cura
+    1.6. Paziente esterno
+        1.6.1. particolare prestazione medica richiesta
+        1.6.2. insieme di medici per soddisfare la richiesta medica
+
+2. Stanza
+    2.1. piano
+    2.2. settore
+    2.3. posti letto 1..8
+        2.3.1. paziente ricoverato a quel letto 0..1
