@@ -1,4 +1,5 @@
-Vincoli esterni
+==============================================================
+Vincoli esterni aggiunti nella fase di ristrutturazione
 
 [V.Occupato_isa_Storico]
 ALL r,nd,p ndim_isa_ric(nd,r) AND occupato(nd,p) -> storico(r,p)
@@ -9,6 +10,10 @@ NOT EXISTS r,d,nd ndim_isa_ric(nd,r) -> NOT dim_isa_ric(d,r)
 [V.Ricovero_Dimesso_NonDimesso_Complete]
 ALL r (EXISTS nd ndim_isa_ric(nd,r)) OR (EXISTS d dim_isa_ric(d,r))
 
+
+==============================================================
+Vincoli esterni rimasti invariati dopo la fase di ristrutturazione
+
 [V.Prestazione.medico_giusto]
 ALL m,p,s med_pre(m,p) AND pre_spe(p,s) ->(
         primaria(m,s) OR secondaria(m,s)
@@ -18,25 +23,27 @@ ALL m,p,s med_pre(m,p) AND pre_spe(p,s) ->(
 
 ALL s,m secondaria(m,s) -> NOT primaria(m,s)
 
+
+==============================================================
+Vincoli esterni modificati durante la fase di ristrutturazione
+
 [V.Dimesso.date_consistente]
-ALL r Dimesso(r) -> ALL d_1,d_2 dataInizio(r,d_1) AND dataFine(r,d_2) -> d_1 =< d_2
-
-
+ALL r,d dim_isa_ric(d,r) -> ALL d_1,d_2 dataInizio(r,d_1) AND dataFine(d,d_2) -> d_1 =< d_2
 
 [V.Ricovero.date_consistente]
-ALL r,dr,p,dp paz_ric(p,r)AND dataInizio(r,dr) AND dataN(p,dp) -> dr >= dp
+ALL r,dr,paz,per,dp paz_ric(paz,r)AND paz_isa_per(paz,per) AND dataInizio(r,dr) AND dataN(per,dp) -> dr >= dp
 
 [V.Prestazione.date_consistente]
-ALL paz,pre,d1,d2 paz_pre(paz,pre) AND dataRichiesta(pre,d1) AND dataN(paz,d2) -> d1 >= d2
+ALL paz,per,pre,d1,d2 paz_pre(paz,pre) AND paz_isa_per(paz,per) AND dataRichiesta(pre,d1) AND dataN(per,d2) -> d1 >= d2
 
 [V.Medico.date_consistente]
 
-ALL m,r,d1,d2 med_ric(m,r) AND dataInizio(r,d1) AND dataN(m,d2) -> d1 > d2
+ALL m,per,r,d1,d2 med_ric(m,r) AND dataInizio(r,d1) AND med_isa_per(m,per) AND dataN(per,d2) -> d1 > d2
 
 [V.Paziente.ricovero_singolo]
 
-ALL p EXISTS r paz_ric(p,r) AND NonDimesso(r) -> NOT EXISTS r' r'!=r AND NonDimesso(r') AND paz_ric(p,r')
+ALL p EXISTS nd,r paz_ric(p,r) AND ndim_isa_ric(nd,r) -> NOT EXISTS nd',r' nd'!=nd AND r!=r' AND ndim_isa_ric(nd',r') AND paz_ric(p,r')
 
 [V.Paziente.non_ricoverato_da_se_stesso]
 
-ALL p,r paz_ric(p,r) -> NOT med_ric(p,r)
+ALL paz,per,med,r paz_ric(paz,r) AND med_isa_per(med,per) AND paz_isa_per(paz,per) -> NOT med_ric(med,r)
