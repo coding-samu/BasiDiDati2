@@ -10,6 +10,9 @@ NOT EXISTS r,d,nd ndim_isa_ric(nd,r) -> NOT dim_isa_ric(d,r)
 [V.Ricovero_Dimesso_NonDimesso_Complete]
 ALL r (EXISTS nd ndim_isa_ric(nd,r)) OR (EXISTS d dim_isa_ric(d,r))
 
+[V.Persona_Medico_Paziente_Complete]
+ALL p (EXISTS m med_isa_per(m,p)) OR (EXISTS paz paz_isa_per(paz,p))
+
 
 ==============================================================
 Vincoli esterni rimasti invariati dopo la fase di ristrutturazione
