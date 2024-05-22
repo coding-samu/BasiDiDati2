@@ -7,7 +7,7 @@ pre-condizioni: nessuna
 post-condizioni:
 
 non modifica lo spazio estensionale
-Sia Medico(m) il medico che si è autenticato nel sistema e che sta usando lo use-case
+Sia m tale che Medico(m) il medico che si è autenticato nel sistema e che sta usando lo use-case
 
 Sia P = {p | EXISTS r paz_ric(p,r) AND med_ric(m,r) AND NonDimesso(r)}
 
@@ -38,17 +38,18 @@ result = Persona
 
 registrazionePaziente(p: Persona, telefoni: Tel [1..*],email: Email, posta: Posta): Paziente
 
-pre-condizioni: NOT Paziente(p)
+pre-condizioni: NOT EXISTS paz paz_isa_per(paz,p)
 
 post-condizioni:
 
 Modica dello spazio estenzionle:
 
+elementi del dominio di interpretazione: alpha
 Nuove ennuple:
-    - Paziente(p)
-    - telefono(p,telefoni)
-    - email(p,email)
-    - posta(p,posta)
+    - paz_isa_per(alpha,p)
+    - telefono(alpha,telefoni)
+    - email(alpha,email)
+    - posta(alpha,posta)
 
 result = Paziente
 
@@ -96,15 +97,16 @@ result = L
 
 accettaRicoveri(p: Paziente): NonDimesso
 
-pre-condizioni: (NOT EXISTS r paz_ric(p,r) AND NonDimesso(r)) and (ALL L postiLettoLiberi(L) -> |L| > 0)
+pre-condizioni: (NOT EXISTS r,nd paz_ric(p,r) AND NonDimesso(nd) AND ndim_isa_ric(nd,r)) and (ALL L postiLettoLiberi(L) -> |L| > 0)
 post-condizioni: 
 modifica dello spazio estenzionale
 Sia l un elemento a caso in {l | NOT EXISTS n Occupato(l,n)}
-elementi del dominio di interpretazione: alpha
+elementi del dominio di interpretazione: alpha, beta
 
 Nuove ennuple:
-- NonDimesso(alpha)
+- NonDimesso(beta)
 - Ricovero(alpha)
+- ndim_isa_ric(beta,alpha)
 - Storico(alpha,l)
 - pos_sta(alpha,l)
 
