@@ -1,4 +1,3 @@
-==============================================================
 Vincoli esterni aggiunti nella fase di ristrutturazione
 
 [V.Occupato_isa_Storico]
@@ -14,7 +13,6 @@ ALL r (EXISTS nd ndim_isa_ric(nd,r)) OR (EXISTS d dim_isa_ric(d,r))
 ALL p (EXISTS m med_isa_per(m,p)) OR (EXISTS paz paz_isa_per(paz,p))
 
 
-==============================================================
 Vincoli esterni rimasti invariati dopo la fase di ristrutturazione
 
 [V.Prestazione.medico_giusto]
@@ -27,7 +25,6 @@ ALL m,p,s med_pre(m,p) AND pre_spe(p,s) ->(
 ALL s,m secondaria(m,s) -> NOT primaria(m,s)
 
 
-==============================================================
 Vincoli esterni modificati durante la fase di ristrutturazione
 
 [V.Dimesso.date_consistente]

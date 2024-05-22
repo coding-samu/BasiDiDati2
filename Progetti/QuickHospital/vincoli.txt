@@ -1,0 +1,33 @@
+Vincoli esterni
+
+[V.Prestazione.medico_giusto]
+Ogni medico associato a una prestazione
+ja la specializzazione richiesta dalla prestazione
+
+ALL m,p,s med_pre(m,p) AND pre_spe(p,s) ->(
+        primaria(m,s) OR secondaria(m,s)
+)
+
+[V.Medico.secondaria_non_primaria]
+
+ALL s,m secondaria(m,s) -> NOT primaria(m,s)
+
+[V.Dimesso.date_consistente]
+ALL r Dimesso(r) -> ALL d_1,d_2 dataInizio(r,d_1) AND dataFine(r,d_2) -> d_1 =< d_2
+[V.Ricovero.date_consistente]
+ALL r,dr,p,dp paz_ric(p,r)AND dataInizio(r,dr) AND dataN(p,dp) -> dr >= dp
+
+[V.Prestazione.date_consistente]
+ALL paz,pre,d1,d2 paz_pre(paz,pre) AND dataRichiesta(pre,d1) AND dataN(paz,d2) -> d1 >= d2
+
+[V.Medico.date_consistente]
+
+ALL m,r,d1,d2 med_ric(m,r) AND dataInizio(r,d1) AND dataN(m,d2) -> d1 > d2
+
+[V.Paziente.ricovero_singolo]
+
+ALL p EXISTS r paz_ric(p,r) AND NonDimesso(r) -> NOT EXISTS r' r'!=r AND NonDimesso(r') AND paz_ric(p,r')
+
+[V.Paziente.non_ricoverato_da_se_stesso]
+
+ALL p,r paz_ric(p,r) -> NOT med_ric(p,r)
