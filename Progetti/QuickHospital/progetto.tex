@@ -39,6 +39,55 @@
 
 \section{Specifica}
 
+\begin{enumerate}
+    \item persona
+    \begin{enumerate}
+        \item nome
+        \item cognome
+        \item data nascita
+    \end{enumerate}
+    \item medico
+    \begin{enumerate}
+        \item pazienti che hanno in cura
+        \item specializzazione primaria
+        \item specializzazioni secondarie
+    \end{enumerate}
+    \item paziente
+    \begin{enumerate}
+        \item recapiti telefonici
+        \item email (unica)
+        \item recapito postale (unico)
+    \end{enumerate}
+    \item stanza
+    \begin{enumerate}
+        \item i posti letto (da 1 a 8)
+        \item piano int $>$ 0
+        \item settore int $>$ 0
+    \end{enumerate} 
+    \item posto letto
+    \item ricovero
+    \begin{enumerate}
+        \item paziente
+        \item posto letto
+        \item dataora
+    \end{enumerate}
+    \item dimissione
+    \begin{enumerate}
+        \item dataora dimissione
+    \end{enumerate}
+    \item specializzazione
+    \begin{enumerate}
+        \item nome
+    \end{enumerate}
+    \item prestazione
+    \begin{enumerate}
+        \item data richiesta
+        \item descrizione
+        \item medico che la eroga
+        \item specializzazione richiesta
+    \end{enumerate}
+\end{enumerate}
+
 \newpage
 \section{Analisi}
 \subsection{Diagramma delle classi}
@@ -51,6 +100,13 @@
 \newpage
 
 \subsection{Dizionario dei dati}
+
+\begin{itemize}
+    \item tel = stringa secondo standard
+    \item cf = stringa alfanumerica secondo standard
+    \item email = stringa secondo standard
+    \item posta = stringa secondo standard
+\end{itemize}
 
 \newpage
 
@@ -268,6 +324,13 @@
 
 \subsection{Dizionario dei dati ristrutturato}
 
+\begin{itemize}
+    \item tel = stringa secondo standard
+    \item cf = stringa alfanumerica secondo standard
+    \item email = stringa secondo standard
+    \item posta = stringa secondo standard
+\end{itemize}
+
 \newpage
 
 \subsection{Vincoli ristrutturati}
@@ -476,10 +539,5 @@
     \end{itemize}
     \item result = \( \alpha \)
 \end{itemize}
-
-
-\newpage
-
-
 
 \end{document}
