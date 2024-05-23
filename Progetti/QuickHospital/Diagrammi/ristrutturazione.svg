@@ -272,15 +272,15 @@
     ></g
     ><g font-size="11px" transform="matrix(1,0,0,1,500,160)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="27" clip-path="url(#clipPath2)" stroke="none"
-      >nome : Text</text
+      >nome : StringS</text
     ></g
     ><g font-size="11px" transform="matrix(1,0,0,1,500,160)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="41" clip-path="url(#clipPath2)" stroke="none"
-      >cognome : Text</text
+      >cognome : StringS</text
     ></g
     ><g font-size="11px" transform="matrix(1,0,0,1,500,160)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="55" clip-path="url(#clipPath2)" stroke="none"
-      >dataN : Data</text
+      >dataN : Date</text
     ></g
     ><g font-size="11px" transform="translate(500,146)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="42" xml:space="preserve" y="11" clip-path="url(#clipPath3)" stroke="none"
@@ -295,11 +295,11 @@
     /></g
     ><g font-size="11px" transform="matrix(1,0,0,1,347,66)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="13" clip-path="url(#clipPath5)" stroke="none"
-      >id : integer {id1}</text
+      >id : serial {id1}</text
     ></g
     ><g font-size="11px" transform="matrix(1,0,0,1,347,66)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="27" clip-path="url(#clipPath5)" stroke="none"
-      >dataInizio : Data</text
+      >dataInizio : Date</text
     ></g
     ><g font-size="11px" transform="translate(347,52)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="28" xml:space="preserve" y="11" clip-path="url(#clipPath6)" stroke="none"
@@ -325,11 +325,11 @@
     /></g
     ><g font-size="11px" transform="matrix(1,0,0,1,477,273)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="13" clip-path="url(#clipPath11)" stroke="none"
-      >id : integer {id1}</text
+      >id : serial {id1}</text
     ></g
     ><g font-size="11px" transform="matrix(1,0,0,1,477,273)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="27" clip-path="url(#clipPath11)" stroke="none"
-      >dataRichiesta : Data</text
+      >dataRichiesta : Date</text
     ></g
     ><g font-size="11px" transform="matrix(1,0,0,1,477,273)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="41" clip-path="url(#clipPath11)" stroke="none"
@@ -371,7 +371,7 @@
     /></g
     ><g font-size="11px" transform="matrix(1,0,0,1,51,26)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="13" clip-path="url(#clipPath17)" stroke="none"
-      >dataFine : Data</text
+      >dataFine : Date</text
     ></g
     ><g font-size="11px" transform="translate(51,12)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="22" xml:space="preserve" y="11" clip-path="url(#clipPath18)" stroke="none"
@@ -386,7 +386,7 @@
     /></g
     ><g font-size="11px" transform="matrix(1,0,0,1,678,323)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="13" clip-path="url(#clipPath20)" stroke="none"
-      >nome : Text {id1}</text
+      >nome : StringS {id1}</text
     ></g
     ><g font-size="11px" transform="translate(678,309)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="4" xml:space="preserve" y="11" clip-path="url(#clipPath21)" stroke="none"
@@ -401,15 +401,15 @@
     /></g
     ><g font-size="11px" transform="matrix(1,0,0,1,20,363)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="13" clip-path="url(#clipPath23)" stroke="none"
-      >id : integer {id1}</text
+      >id : serial {id1}</text
     ></g
     ><g font-size="11px" transform="matrix(1,0,0,1,20,363)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="27" clip-path="url(#clipPath23)" stroke="none"
-      >piano : Intero &gt; 0</text
+      >piano : interogz</text
     ></g
     ><g font-size="11px" transform="matrix(1,0,0,1,20,363)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="41" clip-path="url(#clipPath23)" stroke="none"
-      >settore : Intero &gt; 0</text
+      >settore : interogz</text
     ></g
     ><g font-size="11px" transform="translate(20,349)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="32" xml:space="preserve" y="11" clip-path="url(#clipPath24)" stroke="none"
@@ -424,7 +424,7 @@
     /></g
     ><g font-size="11px" transform="matrix(1,0,0,1,20,241)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="13" clip-path="url(#clipPath26)" stroke="none"
-      >id : integer {id1}</text
+      >id : serial {id1}</text
     ></g
     ><g font-size="11px" transform="translate(20,227)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="12" xml:space="preserve" y="11" clip-path="url(#clipPath27)" stroke="none"
