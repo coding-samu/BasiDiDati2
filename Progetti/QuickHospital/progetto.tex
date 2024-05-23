@@ -325,10 +325,14 @@
 \subsection{Dizionario dei dati ristrutturato}
 
 \begin{itemize}
-    \item tel = stringa secondo standard
-    \item cf = stringa alfanumerica secondo standard
-    \item email = stringa secondo standard
-    \item posta = stringa secondo standard
+    \item create domain tel as text check $($isTel$($value$))$;
+    \item create domain cf as text check $($isCF$($value$))$;
+    \item create domain email as text check $($isEmail$($value$))$;
+    \item create type posta as $($via IndirizzoNotNull, civico CivicoNotNull$)$;
+    \item create domain IndirizzoNotNull as text check $($value is not null$)$;
+    \item create domain CivicoNotNull as text check $($value is not null and isCivico$($value$))$
+    \item create domain StringS as varchar$($50$)$;
+    \item create domain interogz as integer check $($value > 0$)$
 \end{itemize}
 
 \newpage
@@ -539,5 +543,61 @@
     \end{itemize}
     \item result = \( \alpha \)
 \end{itemize}
+
+\subsection{Progettazione della base di dati}
+
+\begin{enumerate}
+    \item Persona$($\underline{codiceFiscale: cf}, nome: StringS, cognome: StringS, dataN: Data$)$
+    \item Paziente(\underline{persona: cf}, telefoni: Tel, email: Email, posta: Posta)
+    \begin{enumerate}
+        \item foreign key: persona references persona$($codicefiscale$)$
+    \end{enumerate}
+    \item Medico$($\underline{persona: cf}, specializzazionePrimaria: StringS$)$
+    \begin{enumerate}
+        \item foreign key: persona references persona$($codicefiscale$)$
+        \item foreign key: specializzazionePrimaria references specializzazione$($nome$)$
+    \end{enumerate}
+    \item SpecializzazioneSecondaria$($\underline{medico: cf, specializzazione: stringaS}$)$
+    \begin{enumerate}
+        \item foreign key: medico references medico$($persona$)$
+        \item foreign key: specializzazione references specializzazione$($nome$)$
+    \end{enumerate}
+    \item Prestazione$($\underline{id: serial}, dataRichiesta: Date, descrizione: text, paziente: cf, medico*: cf, specializzazioneRichiesta: StringS$)$
+    \begin{enumerate}
+        \item foreign key: paziente references paziente$($persona$)$
+        \item foreign key: medico references medico$($persona$)$
+        \item foreign key: specializzazioneRichiesta references specializzazione$($nome$)$
+    \end{enumerate}
+    \item Ricovero$($\underline{id: serial}, dataInizio: Date, paziente: cf, medico: cf, storico: integer$)$
+    \begin{enumerate}
+        \item paziente references paziente$($persona$)$
+        \item medico references medico$($persona$)$
+        \item storico references postoletto$($id$)$
+    \end{enumerate}
+    \item Dimesso$($\underline{ricovero: integer}, dataFine: Data$)$
+    \begin{enumerate}
+        \item ricovero references ricovero$($id$)$
+    \end{enumerate}
+    \item NonDimesso$($\underline{ricovero: integer}$)$
+    \begin{enumerate}
+        \item ricovero references ricovero$($id$)$
+        \item v.\ inclusione: nondimesso$($ricovero$)$ occorre in occupato$($nondimesso$)$
+    \end{enumerate}
+    \item occupato$($\underline{postoletto: integer}, nonDimesso: integer$)$
+    \begin{enumerate}
+        \item altra chiave: nonDimesso
+        \item foreign key: postoletto references postoletto$($id$)$
+        \item foreign key: nonDimesso references nondimesso$($ricovero$)$
+    \end{enumerate}
+    \item postoletto$($\underline{id: serial}, stanza: integer$)$
+    \begin{enumerate}
+        \item foreign key: stanza references stanza$($id$)$
+    \end{enumerate}
+    \item stanza$($\underline{id: serial}, piano: interogz, settore: interogz$)$
+    \begin{enumerate}
+        \item Domanda: come implemento la molteplicità da 1..8?
+    \end{enumerate}
+\end{enumerate}
+
 
 \end{document}
