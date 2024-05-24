@@ -1,0 +1,52 @@
+-- Esercizio 1
+select codice as codice_volo ,comp as compagnia from volo where durataMinuti > 180;
+
+-- Esercizio 2
+select distinct compagnia from (select codice as codice_volo ,comp as compagnia from volo where durataMinuti > 180) as ta;
+
+-- Esercizio 3
+select v.codice as codice_volo, v.comp as compagnia from volo as v, arrpart as ap where v.codice = ap.codice and v.comp = ap.comp and ap.partenza = 'CIA';
+
+-- Esercizio 4
+select distinct v.comp as compagnia from volo as v, arrpart as ap where v.codice = ap.codice and v.comp = ap.comp and ap.arrivo = 'FCO';
+
+-- Esercizio 5
+select v.codice as codice_volo, v.comp as compagnia from volo as v, arrpart as ap where v.codice = ap.codice and v.comp = ap.comp and ap.partenza = 'FCO' and ap.arrivo = 'JFK';
+
+-- Esercizio 6
+select distinct v.comp as compagnia from volo as v, arrpart as ap where v.codice = ap.codice and v.comp = ap.comp and ap.partenza = 'FCO' and ap.arrivo = 'JFK';
+
+-- Esercizio 7
+select distinct v.comp from volo as v, arrpart as ap, luogoaeroporto as la1, luogoaeroporto as la2 where v.codice = ap.codice and v.comp = ap.comp and ap.partenza = la1.aeroporto and ap.arrivo = la2.aeroporto and la1.citta = 'Roma' and la2.citta = 'New York';
+
+-- Esercizio 8
+select distinct la.aeroporto, ae.nome, la.citta from aeroporto as ae, luogoaeroporto as la, arrpart as ap where la.aeroporto = ae.codice and ap.partenza = la.aeroporto and ap.comp = 'MagicFly';
+
+-- Esercizio 9
+select v.codice as codice_volo, v.comp as compagnia, ap.partenza, ap.arrivo from volo as v, arrpart as ap, luogoaeroporto as la1, luogoaeroporto as la2 where la1.citta = 'Roma' and la2.citta = 'New York' and ap.partenza = la1.aeroporto and ap.arrivo = la2.aeroporto and v.codice = ap.codice and v.comp = ap.comp;
+
+-- Esercizio 10
+select distinct v1.comp as compagnia, v1.codice as codice_volo_1, ap1.partenza, ap1.arrivo as scalo, v2.codice as codice_volo_2, ap2.arrivo
+from volo as v1, 
+	volo as v2, 
+	arrpart as ap1, 
+	arrpart as ap2, 
+	arrpart as ap3, 
+	luogoaeroporto as la1, 
+	luogoaeroporto as la2, 
+	luogoaeroporto as la3 
+where la1.citta = 'Roma' and la2.citta = 'New York' 
+	and ap1.partenza = la1.aeroporto 
+	and ap2.arrivo = la2.aeroporto
+	and ap1.arrivo = la3.aeroporto
+	and la3.citta != 'New York'
+	and v1.codice = ap1.codice 
+	and v1.comp = ap1.comp 
+	and v2.codice = ap2.codice 
+	and v2.comp = ap2.comp 
+	and v1.comp = v2.comp;
+
+-- Esercizio 11
+select distinct co.nome as compagnia 
+from volo as v, compagnia as co, arrpart as ap 
+WHERE v.codice = ap.codice and v.comp = ap.comp and ap.partenza = 'FCO' and ap.arrivo = 'JFK' and v.comp = co.nome and annoFondaz is not null;
