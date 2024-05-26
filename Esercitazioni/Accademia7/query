@@ -1,0 +1,20 @@
+-- Esercizio 1
+select per.posizione, avg(per.stipendio) as media, stddev_samp(per.stipendio) as deviazione_standard from persona as per group by per.posizione;
+
+-- Esercizio 2
+
+
+-- Esercizio 3
+
+
+-- Esercizio 4
+
+
+-- Esercizio 5
+
+
+-- Esercizio 6
+
+
+-- Esercizio 7
+
