@@ -2,7 +2,7 @@
 select per.posizione, avg(per.stipendio) as media, stddev_samp(per.stipendio) as deviazione_standard from persona as per group by per.posizione;
 
 -- Esercizio 2
-
+select per.id, per.nome, per.cognome, per.posizione, per.stipendio from (select per.posizione, avg(per.stipendio) as media, stddev_samp(per.stipendio) as deviazione_standard from persona as per group by per.posizione) as ta, persona as per where ta.media < per.stipendio and per.posizione = ta.posizione and per.posizione = 'Ricercatore';
 
 -- Esercizio 3
 
