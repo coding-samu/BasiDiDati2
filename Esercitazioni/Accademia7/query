@@ -8,7 +8,7 @@ select per.id, per.nome, per.cognome, per.posizione, per.stipendio from (select 
 select per.posizione, count(per.id) from persona as per, (select per.posizione, avg(per.stipendio) as media, stddev_samp(per.stipendio) as deviazione_standard from persona as per group by per.posizione) as ta where abs(per.stipendio - ta.media) < ta.deviazione_standard and ta.posizione = per.posizione group by per.posizione;
 
 -- Esercizio 4
-
+select per.id, per.nome, per.cognome, per.posizione, per.stipendio, ta.sum as ore_lavorate from (select per.id, sum(ap.oreDurata) from persona as per, attivitaprogetto as ap where ap.persona = per.id group by per.id) as ta, persona as per where ta.id = per.id and ta.sum >= 20;
 
 -- Esercizio 5
 
