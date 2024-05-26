@@ -17,7 +17,4 @@ select ta1.nome, ta1.durata as durata_giorni from (select pr.nome, (pr.fine-pr.i
 select pr.id, pr.nome, sum(ap.oreDurata) as ore_dimostrazione from progetto as pr, attivitaprogetto as ap where ap.progetto = pr.id and ap.tipo = 'Dimostrazione' and pr.fine < current_date group by pr.id;
 
 -- Esercizio 7
-select per.posizione, count(a.id) as giorni_malattia from persona as per, assenza as a where a.persona = per.id and a.tipo = 'Malattia' group by per.posizione;
-select per.id, per.nome, per.cognome, sum(a.id) as giorni_malattia from persona as per, assenza as a where a.persona = per.id and a.tipo = 'Malattia' and per.posizione = 'Professore Ordinario' group by per.id;
-
---select per.posizione, count(per.id) as numero from persona as per group by per.posizione;
+select ta2.id, ta2.nome, ta2.cognome, ta2.giorni_malattia from (select per.posizione, count(a.id) as giorni_malattia from persona as per, assenza as a where a.persona = per.id and a.tipo = 'Malattia' group by per.posizione) as ta1, (select per.id, per.nome, per.cognome, count(a.id) as giorni_malattia from persona as per, assenza as a where a.persona = per.id and a.tipo = 'Malattia' and per.posizione = 'Professore Ordinario' group by per.id) as ta2 where ta1.posizione = 'Professore Associato' and ta1.giorni_malattia < ta2.giorni_malattia;
