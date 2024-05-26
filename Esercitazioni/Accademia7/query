@@ -12,6 +12,7 @@ select per.id, per.nome, per.cognome, per.posizione, per.stipendio, ta.sum as or
 
 -- Esercizio 5
 select ta1.nome, ta1.durata as durata_giorni from (select pr.nome, (pr.fine-pr.inizio) as durata from progetto as pr) as ta1, (select avg(pr.fine-pr.inizio) as media from progetto as pr) as ta2 where ta1.durata > ta2.media;
+
 -- Esercizio 6
 
 
