@@ -1,0 +1,50 @@
+specifica della classe Settore
+
+posti(): Intero >= 0
+pre-condizione: nessuna
+post-condizione:
+    non modifica lo spazio estensionale
+    P = {p | pos_set(p,this)}
+    result = |P|
+
+postiLiberi(): Intero >= 0
+pre-condizione: nessuna
+post-condizioni:
+    non modifica lo spazio estensionale
+    ALL n1,n2 posti_{Settore,"Intero >= 0"}(this,n1) AND postiOccupati_{Settore,"Intero >= 0"}(this,n2) -> (
+        result = n1 - n2
+    )
+
+postOccupati(): Intero >= 0
+pre-condizioni: nessuna
+post-condizioni:
+    non modifica lo spazio estensionale
+    P = {(p,n) | pre_set(p,this) AND postiTotali_{Prenotazione,"Intero > 0"}(p,n)}
+    result = \sum_{(p,n) \in P} n
+
+specifica della classe Prenotazione
+
+postiTotali(): Intero > 0
+pre-condizioni: nessuna
+post_condizioni:
+    non modifica lo spazio estensionale
+    ALL n1,n2 numPrenotatiPieni(this,n1) AND numPrenotatiRidotti(this,n2) -> result = n1 + n2
+
+specifica della classe Erogato
+
+fine(): DataOra
+pre-condizioni: nessuna
+post-condizioni:
+    non modifica lo spazio estensionale
+    ALL i,s,d ero_spe(this,s) AND durataMinuti(s,d) AND inizio(this,i) -> result = d + i
+    
+specifica della classe Utente
+
+ultimoSpettacoloVisto(): Spettacolo
+
+pre-condizioni: EXISTS p pre_ute(p,this)
+
+post-condizioni: 
+	non modifica lo spazio estensionale
+	R = {(i,s) | EXISTS e,p pre_ute(p,this) AND ero_pre(e,p) AND ero_spe(e,s) AND istantePrenotazione(p,i)}
+	result = {s | ALL (i,s) in R, (i',s') in R i != i' -> i > i'}

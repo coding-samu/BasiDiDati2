@@ -1,0 +1,42 @@
+1. Sede
+    1.1. tipologia
+        1.1.1. nome tipolgia
+    1.2. nome
+    1.3. indirizzo
+    1.4. sale distinte della sede
+
+2. Sala
+    2.1. spettacoli (vedi 4)
+    2.2. tipologia
+        2.2.1. nome tipologia
+    2.3. posti a sedere (vedi 3)
+
+3. Posto
+    3.1. numero fila
+    3.2. numero colonna
+
+4. Spettacolo
+    4.1. nome
+    4.2. tipologia
+        4.2.1. nome
+    4.3. genere
+        4.3.1. nome
+    4.4. artisti
+    4.5. orari
+    4.6. date
+    4.7. sedi in cui viene performato lo spettacolo
+    4.8. sala in cui viene performato lo spettacolo
+
+5. utenti
+    5.1. nome
+    5.2. cognome
+    5.3. codice fiscale {id}
+
+USE CASES
+    1. iscrivere gli utenti al servizio
+    2. prenotare posti a prezzo pieno o ridotto
+    di un dato settore, i posti vengono scelti a caso
+    3. lista spettacoli dato un genere in un certo giorno
+    4. Ricevere dal sistema suggerimenti di nuovi spettacoli da vedere. 
+       In particolare, si richiede che il sistema segnali ad un utente l’insieme degli spettacoli programmati nei successivi 7 giorni, 
+       che sono dello stesso genere (anche se di tipologia diversa) dell’ultimo spettacolo da egli prenotato

@@ -1,0 +1,4 @@
+tipo Euro = Reale > 0
+tipo Ind (via: StringS, civico: Civico)
+tipo StringS: stringa di 75 caratteri
+tipo Civico: stringa secondo standard

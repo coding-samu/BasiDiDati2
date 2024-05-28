@@ -1,0 +1,5 @@
+spettacoliErogatiNeiProssimiSetteGiorni(g: Genere): Spettacolo[0..*]
+	pre-condizioni: nessuna
+	post-condizioni:
+		non modifica lo spazio estensionale
+		

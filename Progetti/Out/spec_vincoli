@@ -1,0 +1,21 @@
+[V.Settore.costo_veramente_ridotto]
+ALL s,c1,c2 Settore(s) AND costoPosto(s,c1) AND costoRidotto(s,c2) -> c1 > c2
+
+[V.Prenotazione.prenota_veramente]
+ALL p,n1,n2 Prenotazione(p) AND numPrenotatiPieni(p,n1) AND numPrenotatiRidotti(p,n2) -> n1 > 0 OR n2 > 0
+
+[V.Prenotazione.settore_corretto]
+ALL p,set,sal,e pre_set(p,set) AND sal_set(sal,set) AND ero_pre(e,p) -> ero_sal(e,sal)
+
+[V.Erogato.spettacoli_disgiunti]
+ALL e1,e2,s ero_sal(e1,s) AND ero_sal(e2,s) AND e1 != e2 -> (
+    ALL i1,i2,f1,f2 inizio(e1,i1) AND inizio(e2,i2) AND fine_{Erogato,DataOra}(e1,f1) AND fine_{Erogato,DataOra}(e2,f2) -> (
+        i1 < f2 OR i2 < f1
+    )
+)
+
+[V.Prenotazione.posti_sufficienti]
+ALL s,n1,n2 posti_{Settore,"Intero >= 0"}(s,n1) AND postiOccupati_{Settore,"Intero >= 0"}(s,n2) -> n1 >= n2
+
+[V.Prenotazione.istante_coerente]
+ALL p,i1,i2,e Prenotazione(p) AND istante(p,i1) AND ero_pre(e,p) AND inizio(e,i2) -> i1 < i2

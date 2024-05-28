@@ -1,0 +1,57 @@
+specifica dello usecase iscrizione
+
+iscrizione(codiceFiscale: CF,nome: Stringa, cognome: Stringa): Utente
+    pre-condizione: ALL u,cf Utente(u) AND codiceFiscale(u,cf) -> codiceFiscale != cf
+    post-condizioni:
+    nuovi elementi del dominio: alpha
+    nuove ennuple:
+    - Utente(alpha)
+    - codiceFiscale(alpha,codiceFiscale)
+    - nome(alpha,nome)
+    - cognome(alpha,cognome)
+    result = alpha
+
+specifica dello usecase Prenotazione
+
+prenota(numPrenotatiPieni: Intero >= 0, numPrenotatiRidotti: Intero >= 0, s: Settore, e: Erogato): Prenotazione
+    pre-condizioni: 
+        numPrenotatiPieni + numPrenotatiRidotti > 0
+            AND
+        ALL n postiLiberi_{Settore,"Intero >= 0"}(s,n) -> numPrenotatiPieni + numPrenotatiRidotti <= n
+            AND
+        ALL i inizio(e,i) -> i > adesso
+    post-condizioni:
+        L attore che sta eseguendo questa operazione si autentica come Utente u.
+        nuovi eleemnti del dominio: alpha
+        nuove ennuple:
+        - Prenotazione(alpha)
+        - numPrenotatiPieni(alpha,numPrenotatiPieni)
+        - numPrenotatiRidotti(alpha, numPrenotatiRidotti)
+        - pre_set(alpha,s)
+        - ero_pre(e,alpha)
+        - istante(alpha,adesso)
+        - pre_ute(alpha,u)
+        result = alpha
+
+specifica dello usecase ricerca
+
+ricerca(t: TipologiaSpettacolo, g: Genere,d: Data): Spettacolo[0..*]
+    pre-condizioni: nessuna
+    post-condizioni:
+        non modifica lo spazio estensionale
+        S = {s | ALL e,i,di ero_spe(e,s) AND inizio(e,i) AND data(i,di) AND gen_spe(g,s) AND spe_tip(s,t) AND d = di }
+
+        result = S
+        
+specifica dello usecase consiglio
+
+
+consiglio(u: Utente): Spettacolo[0..*]
+	pre-condizioni: EXISTS p pre_ute(p,u)
+	post-condizioni:
+		non modifica lo spazio estensionale
+		Sia s tale che ultimoSpettacoloVisto{Utente,Spettacolo}(u,s)
+		E sia g tale che gen_spe(g,s)
+		spettacoliErogatiNeiProssimiSetteGiorni{Genere,Spettacolo}(g,R)
+		result = R
+	
