@@ -4,3 +4,4 @@ tipo StringS: stringa di 75 caratteri
 tipo Civico: stringa secondo standard
 tipo InteroGEZ: Intero >= 0
 tipo InteroGZ: Intero > 0
+tipo CF: stringa secondo standard

@@ -1,0 +1,50 @@
+create domain Euro as double (check value > 0);
+create domain StringS as varchar(75);
+create domain StringSNotNull as StringS check (value is not null);
+create domain Civico as StringSNotNull check (isCivico(value));
+create type Ind as (via: StringSNotNull, civico: Civico);
+create domain InteroGEZ as integer (check value >= 0);
+create domain InteroGZ as integer (check value > 0);
+create domain CF as varchar(16) (check isCodiceFiscale(value));
+
+
+Utente(_codiceFiscale: CF_, nome: StringS, cognome: StringS)
+
+Artista(_id: serial_, nome: StringS, cognome: StringS)
+
+Genere(_nome: StringS_)
+
+TipologiaSpettacolo(_nome: StringS_)
+
+Spettacolo(_id: serial_, nome: StringS, durataMinuti: InteroGZ, genere: StringS, tipologia: StringS)
+	FK: genere references Genere(nome)
+	FK: tipologia references TipologiaSpettacolo(nome)
+	
+partecipazione(_artista: integer, spettacolo: integer_):
+	FK: artista references Artista(id)
+	FK: spettacolo references Spettacolo(id)
+
+TipologiaSede(_nome: StringS_)
+
+Sede(_nome: StringS_, indirizzo: Ind, tipologia: StringS)
+	FK: tipologia references TipologiaSede(nome)
+
+TipologiaSala(_nome: StringS_)
+
+Sala(_nome: StringS_, tipologia: StringS)
+	FK: tipologia references TipologiaSala(nome)
+
+Settore(_nome: StringS, sala: StringS_, costoPosto: Euro, costoRidotto: Euro)
+	FK: sala references Sala(nome)
+
+Posto(_settore: StringS, sala StringS, fila: InteroGZ, colonna: InteroGZ_)
+	FK: (settore, sala) references Settore(nome, sala)
+
+Erogato(_id: serial_, inizio: timestamp, sala: StringS, spettacolo: integer)
+	FK: sala references Sala(nome)
+	FK: spettacolo references Spettacolo(id)
+
+Prenotazione(_istantePrenotazione: timestamp, utente: CF_, numPrenotatiPieni: InteroGEZ, numPrenotatiRidotti: InteroGEZ, settore: StringS, sala: StringS, erogato: integer)
+	FK: utente references Utente(codiceFiscale)
+	FK: (settore, sala) references Settore(nome, sala)
+	FK: erogato references Erogato(id)
