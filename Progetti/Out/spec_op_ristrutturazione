@@ -1,0 +1,6 @@
+spettacoliErogatiNeiProssimiSetteGiorni(g: Genere): Spettacolo[0..*]
+	pre-condizioni: nessuna
+	post-condizioni:
+		non modifica lo spazio estensionale
+		R = {s | gen_spe(g,s) AND ero_spe(e,s) AND inizio(e,i) AND istanteCorrente < i and i < istanteCorrente + 7*24*60*60}
+		result = R
