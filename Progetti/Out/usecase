@@ -52,6 +52,6 @@ consiglio(u: Utente): Spettacolo[0..*]
 		non modifica lo spazio estensionale
 		Sia s tale che ultimoSpettacoloPrenotato{Utente,Spettacolo}(u,s)
 		E sia g tale che gen_spe(g,s)
-		spettacoliErogatiNeiProssimiSetteGiorni{Genere,Spettacolo}(g,R)
+		spettacoliErogatiNeiProssimiSetteGiorni{Genere,Spettacolo [0..*]}(g,R)
 		result = R
 	

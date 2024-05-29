@@ -40,7 +40,7 @@ post-condizioni:
     
 specifica della classe Utente
 
-ultimoSpettacoloVisto(): Spettacolo
+ultimoSpettacoloPrenotato(): Spettacolo
 
 pre-condizioni: EXISTS p pre_ute(p,this)
 
