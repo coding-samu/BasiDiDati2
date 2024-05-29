@@ -31,20 +31,23 @@ Sede(_nome: StringS_, indirizzo: Ind, tipologia: StringS)
 
 TipologiaSala(_nome: StringS_)
 
-Sala(_nome: StringS_, tipologia: StringS)
+Sala(_id: serial_, nome: StringS, sede: StringS, tipologia: StringS)
 	FK: tipologia references TipologiaSala(nome)
+	FK: sede references Sede(nome)
+	Altra chiave: (nome, sede)
 
-Settore(_nome: StringS, sala: StringS_, costoPosto: Euro, costoRidotto: Euro)
-	FK: sala references Sala(nome)
+Settore(_id: serial_, nome: StringS, sala: integer, costoPosto: Euro, costoRidotto: Euro)
+	FK: sala references Sala(id)
+	Altra chiave: (nome, sala)
 
-Posto(_settore: StringS, sala StringS, fila: InteroGZ, colonna: InteroGZ_)
-	FK: (settore, sala) references Settore(nome, sala)
+Posto(_settore: integer, fila: InteroGZ, colonna: InteroGZ_)
+	FK: settore references Settore(id)
 
-Erogato(_id: serial_, inizio: timestamp, sala: StringS, spettacolo: integer)
-	FK: sala references Sala(nome)
+Erogato(_id: serial_, inizio: timestamp, sala: integer, spettacolo: integer)
+	FK: sala references Sala(id)
 	FK: spettacolo references Spettacolo(id)
 
-Prenotazione(_istantePrenotazione: timestamp, utente: CF_, numPrenotatiPieni: InteroGEZ, numPrenotatiRidotti: InteroGEZ, settore: StringS, sala: StringS, erogato: integer)
+Prenotazione(_istantePrenotazione: timestamp, utente: CF_, numPrenotatiPieni: InteroGEZ, numPrenotatiRidotti: InteroGEZ, settore: integer, erogato: integer)
 	FK: utente references Utente(codiceFiscale)
-	FK: (settore, sala) references Settore(nome, sala)
+	FK: settore references Settore(id)
 	FK: erogato references Erogato(id)
