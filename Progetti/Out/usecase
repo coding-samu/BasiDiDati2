@@ -50,7 +50,7 @@ consiglio(u: Utente): Spettacolo[0..*]
 	pre-condizioni: EXISTS p pre_ute(p,u)
 	post-condizioni:
 		non modifica lo spazio estensionale
-		Sia s tale che ultimoSpettacoloVisto{Utente,Spettacolo}(u,s)
+		Sia s tale che ultimoSpettacoloPrenotato{Utente,Spettacolo}(u,s)
 		E sia g tale che gen_spe(g,s)
 		spettacoliErogatiNeiProssimiSetteGiorni{Genere,Spettacolo}(g,R)
 		result = R
