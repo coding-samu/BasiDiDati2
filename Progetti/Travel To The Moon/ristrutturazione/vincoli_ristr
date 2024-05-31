@@ -1,0 +1,55 @@
+nuovi vincoli del diagramma delle classi ristrutturato
+
+[V.Crociera.complete]
+
+ALL c Crociera(c) -> EXISTS a idm_isa_c(a,c) or f_isa_c(a,c)
+
+[V.Crociara.disjoint]
+
+ALL c Crociara(c) -> EXISTS a idm_isa_c(a,c) -> NOT f_isa_c(a,c)
+
+vincoli ristrutturati
+
+[V.Crociera.prenotazioni_leq_num_max_passeggieri]
+
+ALL n,c,i1,i2 nave_croc(c,n) and prenotati_{Crociera,InteroGEZ}(n,i1) and numero_massimo_passeggeri(n,i2) -> i1 <= i2
+
+[V.Prenotazione.istante_di_prenotazione_less_data_inizio_crociera]
+
+ALL c,p,ista,d,inizio pren_croc(c,p) and istante_prenotazione(p,ista) and data(ista,d) and data_inizio(c,inizio) -> d < inizio
+
+[V.OrarioPostoDaVedere.ora_inizio_less_ora_fine]
+
+ALL o,i,f OrarioPostoDaVedere(o) and ora_inizio(o,i) and ora_fine(o,f) -> i < f
+
+[V.Tappa.giorno_arrivo_less_giorno_partenza]
+
+ALL t,a,p Tappa(t) and arrivo(t,a) and partenza(t,p) -> a < p
+
+[V.Tappa.overlapping]
+
+ALL t1,t2,a1,a2,p1,p2,i t1 != t2 and tappa_itin(i,t2) and tappa_itin(i,t1) and Tappa(t1) and Tappa(t2) and arrivo(t1,a1) and partenza(t1,p1) and arrivo(t2,a2) and partenza(t2,p2) -> (
+    a1 < a2 -> p1 < a2
+        AND
+    a1 >= a2 -> p2 < a1
+)
+
+[V.Itinerario.arrivo_corretto]
+
+ALL i,t,d,f,p tappa_itin(i,t) and arrivo(i,d) and istante(i,d,f) and partenza(t,p) -> p < f 
+
+[V.OrarioPostoDaVedere.overlapping]
+
+ALL o1,o2,i1,i2,f1,f2 o1 != o2 and OrarioPostoDaVedere(o1) and OrarioPostoDaVedere(o2) and ora_inizio(o1,i1) and ora_fine(o1,f1) and ora_inizio(o2,i2) and ora_fine(o2,f2) -> (
+    i1 < i2 -> f1 < i2
+        and
+    i1 >= i2 -> f2 < i1
+)
+
+
+[V.OrarioPostoDaVedere.inizio_less_fine]
+ALL o,i,f OrarioPostoDaVedere(o) and ora_inizio(o,i) and ora_fine(o,f) -> i < f
+
+[V.Utente.nascita_consistente]
+
+ALL u,p,t1,i1,i2 pren_utente(p,u) and istante_prenotazione(p,t1) and data(t1,i1) and data_nascita(u,i2)-> i1 > i2

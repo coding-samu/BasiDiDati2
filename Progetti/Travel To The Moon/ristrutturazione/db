@@ -1,0 +1,54 @@
+Continente(_nome: StringaS_)
+
+Nazione(_nome: StringaS_,continente: StringaS)
+    FK: continente references Continente(nome)
+
+Citta(_id: serial_,nome: StringaS,nazione: StringaS)
+    FK: nazione references nazione(nome)
+
+Porto(_id: serial_,nome: StringaS,citta: integer)
+    altra chiave: (nome,citta)
+    FK: citta references citta(id)
+
+Destinazione(_id: serial_,nome: StringaS,tipo: TipoDestinazione,porto: integer)
+    FK: porto references Porto(id)
+
+Itinerario(_nome: StringaS_,arrivo: integer,istante_arrivo: DeltaOra,partenza: integer,ora_partenza: time)
+    FK: arrivo references Destinazione(id)
+    FK: partenza references Destinazione(id)
+
+Nave(_nome: stringaS_,grado_di_comfort: ValutazioneNave,numero_massimo_passeggeri: InteroGZ)
+
+Crociera(_codice: stringaS_,data_inizio: date,nave: StringaS,itinerario: StringaS):
+    FK: nave references Nave(nome)
+    FK: itinerario references Itinerario(nome)
+
+PostoDaVedere(_nome: StringaS_,descrizione: text, citta: integer)
+    FK: citta references Citta(id)
+
+dest_pdv(_destinazione: integer,postoDaVedere: StringaS_)
+    FK: descrizione references Destinazione(id)
+    FK: postoDaVedere references PostoDaVedere(nome)
+
+OrarioPdv(_id: serial_,giorno: Giorno,ora_inizio: time, ora_fine: time,postoDaVedere: StringaS)
+    FK: postoDaVedere references PostoDaVedere(nome)
+    altra chiave: (giorno,ora_inizio,postoDaVedere)
+
+Tappa(_id: serial_,arrivo: DeltaOra, partenza: DeltaOra,itinerario: StringaS,destinazione: integer)
+    FK: itinerario references Itinerario(nome)
+    FK: destinazione references Destinazione(id)
+    altra chiave: (itinerario,arrivo)
+
+CrocLunaDiMiele(_crociera: StringaS_)
+    FK: crociera references Crociera(codice)
+
+CrocPerFamiglia(_crociera: StringaS_,adatta_ai_bambini: boolean)
+    FK: crociera references Crociera(codice)
+
+Utente(_id: serial_,nome: StringaS, cognome: StringaS,indirizzo: Indirizzo,dataN: date,citta: integer)
+    FK: citta references Citta(id)
+
+Prenotazione(_id: serial_,istante_prenotazione: timestamp,num_posti_prenotati: InteroGZ,tipo: StatoPrenotazione,crociera: StringaS, utente: integer)
+    FK: crociera references Crociera(codice)
+    FK: utente references Utente(id)
+    altra chiave: (istante_prenotazione,crociera)
