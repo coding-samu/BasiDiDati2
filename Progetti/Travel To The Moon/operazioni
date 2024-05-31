@@ -1,0 +1,10 @@
+Specifica delle operazioni classe Crociera
+
+data_fine_crociera(): DataOra
+pre-condizioni: nessuna
+post-condizioni:
+    non modifica lo spazio estenzionale.
+
+    ALL i,c,d itin_croc(i,c) and data_inizio(c,d) -> ALL ist,g,o arrivo(i,c,ist) and giorno(ist,g) and ora(ist,o) -> (
+        DataOra(result) and data(result,d + g) and ora(result,o)
+    )
