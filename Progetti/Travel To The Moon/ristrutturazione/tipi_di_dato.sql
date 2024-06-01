@@ -50,4 +50,6 @@ create type Indirizzo as (
     civico Civico_not_null
 );
 
-create type Giorno as enum('Lunedi','Martedi','Mercoledi','Giovedi','Venerdi','Sabato','Domenica')
+create type Giorno as enum('Lunedi','Martedi','Mercoledi','Giovedi','Venerdi','Sabato','Domenica');
+
+create type TipoCrocieraLunaDiMiele as enum('Tradizionale','Alternativa');
