@@ -1,0 +1,31 @@
+// Vincoli aggiunti
+
+[V.Utente.complete]
+
+ALL u Utente(u) -> EXISTS a up_isa_u(a,u) or vp_isa_u(a,u)
+
+[V.Utente.disjoint]
+
+ALL u Utente(u) -> NOT EXISTS a,b up_isa_u(a,u) and vp_isa_u(b,u)
+
+[V.Post.complete_asta_cs]
+
+ALL p Post(p) -> EXISTS a pcs_isa_p(a,p) pr pa_is_a_p(a,p)
+
+[V.Post.disjoint_asta_c]
+
+ALL p Post(p) -> NOT EXISTS a,b pcs_isa_p(a,p) and pa_is_a_p(b,p)
+
+[V.Post.complete_usato_nuovo]
+
+ALL p Posto(p) -> EXISTS a pu_is_a_p(a,p) pr pn_is_a_p(a,p)
+
+[V.Post.disjoint_usato_nuovo]
+
+ALL p Post(p) -> NOT EXISTS a,b pu_is_a_p(a,p) and pn_is_a_p(b,p)
+
+[V.Post.garanzia_corretta]
+
+ALL pn,p pn_isa_p(pn,p) -> NOT EXISTS a garanziaMesi(p,a)
+    AND
+ALL pu,p pu_isa_p(pu,p) -> EXISTS a garanziaMesi(p,a) // se il posto è usato l'utente può decidere di non inserire una garanzia inserendo 0

@@ -1,0 +1,46 @@
+Utente(_nome: StringaS_,data_reg: timestamp)
+
+MetodoPagamento(_nome: StringaS_,tipo: tipoPagamento)
+
+Categoria(_nome: StringaS_,*super_categoria: StringaS)
+    FK: super_categoria references Categoria(nome)
+
+Valute(_nome: Valuta_)
+
+Post(_id: serial_,nome: StringaS,descrizione: Text,*garanziaMesi: MesiGaranzia,prezzo_iniziale: Denaro,istante_pubblicazione: timestamp,valuta: StringaS,categoria: StringaS, venditore: StringaS)
+    FK: categoria references Categoria(nome)
+    FK: valuta references Valute(nome)
+    FK: utente references Utente(nome)
+    altra chiave: (nome,venditore)
+    v. inclusione: Post(id) occorre mp_post(post)
+
+mp_post(_metodoPagamento: StringaS,post: integer)
+    FK: metodoPagamento references MetodoPagamento(nome)
+    FK: post references Post(id)
+
+PostNuovo(_post: integer_,garanziaMesi: MesiGaranziaNuovo)
+    FK: post references Post(id)
+
+PostUsato(_post: integer_,condizioni: CondizioniUsato)
+    FK: post references Post(id)
+
+PostConFeedback(_post: integer_,voto: Valutazione,*commento: text)
+    FK: post references Post(id)
+
+UtentePrivato(_utente: StringaS_)
+    FK: utente references Utente(nome)
+
+VendProf(_utente: StringaS_, url: StringaM)
+    FK: utente references Utente(nome)
+
+PostCS(_post: integer_, *acquirente: StringaS)
+    FK: post references Post(id)
+    FK: acquirente references UtentePrivato(utente)
+
+PostAsta(_post: integer_, rialzo: Denaro, istante_scad: timestamp)
+    FK: post references Post(id)
+
+Bid(_id: serial_, istante: timestamp, bidder: StringaS, post: integer)
+    FK: bidder references UtentePrivato(utente)
+    FK: post references Post(id)
+    altra chiave: (istante,post)
