@@ -1,0 +1,96 @@
+1. Trigger non si possono modificare gli id artificiali
+
+2. Trigger V.Crociera.complete
+
+quando deve essere scattare: dopo un INSERT(_) di Crociera oppure REMOVE() da CrocLunaDiMiele oppure CrocPerFamiglia
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from crociera as c,CrocLunaDiMiele as ldm, CrocPerFamiglia as cpr
+        where not( c.codice = ldm.crociera or c.codice = cpr.crociera )
+    )
+
+3. Trigger V.Crociara.disjoint
+
+quando deve scattare: dopo un INSERT(_) di CrocLunaDiMiele oppure CrocPerFamiglia
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from crociera as c,CrocLunaDiMiele as ldm, CrocPerFamiglia as cpr
+        where c.codice = ldm.crociera and c.codice = cpr.crociera
+    )
+
+4. V.Crociera.prenotazioni_leq_num_max_passeggieri
+
+quando deve scattare: dopo un INSERT(new) o UPDATE(new) di Prenotazione
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from crociera as c, nave as n
+        where new.crociera = c.codice and c.nave = n.nome and prenotati_crociera(c) > n.numero_massimo_passeggeri
+    )
+
+5. V.Prenotazione.istante_di_prenotazione_less_data_inizio_crociera
+
+quando deve scattare: dopo un INSERT(new) o UPDATE(new) di Prenotazione
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Crociera as c, Itinerario as i
+        where new.crociera = c.codice and c.Itinerario = i.nome and (c.data_inizio+i.ora_partenza >= new.istante_prenotazione)
+    )
+
+6. V.OrarioPostoDaVedere.ora_inizio_less_ora_fine
+
+quando deve scattare: dopo un INSERT(new) o UPDATE(new) di OrarioPDV
+
+controllo da effettuare:
+    isError := new.ora_inizio >= new.ora_fine
+
+7. V.OrarioPostoDaVedere.overlapping
+
+quando deve scattare: dopo un INSERT(new) o UPDATE(new) di OrarioPDV
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from OrarioPDV as o
+        where o.postoDaVedere = new.postoDaVedere and new.giorno = o.giorno and new.id <> o.id and (
+            (new.ora_inizio,new.ora_fine) overlaps (o.ora_inizio,o.ora_fine)
+        )
+    )
+
+8. V.Itinerario.arrivo_corretto
+
+quando deve scattare: dopo un INSERT(new) o UPDATE(new) di Tappa
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Itinerario as i
+        where new.Itinerario = i.nome and (minoreDeltaOra(i.istante_arrivo,new.partenza) or i.istante_arrivo = new.partenza)
+    )
+
+9. V.Tappa.giorno_arrivo_less_giorno_partenza
+
+quando deve scattare: dopo un INSERT(new) o UPDATE(new) di Tappa
+
+controllo da effettuare:
+    isError := minoreDeltaOra(new.partenza,new.arrivo) or new.partenza = new.arrivo
+
+10. V.Utente.nascita_consistente
+
+quando deve scattare: dopo un INSERT(new) o UPDATE(new) di Prenotazione
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Utente u
+        where new.utente = u.id and data(new.istante_prenotazione) <= u.dataN
+    )
+
+11. non permetti di modificare la data di nascita degli utenti
