@@ -89,6 +89,7 @@ INSERT INTO OrarioPdv (giorno, ora_inizio, ora_fine, postoDaVedere) VALUES
 -- Tappa
 INSERT INTO Tappa (arrivo, partenza, itinerario, destinazione) VALUES
 (ROW(1, '08:00:00')::DeltaOra, ROW(1, '09:00:00')::DeltaOra, 'Itinerario 1', 1),
+(ROW(2, '08:00:00')::DeltaOra, ROW(3, '09:00:00')::DeltaOra, 'Itinerario 1', 1),
 (ROW(2, '09:00:00')::DeltaOra, ROW(2, '10:00:00')::DeltaOra, 'Itinerario 2', 2),
 (ROW(3, '10:00:00')::DeltaOra, ROW(3, '11:00:00')::DeltaOra, 'Itinerario 3', 3),
 (ROW(4, '11:00:00')::DeltaOra, ROW(4, '12:00:00')::DeltaOra, 'Itinerario 4', 4),

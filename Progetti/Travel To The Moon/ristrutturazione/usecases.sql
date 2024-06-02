@@ -55,6 +55,8 @@ begin
     select distinct count(d.id)
     from destinazione as d
     where gettonata(d,inizio,fine);
+
+    return gettonate/tot;
 end;
 $$
 language plpgsql;
