@@ -256,3 +256,33 @@ as $$
     end;
 $$
 language plpgsql;
+
+-- operazioni classe VendProf
+
+create or replace function popolarita(this VendProf)
+returns ValVendProf
+as $$
+declare
+    bidRicevuti InteroGEZ = 0;
+    acquistiRicevuti InteroGEZ = 0;
+    tot InteroGEZ = 0;
+begin
+
+    select count(*)
+    into bidRicevuti
+    from Utente u,Post p,PostAsta pa, bid b
+    where u.nome = this.utente and p.venditore = u.nome and pa.post = p.id and b.post = pa.post;
+
+    select count(*)
+    into acquistiRicevuti
+    from Utente u,Post p,PostCS cs
+    where u.nome = this.utente and p.venditore = u.nome and cs.post = p.id and cs.acquirente is not null;
+
+    tot := bidRicevuti + acquistiRicevuti;
+
+    if tot < 50 then return 'Bassa'; end if;
+    if tot > 300 then return 'Alta'; end if;
+    return 'Media';
+
+end;
+$$ language plpgsql;
