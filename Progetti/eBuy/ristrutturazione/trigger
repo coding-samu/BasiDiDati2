@@ -1,0 +1,158 @@
+1. non è possibile modificare id artificiali
+
+2.Trigger V.Utente.complete
+
+quando deve scattare: INSERT(new) di Utente o REMOVE(_) di UtentePrivato o VendProf
+
+controllo da effettuare:
+    isError := not exists (
+        select *
+        from UtentePrivato up,VendProf vp
+        where up.utente = new.nome or vp.utente = new.nome
+    )
+
+3.Trigger V.Utente.disjoint
+
+quando deve scattare: INSERT(new) di Utente o INSERT(_) di UtentePrivato o VendProf
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from UtentePrivato up,VendProf vp
+        where up.utente = this.nome and vp.utente = this.nome
+    )
+
+4.Trigger V.Post.complete_asta_cs
+
+quando deve scattare: INSERT(new) di Post o REMOVE(_) di PostAsta o PostCS
+
+controllo da effettuare:
+    isError := not exists (
+        select *
+        from PostAsta pa,PostCS cs
+        where pa.post = new.id or vp.post = new.id
+    )
+
+5.Trigger V.Post.disjoint_asta_c
+
+quando deve scattare: INSERT(new) di Post o INSERT(_) di PostAsta o PostCS
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from PostAsta pa,PostCS cs
+        where pa.post = new.id and vp.post = new.id
+    )
+
+6.Trigger V.Post.complete_usato_nuovo
+
+quando deve scattare: INSERT(new) di Post o REMOVE(_) di PostNuovo o PostUsato
+
+controllo da effettuare:
+    isError := not exists (
+        select *
+        from PostNuovo pa,PostUsato cs
+        where pa.post = new.id or vp.post = new.id
+    )
+
+7.Trigger V.Post.disjoint_asta_c
+
+quando deve scattare: INSERT(new) di Post o INSERT(_) di PostNuovo o PostNuovo
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from PostNuovo pa,PostUsato cs
+        where pa.post = new.id and vp.post = new.id
+    )
+
+8.Trigger V.Post.garanzia_corretta_lato_nuovo
+
+quando deve scattare: INSERT(new) di PostNuovo
+
+controllo da effettuare:
+
+    garanzia MesiGaranzia = null:
+
+    select p.MesiGaranzia
+    into garanzia
+    from Post p
+    where p.id = new.post
+
+    isError := garanzia is not null
+
+9.Trigger V.Post.garanzia_corretta_lato_nuovo
+
+quando deve scattare: INSERT(new) di PostUsato
+
+controllo da effettuare:
+
+    garanzia MesiGaranzia = null:
+
+    select p.MesiGaranzia
+    into garanzia
+    from Post p
+    where p.id = new.post
+
+    isError := garanzia is null
+
+10.Trigger V.Bid.prima_della_scadenza
+
+quando deve scattare: INSERT(new) o UPDATE(new) di Bid
+
+controllo da effettuare:
+
+    isError := exists (
+        select *
+        from PostAsta as pa
+        where new.post = pa.post and new.istante >= pa.istante_scadenza
+    )
+
+11.Trigger V.Bid.istante_consistente
+
+quando deve scattare: INSERT(new) o UPDATE(new) di Bid
+
+controllo da effettuare:
+
+    isError := exists (
+        select *
+        from Utente as u
+        where new.bidder = u.nome and u.data_reg >= new.istante
+    )
+
+12.Trigger V.Categoria.ordine_consistente
+
+quando deve scattare: dopo INSERT(new) o UPDATE(new) di Categoria
+
+controllo da effettuare:
+
+    isError := dfs(new,new);
+
+13.Trigger V.Categoria.nessun_cappio
+
+quando deve scattare: dopo INSERT(new) o UPDATE(new) di Categoria
+
+controllo da effettuare:
+    isError := new.nome = new.super_categoria;
+
+14.Trigger V.Post.data_reg_consistente
+
+quando deve scattare: dopo INSERT(new) o UPDATE(new) di Post
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Utente as u
+        where u.nome = p.venditore and u.data_reg >= new.istante_pubblicazione
+    )
+
+15.Trigger V.PostAsta.scadenza_consistente
+
+quando deve scattare: dopo INSERT(new) o UPDATE(new) di PostAsta
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Post as p
+        where p.id = new.post and p.istante_pubblicazione >= new.istante_scad
+    )

@@ -153,3 +153,154 @@ as $$
     end;
 $$
 language plpgsql;
+
+
+create or replace function mesiGaranziaPost(this Post)
+returns InteroGEZ
+as $$
+declare
+    garanziaMesi InteroGEZ = 0;
+begin
+    if this.garanziaMesi is not null then return this.garanziaMesi; end if;
+
+    select p.garanziaMesi
+    into garanziaMesi
+    from PostNuovo as p
+    where p.post = this.id;
+
+    return garanziaMesi;
+end;
+$$ language plpgsql;
+
+create or replace function getLivello(this Categoria)
+returns InteroGEZ
+as $$
+declare
+    livello InteroGEZ = 0;
+    padre Categoria = null;
+begin
+    if this.super_categoria is null then return 0; end if;
+
+    select c.*
+    into padre
+    from Categoria c
+    where c.nome = this.super_categoria;
+
+    return getLivello(padre) + 1;
+end;
+$$ language plpgsql;
+
+
+-- Operazione classe Utente
+
+create or replace function mediaFeedback(this Utente)
+returns MediaValutazione
+as $$
+    begin
+        if not exists (
+            select *
+            from Post p, PostConFeedback pf
+            where p.venditore = this.nome and pf.post = p.id
+        )
+        then raise exception 'Error 003 - Questo Utente non ha feedback'; end if;
+
+        return (
+            select avg(pf.voto)
+            from Post as p, PostConFeedback as pf
+            where p.venditore = this.nome and p.id = pf.post
+        );
+    end;
+$$
+language plpgsql;
+
+create or replace function percentualeFeedbackNegativiUtente(this Utente)
+returns percentualeFeedbackNegativi
+as $$
+    declare
+        numF InteroGEZ = 0;
+        numFN InteroGEZ = 0;
+    begin
+        select count(*)
+        into numF
+        from Post as p, PostConFeedback as pf
+        where p.id = pf.post and p.venditore = this.nome;
+
+        select count(*)
+        into numFN
+        from Post as p, PostConFeedback as pf
+        where p.id = pf.post and p.venditore = this.nome and pf.voto <= 2;
+
+        if numFN = 0 then return 0; end if;
+
+        return numFN/numF;
+        
+    end;
+$$
+language plpgsql;
+
+
+create or replace function affidabilita(this Utente)
+returns ValAffidabilita
+as $$  
+    begin
+        if not exists (
+            select *
+            from Post p, PostConFeedback pf
+            where p.venditore = this.nome and pf.post = p.id
+        )
+        then raise exception 'Error 003 - Questo Utente non ha feedback'; end if;
+
+        return (mediaFeedback(this)*(1-percentualeFeedbackNegativiUtente(this)))/5;
+
+
+    end;
+$$
+language plpgsql;
+
+-- operazioni classe VendProf
+
+create or replace function popolarita(this VendProf)
+returns ValVendProf
+as $$
+declare
+    bidRicevuti InteroGEZ = 0;
+    acquistiRicevuti InteroGEZ = 0;
+    tot InteroGEZ = 0;
+begin
+
+    select count(*)
+    into bidRicevuti
+    from Utente u,Post p,PostAsta pa, bid b
+    where u.nome = this.utente and p.venditore = u.nome and pa.post = p.id and b.post = pa.post;
+
+    select count(*)
+    into acquistiRicevuti
+    from Utente u,Post p,PostCS cs
+    where u.nome = this.utente and p.venditore = u.nome and cs.post = p.id and cs.acquirente is not null;
+
+    tot := bidRicevuti + acquistiRicevuti;
+
+    if tot < 50 then return 'Bassa'; end if;
+    if tot > 300 then return 'Alta'; end if;
+    return 'Media';
+
+end;
+$$ language plpgsql;
+
+create or replace function dfs(u Categoria, v Categoria)
+returns boolean
+as $$
+    declare
+        padre Categoria = null;
+    begin
+        if u.super_categoria is null then return false; end if;
+        if u.super_categoria = v.nome then return true; end if;
+
+        select c.*
+        into padre
+        from Categoria as c
+        where c.nome = u.super_categoria;
+
+        return dfs(padre,v);
+    end;
+$$ language plpgsql;
