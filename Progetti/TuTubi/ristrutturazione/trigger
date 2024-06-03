@@ -1,0 +1,166 @@
+1. non si può modificare gli id artificiali
+
+2.Trigger V.Video.istante_gt_iscrizione
+
+quando deve scattare: INSERT(new) o UPDATE(new) di video
+
+controllo da effettuare:
+    isError := exists(
+        select *
+        from utente u
+        where u.nome = new.autore and new.istante_pubblicazione <= u.dataIscrizione
+    )
+
+3.Trigger V.Cronologia.istante_gt_iscrizione
+
+quando deve scattare: INSERT(new) o UPDATE(new) di cronologia
+
+controllo da effettuare:
+    isError := exists(
+        select *
+        from utente u
+        where u.nome = new.utente and new.dataVisualizzazione <= u.dataIscrizione
+    )
+
+4.Trigger V.Commento.istante_gt_iscrizione
+
+quando deve scattare: INSERT(new) o UPDATE(new) di commento
+
+controllo da effettuare:
+    isError := exists(
+        select *
+        from utente u
+        where u.nome = new.utente and new.dataPubblicazione <= u.dataIscrizione
+    )
+
+5.Trigger V.Commento.istante_gt_video
+
+quando deve scattare: INSERT(new) o UPDATE(new) di commento
+
+controllo da effettuare:
+    isError := exists(
+        select *
+        from video v
+        where v.id = new.video and new.dataPubblicazione <= v.istante_pubblicazione
+    )
+
+6.Trigger V.Playlist.istante_gt_iscrizione
+
+quando deve scattare: INSERT(new) o UPDATE(new) di playlist
+
+controllo da effettuare:
+    isError := exists(
+        select *
+        from utente u
+        where u.nome = new.utente and new.dataCreazione <= u.dataIscrizione
+    )
+
+7.Trigger V.Playlist.istante_aggiunta_video
+
+quando deve scattare: INSERT(new) o UPDATE(new) di plVid
+
+controllo da effettuare:
+    isError := exists(
+        select *
+        from playlist as p, video as v
+        where new.playlist = p.id and new.video = v.id and (p.dataCreazione >= new.dataInserimento or new.dataInserimento <= v.istante_pubblicazione)
+    )
+
+8.Trigger V.Valutazione.tempo_consistente
+
+quando deve scattare: INSERT(new) o UPDATE(new) di Valutazione
+
+controllo da effettuare:
+    isError := exists(
+        select *
+        from utente u, video v
+        where new.utente = u.nome and new.video = v.id and (u.dataIscrizione >= new.dataValutazione or v.istante_pubblicazione >= new.dataValutazione)
+    )
+
+9.Trigger V.VideoCensurato.data_censura_giusta
+
+quando deve scattare: INSERT(new) o UPDATE(new) di VideoCensurato
+
+controllo da effettuare:
+    isError := exists(
+        select *
+        from Video v
+        where new.video = v.id and v.istante_pubblicazione > new.dataCensura
+    )
+
+10.Trigger V.Video.VideoCensuratoNonVisualizzabile
+
+quando deve scattare: INSERT(new) o UPDATE(new) di Cronologia
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from VideoCensurato vc
+        where vc.video = new.video and new.dataVisualizzazione >= vc.dataCensura
+    )
+
+11.Trigger V.Video.VideoCensuratoNonValutabile
+
+quando deve scattare: INSERT(new) o UPDATE(new) di Valutazione
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from VideoCensurato vc
+        where vc.video = new.video and new.dataValutazione >= vc.dataCensura
+    )
+
+12.Trigger V.Video.VideoCensuratoNonCommentabile
+
+quando deve scattare: INSERT(new) o UPDATE(new) di Commento
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from VideoCensurato vc
+        where vc.video = new.video and new.dataPubblicazione >= vc.dataCensura
+    )
+
+13.Trigger V.VideoRisposta.autore_non_se_stesso
+
+quando deve scattare: INSERT(new) o UPDATE(new) di Video
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from video v, utente u
+        where new.autore = u.nome and new.super_vid = v.id and v.autore = u.nome
+    )
+
+14.Trigger V.Valutazione.autore_non_se_stesso
+
+quando deve scattare: INSERT(new) o UPDATE(new) di Valutazione
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from video v
+        where new.video = v.id and v.autore = new.utente
+    )
+
+15.Trigger V.Valutazione.solo_video_visualizzati
+
+quando deve scattare: INSERT(new) o UPDATE(new) di Valutazione
+
+controllo da effettuare:
+    isError := not exists (
+        select *
+        from cronologia c
+        where new.video = c.video and new.utente = c.utente
+    )
+
+16.Trigger V.Commento.solo_video_visualizzati
+
+quando deve scattare: INSERT(new) o UPDATE(new) di Commento
+
+controllo da effettuare:
+    isError := not exists (
+        select *
+        from cronologia c
+        where new.video = c.video and new.utente = c.utente
+    )
