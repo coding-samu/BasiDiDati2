@@ -1,0 +1,45 @@
+[V.Video.istante_gt_iscrizione]
+
+ALL u,v,i1,i2 utVid(u,v) and istante_pubblicazione(v,i1) and dataIscrizione(u,i2) -> i1 > i2
+
+[V.Cronologia.istante_gt_iscrizione]
+
+ALL u,c,i1,i2 cronUt(c,u) and dataVisualizzazione(u,i1) and dataIscrizione(u,i2) -> i1 > i2
+
+[V.Commento.istante_gt_iscrizione]
+
+ALL c,u,i1,i2 comUt(c,u) and dataPubblicazione(c,i1) and dataIscrizione(u,i2) -> i1 > i2
+
+[V.Commento.istante_gt_video]
+
+ALL c,v,i1,i2 comVid(c,v) and istante_pubblicazione(v,i1) and dataPubblicazione(c,i2) -> i2 > i1
+
+[V.Playlist.istante_gt_iscrizione]
+
+ALL p,u,i1,i2 plUt(p,u) and dataCreazione(p,i1) and dataIscrizione(u,i2) -> i1 > i2
+
+[V.Playlist.istante_aggiunta_video]
+
+ALL p,v,i1,i2,i3 plVid(p,v) and dataInserimento(p,v,i1) and istante_pubblicazione(v,i2) and dataCreazione(p,i3) -> i1 > i2 AND i1 > i3
+
+[V.Valutazione.tempo_consistente]
+
+ALL u,v,i1,i2,i3 Valutazione(u,v) and dataValutazione(u,v,i1) and dataIscrizione(u,i2) and istante_pubblicazione(v,i3) -> i1 > i2 and i1 > i3
+
+[V.VideoCensurato.data_censura_giusta]
+
+ALL vc,v,i1,i2 vcIsAV(vc,v) and dataCensura(vc,i1) and istante_pubblicazione(v,i2) -> i1 > i2
+
+// vincoli ristrutturati
+
+[V.Video.VideoCensuratoNonVisualizzabile]
+
+ALL v,vc,dc,dv,c vcIsAV(vc,v) and dataCensura(vc,dc) and cronVid(c,v) and dataVisualizzazione(c,dv) -> dv < dc
+
+[V.Video.VideoCensuratoNonValutabile]
+
+ALL v,vc,dc,dv,val vcIsAV(vc,v) and dataCensura(vc,dc) and Valutazione(val,v) and dataValutazione(val,v,dv) -> dv < dc
+
+[V.Video.VideoCensuratoNonCommentabile]
+
+ALL v,vc,dc,com,dp vcIsAV(vc,v) and dataCensura(vc,dc) and comVid(com,v) and dataPubblicazione(com,dp) -> dp < dc

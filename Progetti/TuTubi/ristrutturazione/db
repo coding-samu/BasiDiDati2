@@ -1,0 +1,45 @@
+
+Categoria(_nome: StringaS_)
+
+Tag(_nome: StringaS_)
+
+MotivazioneCensura(_nome: StringaS_,descrizione: StringaL)
+
+Utente(_nome: StringaS_,dataIscrizione: timestamp)
+
+Video(_id: serial_,titolo: StringaS,descrizione: StringaL,file: FileVideo,istante_pubblicazione: timestamp,autore: StringaS,categoria: StringaS,*super_vid: integer)
+    FK: autore references Utente(nome)
+    FK: categoria references Categoria(nome)
+    FK super_vid references Video(id)
+    altra chiave: (titolo,autore)
+    v. inclusione: Video(id) contenuto in tagVid(video)
+
+tagVid(_video: integer,tag: StringaS_)
+    FK: video references Video(id)
+    FK: tag references Tag(nome)
+
+VideoCensurato(_video: integer_,commentoAggiuntivo: StringaL,dataCensura: timestamp,motivazione: StringaS)
+    FK: video references Video(id)
+    FK: motivazione references MotivazioneCensura(nome)
+
+Cronologia(_id: serial_,dataVisualizzazione: timestamp,utente: StringaS,video: integer)
+    FK: utente references Utente(nome)
+    FK: video references Video(id)
+    altra chiave: (dataVisualizzazione,utente)
+
+Valutazione(_utente: StrigaS,video: integer_,voto: Voto, dataValutazione: timestamp)
+    FK: utente references Utente(nome)
+    FK: video references Video(id)
+
+Commento(_id: serial_,testo: StringaL,dataPubblicazione: timestamp,utente: StringaS,video: integer)
+    FK: utente references Utente(nome)
+    FK: video references Video(id)
+    altra chiave: (utente,testo,video)
+
+Playlist(_id: serial_,nome: StringaS,dataCreazione: timestamp,stato: StatoPlaylist,utente: StringaS)
+    FK: utente references Utente(nome)
+    altra chiave: (nome,utente)
+
+plVid(_playlist: integer,video: integer_,dataInserimento: timestamp)
+    FK: playlist references Playlist(id)
+    FK: video references Video(id)
