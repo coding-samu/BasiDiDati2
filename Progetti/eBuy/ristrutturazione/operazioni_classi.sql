@@ -286,3 +286,21 @@ begin
 
 end;
 $$ language plpgsql;
+
+create or replace function dfs(u Categoria, v Categoria)
+returns boolean
+as $$
+    declare
+        padre Categoria = null;
+    begin
+        if u.super_categoria is null then return false; end if;
+        if u.super_categoria = v.nome then return true; end if;
+
+        select c.*
+        into padre
+        from Categoria as c
+        where c.nome = u.super_categoria;
+
+        return dfs(padre,v);
+    end;
+$$ language plpgsql;
