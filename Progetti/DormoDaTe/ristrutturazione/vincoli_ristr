@@ -1,0 +1,14 @@
+[V.Prenotante.isa_Prenotati]
+    ALL p,u Prenotante(p,u) -> Prenotati(p,u)
+
+[V.Accompagnatore]
+    ALL p,u Accompagnatore(p,u) -> Prenotati(p,u)
+
+[V.Prenotati.disjoint]
+    ALL p,u Accompagnatore(p,u) -> not Prenotante(p,u)
+
+[V.Prenotati.complete]
+    ALL p,u Prenotati(p,u) -> Prenotante(p,u) or Accompagnatore(p,u)
+
+[V.Prenotazione.disjoint]
+    ALL p,a acc_isa_pr(a,p) -> not rif_isa_pr(a,p)

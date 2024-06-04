@@ -1,0 +1,58 @@
+Nazione(_nome: StringaS_)
+
+Citta(_id:serial_, nome: StringaS,nazione: StringaS)
+    FK: nazione references Nazione(nome)
+
+Mezzo(_nome: StringaS_)
+
+TipoPostoLetto(_nome: StringaS_,numPosti: InteroGZ)
+
+TipoStanza(_nome: StringaS_)
+
+Utente(_id: serial_,nome: StringaS,cognome: StringaS,sesso: Genere,dataNascita: date)
+
+Abitazione(_utente: integer_,distanzaMetriCentro: InteroGEZ,nAdulti: InteroGZ, nBambini: interoGEZ)
+    v. inclusione: Abitazione(utente) occorre in ab_m(abitazione)
+
+ab_m(_mezzo: StringaS,abitazione: integer_,distanzaMetri: InteroGEZ)
+    FK: mezzo references Mezzo(nome)
+    FK: abitazione references Abitazione(utente)
+
+IndisponibilitaAbitazione(_id: serial_,dataInizio: date, durataGiorni: InteroGZ,abitazione: integer)
+    FK: abitazione references Abitazione(utente)
+
+Stanza(_id: serial_,nome: StringaS,tipo: StringaS,abitazione: integer)
+    FK: tipo references TipoStanza(nome)
+    FK: abitazione references Abitazione(utente)
+    altra chiave: (nome,abitazione)
+
+PostoLetto(_id: serial_,nome: StringaS,stanza: integer,tipo: StringaS)
+    FK: stanza references Stanza(id)
+    FK: tipo references TipoPostoLetto(nome)
+    altra chiave: (nome,stanza)
+
+IndisponibilitaPostoLetto(_id: serial_,dataInizio: date,durataGiorni: InteroGZ,postoLetto: integer)
+    FK: postoLetto references PostoLetto(id)
+
+Prenotazione(_id: serial_,dataInizio: date,durataGiorni: InteroGZ,istantePren: timestamp,prenotante: integer)
+    FK: prenotante references Utente(id)
+    v. inclusione: Prenotazione(prenotante) occorre in Prenotati(utente)
+    v. inclusione: Prenotazione(id) occore in pren_pl(prenotazione)
+
+Prenotati(_prenotazione: integer,utente: integer_,*votoVersoUtente: Valutazione,*votoVersoOspitante: Valutazione)
+    FK: prenotazione references Prenotazione(id)
+    FK: utente references Utente(id)
+
+PrenotazioneAccettata(_prenotazione: integer_)
+    FK: prenotazione references Prenotazione(id)
+
+PrenotazioneRifiutata(_prenotazione: integer_,motivazione: text)
+    FK: prenotazione references Prenotazione(id)
+
+Accompagnatore(_prenotazione: integer,utente: integer_)
+    FK: prenotazione references Prenotazione(id)
+    FK: utente references Utente(id)
+
+pren_pl(_prenotazione: integer,postoLetto: integer_)
+    FK: prenotazione references Prenotazione(id)
+    FK: postoLetto references PostoLetto(id)
