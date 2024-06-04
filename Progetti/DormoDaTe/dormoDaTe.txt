@@ -16,11 +16,11 @@ V.Prenotazione.
 
 	
 	.utente_prenotante_diverso_da_ospitante
-	ALL p,u,pl,s,a pren_ut(p,u) and pren_pl(p,pl) and pl_s(pl,s) and ab_s(a,s) -> not ab_u(a,u)
+	ALL p,u,pl,s,a Prenotati(p,u) and pren_pl(p,pl) and pl_s(pl,s) and ab_s(a,s) -> not ab_u(a,u)
 	
 	
 	.prenotazione_non_in_periodi_indisponibilita
-	ALL p,ia,di,g,pl,s,a,dii,gi pren_pl(p,pl) and pl_s(pl,s) and ab_s(a,s) and ab_ind(a,ia) and 
+	ALL p,ia,di,g,pl,s,a,dii,gi pren_pl(p,pl) and pl_s(pl,s) and ab_s(a,s) and ab_iab(a,ia) and 
 		data_inizio(p,di) and data_inizio(ia,dii) and durataGiorni(p,g) and durataGiorni(ia,gi) 
 			-> not exists t (t >= dii and t >= di and di+g < t and dii+gi < t) 
 			
@@ -30,11 +30,8 @@ V.Prenotazione.
 	
 	
 	.prenotazione_possibile_solo_se_tutte_le_vecchie_prenotazioni_hanno_feedback
-	NOT EXISTS p,pt,i,i2,di,ng,u prenUt(p,u) and prenUt(pt,u) and istante_pren(p,i) and istante_pren(pt,i2) and i2 < i and data_inizio(pt,di) and durataGiorni(pt,ng) 
+	NOT EXISTS p,pt,i,i2,di,ng,u Prenotati(p,u) and Prenotati(pt,u) and istante_pren(p,i) and istante_pren(pt,i2) and i2 < i and data_inizio(pt,di) and durataGiorni(pt,ng) 
 		and di+ng < i and not feedbackVersoOspitante(pt,u,pt) and pt != p
-	
-	.prenotante_diverso_da_ospitante
-	ALL p,u,pl,s,a prenotati(p,u) and pren_pl(p,pl) and pl_s(pl,s) and ab_s(a,s) -> not ab_ut(a,u)
 
 
 V.Feedback
