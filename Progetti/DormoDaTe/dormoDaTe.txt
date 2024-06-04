@@ -1,0 +1,266 @@
+Vincoli DormoDaTe
+
+V.Prenotazione.
+	.dataNascita_consistente
+	ALL p,u,dn,dp prenUt(p,u) and dataNascita(u,dn) and dataInizio(p,dp) -> dn < dp
+	
+	
+	.posti_letto_non_sovrapposti
+	ALL pl,p',p'',di',di'',dg',dg'' p' != p'' and pren_pl(p',pl) and pren_pl(p'',pl) and dataInizio(p',di') 
+		and dataInizio(p'',di'') and durataGiorni(p',dg') and durataGiorni(p'',dg'')
+		-> not exists t data(t) and (di' < t and di'' < t and di'+dg' > t and di''+dg'' > t)
+	
+	
+	.posti_letto_stessa_abitazione
+	ALL pl',pl'',p,s',s'',a pren_pl(p,pl') and pren_pl(p,pl'') and pl_s(pl',s') and pl_s(pl'',s'') -> ab_s(a,s') and ab_s(a,s'')
+
+	
+	.utente_prenotante_diverso_da_ospitante
+	ALL p,u,pl,s,a pren_ut(p,u) and pren_pl(p,pl) and pl_s(pl,s) and ab_s(a,s) -> not ab_u(a,u)
+	
+	
+	.prenotazione_non_in_periodi_indisponibilita
+	ALL p,ia,di,g,pl,s,a,dii,gi pren_pl(p,pl) and pl_s(pl,s) and ab_s(a,s) and ab_ind(a,ia) and 
+		data_inizio(p,di) and data_inizio(ia,dii) and durataGiorni(p,g) and durataGiorni(ia,gi) 
+			-> not exists t (t >= dii and t >= di and di+g < t and dii+gi < t) 
+			
+	
+	.prenotazione_posti_letto_non_posti_indisponibili
+	ALL p,pl,di,dg pren_pl(p,pl) and dataInizio(p,di) and durataGiorni(p,dg)  -> not indisponibile{pl,i}(di,di+dg)
+	
+	
+	.prenotazione_possibile_solo_se_tutte_le_vecchie_prenotazioni_hanno_feedback
+	NOT EXISTS p,pt,i,i2,di,ng,u prenUt(p,u) and prenUt(pt,u) and istante_pren(p,i) and istante_pren(pt,i2) and i2 < i and data_inizio(pt,di) and durataGiorni(pt,ng) 
+		and di+ng < i and not feedbackVersoOspitante(pt,u,pt) and pt != p
+	
+	.prenotante_diverso_da_ospitante
+	ALL p,u,pl,s,a prenotati(p,u) and pren_pl(p,pl) and pl_s(pl,s) and ab_s(a,s) -> not ab_ut(a,u)
+
+
+V.Feedback
+	
+	.feedbackVersoOspitante_stessa_prenotazione
+	ALL p',p'',u feedbackVersoOspitante(p',u,p'') -> p' = p''
+	
+	.feedbackVersoViaggiatori_sua_abitazione
+	ALL p,pl,s,a,u feedbackVersoViaggiatori(p,u,p) and pren_pl(p,pl) and pl_s(pl,s) and ab_s(a,s) -> ab_ut(a,u)
+	
+	.feedbackVersoViaggiatori_prenotazione_accettata_e_terminata
+	ALL p,u,di,dg,dc feedbackVersoViaggiatori(p,u,p) -> PrenotazioneAccettata(p) and terminata{p,t}()
+	
+	.feedbackVersoOspitante_prenotazione_terminata
+	ALL pa,u feedBackVersoOspitante(pa,u,pa) -> terminata{pa,t}()
+	
+
+Operazione della clase Utente
+
+puoPrenotare(): boolean
+	precondizioni: nessuna
+	postcondizioni:
+		I = {p | Prenotazione(p) and PrenotazioneAccettata(p) and terminata{PrenotazioneAccettata}(p,True) and not FeedbackVersoOspitante(p,u,p)}
+		|I| > 0 -> result = False
+		and
+		|I| = 0 -> result = True
+
+Operazione della classe PrenotazioneAccettata
+
+terminata(): boolean
+	precondizioni: nessuna
+	post-condizioni:
+		non modifica lo spazio estensionale
+		result = EXISTS di,dg,dc dataCorrente(dc) and dataInizio(this,di) and durataGiorni(this,dg) and di+dg <= dc
+		
+Operazione della classe Abitazione
+
+numPersoneOspitabili(dataInizio Data, dataFine Data): InteroGEZ
+	precondizioni: nessuna
+	post-condizioni:
+		non modifica lo spazio estensionale
+		I = {(n,pl) | exists a,s ab_s(a,s) and pl_s(pl,s) and postiPostoLetto{PostoLetto}(pl,n) and occupato{PostoLetto,Data,Data}(pl,dataInizio,DataFine,False)}
+		result = sum((n,pl) in I) n
+
+indisponibile(dataInizio Data, dataFine Data): boolean
+	precondizioni:
+		dataInizio <= dataFine
+	postcondizioni:
+		P = {i | IndisponibilitaAbitazione(i) and ab_iab(i,this) and EXISTS t,di,dg(dataInizio(i,di) and durataGiorni(i,dg) 
+			and t >= di and t >= dataInizio and t <= dataFine and t <= di+dg)}
+		|P| > 0 -> result = True
+		and
+		|P| = 0 -> result = False
+
+Operazione della classe PostoLetto
+
+occupato(dataInizio Data, dataFine Data): boolean
+	precondizioni: dataInizio <= dataFine
+	
+	postcondizioni:
+		P = {p | Prenotazione(p) and PrenotazioneAccettata(p) and pren_pl(p,this) and EXISTS t,di,dg(dataInizio(p,di) and durataGiorni(p,dg) 
+			and t >= di and t >= dataInizio and t <= dataFine and t <= di+dg)}
+
+indisponibile(dataInizio Data, dataFine Data): boolean
+	precondizioni:
+		dataInizio <= dataFine
+	postcondizioni:
+		P = {i | IndisponibilitaPostoLetto(i) and ipl_pl(i,this) and EXISTS t,di,dg(dataInizio(i,di) and durataGiorni(i,dg) 
+			and t >= di and t >= dataInizio and t <= dataFine and t <= di+dg)}
+		|P| > 0 -> result = True
+		and
+		|P| = 0 -> result = False
+
+postiPostoLetto(): InteroGZ
+	precondizioni: nessuna
+	postcondizioni:
+		non modifica lo spazio estensionale
+		pl_tpl(this,t) and numPosti(t,result)
+
+
+Usecase
+
+aggiungiAbitazione(dmc InteroGEZ, c Citta, na InteroGZ, nb InteroGEZ, m Mezzo, dm InteroGEZ): Abitazione
+	sia u l'Utente che invoca l'operazione
+	
+	precondizioni:
+		not exists a ab_ut(a,u)
+	postcondizioni:
+		viene modificato lo spazio estensionale, viene creata una nuova istanza alpha
+		Abitazione(alpha)
+		distanzaMetriCentro(alpha,dmc)
+		ab_ut(alpha,u)
+		nAdulti(alpha,na)
+		nBambini(alpha,nb)
+		ab_m(alpha,m)
+		distanzaMetri(alpha,m,dm)
+		ab_cit(alpha,c)
+		result = alpha
+
+aggiungiMezzo(a Abitazione, m Mezzo, dm InteroGEZ)
+	Sia u l'utente che invoca l'operazione
+	precondizioni:
+		ab_ut(a,u)
+	postcondizioni:
+		viene creata la seguente nuova associazione
+		ab_m(a,m)
+		distanzaMetri(a,m,dm)
+
+aggiungiStanza(a Abitazione, n StringaS): Stanza
+	Sia u l'utente che invoca l'operazione
+	precondizioni:
+		ab_ut(a,u) and not exists s (ab_s(a,s) and nome(s,n))
+	postcondizioni:
+		viene modificato lo spazio estensionale, viene creata una nuova istanza alpha
+		Stanza(alpha)
+		nome(alpha,n)
+		ab_s(a,alpha)
+		
+		result = alpha
+
+aggiungiPostoLetto(s Stanza, n StringaS, tipo tipoPostoLetto)
+	Sia u l'utente che invoca l'operazione
+	precondizioni:
+		EXISTS a ab_ut(a,u) AND ab_s(a,s) and (NOT EXISTS pl pl_s(pl,s) AND nome(pl,n)
+	postcondizioni:
+		Viene modificato lo spazio estensionale e creata una nuova istanza alpha
+		PostoLetto(alpha)
+		pl_s(alpha,s)
+		nome(alpha,n)
+		pl_tpl(alpha,tipo)
+		
+		result = alpha
+
+FeedbackSuOspitante(p: Prenotazione, v: Valutazione): FeedbackVersoOspitante
+	Sia u l'utente che invoca l'operazione
+	precondizioni:
+		prenotati(p,u) and not feedbackVersoOspitante(p,u,p) and PrenotazioneAccettata(p) and terminata{Prenotazione}(p,True)
+	postcondizioni:
+		viene creato il nuovo link
+		feedbackVersoOspitante(p,u,p)
+		voto(p,u,p,v)
+		
+
+FeedbackSuViaggiatore(p: Prenotazione, u:Utente, v: Valutazione): FeedbackVersoViaggiatore
+	Sia o l'utente che invoca l'operazione
+	precondizioni:
+		not feedbackVersoViaggiatori(p,u,o) and prenotati(p,u) and exists pl,s,a (pren_pl(p,pl) and pl_s(pl,s) and ab_s(a,s) 
+		and ab_ut(a,o)) and PrenotazioneAccettata(p) and terminata{Prenotazione}(p,True) and u != o
+	postcondizioni:
+		viene creato il nuovo link
+		feedbackVersoViaggiatore(p,u,o)
+		voto(p,u,o,v)
+
+ricerca(c Citta, n numPosti, dataInizio Data, dataFine Data): Abitazione [0..*]
+
+	precondizioni: nessuna
+	postcondizioni:
+		non modifica lo spazio estensionale
+		result = {a | Abitazione(a) and ALL t (numPersoneOspitabili{Abitazione, Data, Data}(a, dataInizio, dataFine,t) -> t >= n)}
+
+effettuaPrenotazione(a: Abitazione, utA: Utente [0..*], di Data, ng: InteroGZ, pl PostoLetto [1..*]): Prenotazione
+	Sia u l'utente che sta invocando l'operazione
+	precondizioni:
+		puoPrenotare{Utente}(u,True)
+		and
+		ALL u' u' in utA -> puoPrenotare{Utente}(u',True)
+		and
+		ALL pl' pl' in pl -> occupato{PostoLetto,Data,Data}(pl,di,di+ng,False)
+		and
+		ALL pl' pl' in pl -> exists s pl_s(pl',s) and ab_s(a,s)
+		and
+		PP = {(pl,t) | postiPostoLetto{postoLetto}(pl,t)}
+		and
+		|utA|+1 <= sum_((pl,t) in PP) t
+	
+	postcondizioni:
+		viene modificato lo spazio estensionale, viene creata una nuova istanza alpha
+		Prenotazione(alpha)
+		dataInizio(alpha,di)
+		numeroGiorni(alpha,ng)
+		prenotati(alpha,u)
+		ALL u' in utA prenotati(alpha,u')
+		prenotante(alpha,u)
+		ALL u' in utA accompagnatore(alpha,u')
+		istantePren(alpha,adesso)
+		ALL pl' pl' in pl -> pren_pl(alpha,pl')
+
+rifiutaPrenotazione(p Prenotazione, m Stringa): PrenotazioneRifiutata
+	Sia u l'Utente che invoca l'operazione
+	precondizioni:
+		not PrenotazioneAccettata(p) and not PrenotazioneRifiutata(p)
+	postcondizioni:
+		viene modificato lo spazio estensionale, viene creata una nuova istanza alpha
+		PrenotazioneRifiutata(alpha)
+		motivazione(alpha,m)
+		result = alpha
+
+accettaPrenotazione(p Prenotazione): PrenotazioneAccettata
+	Sia u l'Utente che invoca l'operazione
+	precondizioni:
+		not PrenotazioneAccettata(p) and not PrenotazioneRifiutata(p) and ALL i dataInizio(p,i) -> i > data_corrente
+	postcondizioni:
+		viene modificato lo spazio estensionale, viene creata una nuova istanza alpha
+		PrenotazioneAccettata(alpha)
+		result = alpha
+
+aggiungiIndisponibilitaAbitazione(a Abitazione, di Data, dg InteroGZ): IndisponibilitaAbitazione
+	Sia u l'Utente che invoca l'operazione
+	precondizioni:
+		not indisponibile{a}(di,di+dg)
+	postcondizioni:
+		viene modificato lo spazio estensionale, viene creata una nuova istanza alpha
+		Indisponibilita(alpha)
+		IndisponibilitaAbitazione(alpha)
+		dataInizio(alpha,di)
+		durataGiorni(alpha,dg)
+		ab_iab(a,alpha)
+
+aggiungiIndisponibilitaPostoLetto(pl PostoLetto, di Data, dg InteroGZ): IndisponibilitaPostoLetto
+	Sia u l'Utente che invoca l'operazione
+	precondizioni:
+		exists a,s pl_s(pl,s) and ab_s(a,s) and ab_ut(a,u) and not indisponibile{pl}(di,di+dg)
+	postcondizioni:
+		viene modificato lo spazio estensionale, viene creata una nuova istanza alpha
+		Indisponibilita(alpha)
+		IndisponibilitaPostoLetto(alpha)
+		dataInizio(alpha,di)
+		durataGiorni(alpha,dg)
+		ipl_pl(alpha,pl)
