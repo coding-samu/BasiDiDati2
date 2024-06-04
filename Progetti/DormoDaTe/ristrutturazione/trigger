@@ -1,0 +1,115 @@
+1. vietata la modifica degli id artificiali
+
+2.Trigger V.Prenotante.disjoint_Accompagnatore
+quando deve scattare: dopo un INSERT(new) in Accompagnatore
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Prenotazione p
+        where p.prenotante = new.utente
+    )
+
+3.Trigger V.Prenotante.disjoint_Prenotante
+quando deve scattare: dopo un INSERT(new) o UPDATE(new) in Prenotazione
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Accompagnatore a
+        where new.prenotante = a.utente
+    )
+
+4.Trigger V.Prenotante.complete
+quando deve scattare: dopo un INSERT(new) di Prenotati
+
+controllo da effettuare:
+    isError := not exists (
+        select *
+        from Prenotzione p,Accompagnatore a
+        where new.utente = p.prenotante or new.utente = a.utente
+    )
+
+5.Trigger V.Prenotazione.disjoint_Accettata
+quando deve scattare: dopo un INSERT(new) in PrenotazioneAccettata
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from PrenotazioneRifiutata pr
+        where pr.prenotazione = new.prenotazione
+    )
+
+6.Trigger V.Prenotazione.disjoint_Rifiutata
+quando deve scattare: dopo un INSERT(new) in PrenotazioneRifiutata
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from PrenotazioneAccettata pa
+        where pa.prenotazione = new.prenotazione
+    )
+
+7.Trigger V.Prenotazione.dataNascita_consistente
+quando deve scattare: dopo un INSERT(new) in Prenotazione
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Utente u, prenotati as pr
+        where u.id = pr.utente and pr.prenotazione = new.id and u.dataNascita > data(new.istantePren)
+    )
+
+8.Trigger V.Prenotazione.posti_letto_non_sovrapposti
+quando deve scattare: dopo un INSERT(new) in pren_pl
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Prenotazione p1, Prenotazione p2, postoLetto pl, pren_pl pp
+        where p1.id != p2.id and new.prenotazione = p1.id 
+            and new.postoLetto = pl.id and pp.prenotazione = p2.id and pp.postoLetto = pl.id 
+            and ((p1.dataInizio,p1.dataInizio+p1.durataGiorni) overlaps (p2.dataInizio,p2.dataInizio+p2.durataGiorni))
+    )
+
+9.Trigger V.Prenotazione.posti_letto_stessa_abitazione
+quando deve scattare: dopo un INSERT(new) in pren_pl
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Prenotazione p, Abitazione a1, Abitazione a2, PostoLetto pl1, PostoLetto pl2, Stanza s1, Stanza s2, pren_pl pp
+        where p.id = new.prenotazione and pp.prenotazione = p.id and pl1.id = new.postoLetto and pl2.id = pp.postoLetto and
+            pl1.stanza = s1.id and pl2.stanza = s2.id and s1.abitazione = a1.utente and s2.abitazione = a2.utente and
+            a1.utente != a2.utente
+    )
+
+10.Trigger V.Prenotazione.prenotante_diverso_da_ospitante
+quando deve scattare: dopo un INSERT(new) in prenotati
+
+controllo da effettuare:
+    isError := exists(
+        select *
+        from Prenotazione p, pren_pl as pp, PostoLetto as pl, Stanza as s, Abitazione as a
+        where new.prenotazione = p.id and p.id = pp.prenotazione and pp.postoLetto = pl.id and pl.stanza = s.id and s.abitazione = a.utente and a.utente = new.utente
+    )
+
+11.Trigger V.Prenotazione.non_in_periodi_di_indisponibilita
+quando deve scattare: dopo un INSERT(new) di Prenotazione
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from pren_pl as pp,PostoLetto pl,stanza s,abitazione a
+        where pp.prenotazione = new.id and pl.id = pp.postoLetto and pl.stanza = s.id and s.abitazione = a.utente and IndisponibilitaAbitazione(a,new.dataInizio,new.dataInizio+new.durataGiorni)
+    )
+
+12.Trigger V.Prenotazione.prenotazione_hanno_feedback
+quando deve scattare: dopo un INSERT(new) di Prenotazione
+
+controllo da effettuare:+
+    isError := exists (
+        select *
+        from Prenotati p,Utente u
+        where p.prenotazione = new.id and u.id = p.utente and (not puoPrenotare(u));
+    )
