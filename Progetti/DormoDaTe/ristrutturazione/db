@@ -52,6 +52,7 @@ PrenotazioneRifiutata(_prenotazione: integer_,motivazione: text)
 Accompagnatore(_prenotazione: integer,utente: integer_)
     FK: prenotazione references Prenotazione(id)
     FK: utente references Utente(id)
+    FK: prenotazione,utente references Prenotati(prenotazione,utente)
 
 pren_pl(_prenotazione: integer,postoLetto: integer_)
     FK: prenotazione references Prenotazione(id)
