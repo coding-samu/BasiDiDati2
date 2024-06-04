@@ -70,10 +70,10 @@ terminata(): boolean
 Operazione della classe Abitazione
 
 numPersoneOspitabili(dataInizio Data, dataFine Data): InteroGEZ
-	precondizioni: nessuna
+	precondizioni: dataInizio <= dataFine
 	post-condizioni:
 		non modifica lo spazio estensionale
-		I = {(n,pl) | exists a,s ab_s(a,s) and pl_s(pl,s) and postiPostoLetto{PostoLetto}(pl,n) and occupato{PostoLetto,Data,Data}(pl,dataInizio,DataFine,False)}
+		I = {(n,pl) | exists s ab_s(this,s) and pl_s(pl,s) and postiPostoLetto{PostoLetto}(pl,n) and occupato{PostoLetto,Data,Data}(pl,dataInizio,DataFine,False)}
 		result = sum((n,pl) in I) n
 
 indisponibile(dataInizio Data, dataFine Data): boolean
@@ -94,6 +94,9 @@ occupato(dataInizio Data, dataFine Data): boolean
 	postcondizioni:
 		P = {p | Prenotazione(p) and PrenotazioneAccettata(p) and pren_pl(p,this) and EXISTS t,di,dg(dataInizio(p,di) and durataGiorni(p,dg) 
 			and t >= di and t >= dataInizio and t <= dataFine and t <= di+dg)}
+		|P| > 0 -> result = True
+		and
+		|P| = 0 -> result = False
 
 indisponibile(dataInizio Data, dataFine Data): boolean
 	precondizioni:
@@ -185,12 +188,12 @@ FeedbackSuViaggiatore(p: Prenotazione, u:Utente, v: Valutazione): FeedbackVersoV
 		feedbackVersoViaggiatore(p,u,o)
 		voto(p,u,o,v)
 
-ricerca(c Citta, n numPosti, dataInizio Data, dataFine Data): Abitazione [0..*]
+ricerca(c Citta, n InteroGZ, dataInizio Data, dataFine Data): Abitazione [0..*]
 
 	precondizioni: nessuna
 	postcondizioni:
 		non modifica lo spazio estensionale
-		result = {a | Abitazione(a) and ALL t (numPersoneOspitabili{Abitazione, Data, Data}(a, dataInizio, dataFine,t) -> t >= n)}
+		result = {a | Abitazione(a) and ab_cit(a,c) and ALL t (numPersoneOspitabili{Abitazione, Data, Data}(a, dataInizio, dataFine,t) -> t >= n)}
 
 effettuaPrenotazione(a: Abitazione, utA: Utente [0..*], di Data, ng: InteroGZ, pl PostoLetto [1..*]): Prenotazione
 	Sia u l'utente che sta invocando l'operazione
