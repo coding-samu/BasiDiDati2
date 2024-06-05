@@ -1,0 +1,17 @@
+u.1. Usecase di Segreteria (tipo di dipendente)
+    u.1.1. vendere contratti a clienti
+    u.1.2. rinnovare contratti a clienti
+    u.1.3. visualizzare informazioni riguardanti i clienti
+    u.1.4. inserire i dati anagrafici di nuovi clienti
+
+u.2. Usecase di management
+    u.2.1. Aggiungere tipologie di Abbonamento
+    u.2.2. Definire nuove attività sportive
+    u.2.3. Definire nuove aree fisiche della struttura
+    u.2.4. Definire nuove erogazioni delle attività sportive
+    u.2.5. Definire nuove aree accessibili da un varco
+    u.2.6. Calcolo statistiche:
+        u.2.6.1. Data una fascia oraria, calcolare per ogni area della struttura il numero medio, minimo e massimo (anche se zero) di clienti che hanno acceduto in quell'area in quella fascia oraria nell'ultimo mese (su base giornaliera)
+        u.2.6.2. Dato un cliente, calcolare il numero di volte in cui il cliente ha frequentato ogni area del centro nell'ultimo mese. Ordinato in modo decrescente per numero di volte.
+u.3. Usecase di Cliente
+    u.3.1 Poter accedere a varchi di accesso a cui ha diritto (cioè se il cliente ha un abbonamento attivo in una delle aree accessibili da quel varco)

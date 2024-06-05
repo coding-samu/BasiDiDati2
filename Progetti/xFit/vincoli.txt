@@ -1,0 +1,21 @@
+[V.PersonaleAmministrativo.un_solo_contratto_attivo]
+    ALL pa,c',c'' con_pa(c',pa) and con_pa(c'',pa) and attivo{Contratto}(c',True) and attivo{Contratto}(c'',True) -> c' = c''
+
+[V.Lezione.non_in_parallelo_su_stessa_area]
+    ALL a,l1,l2 aratt_lez(a,l1) and aratt_lez(a,l2) and not exists i1,f1,i2,f2,p (inizio(l1,i1) and inizio(l2,i2) and fine(l1,f1) and fine(l2,f2) and p > i1 and p > i2 and p < f1 and p < f2)
+
+[V.ContrattoDeterminato_fine_consistente]
+    ALL c,i,f ContrattoDeterminato(c) and fine(c,f) and inizio(c,i) -> f > i
+
+[V.Lezione.fine_consistente]
+    fine > inizio
+    ALL l,i,f Lezione(l) and inizio(l,i) and fine(l,f) -> f > i
+
+[V.LiberoProfessionista.Contratto_determinato]
+    ALL lp,c con_pa(c,lp) and LiberoProfessionista(lp) -> ContrattoDeterminato(c)
+
+[V.PersonaleAmministrativo.no_contratti_sovrapposti]
+    ALL c1,c2,pa, con_pa(c1,pa) and con_pa(c2,pa) and c1 != c2 and ContrattoDeterminato(c1) and ContrattoDeterminato(c2) and not exists i1,f1,i2,f2,p (inizio(c1,i1) and inizio(c2,i2) and fine(c1,f1) and fine(c2,f2) and p > i1 and p > i2 and p < f1 and p < f2)
+
+[V.AreaAttivita.num_clienti_dentro_minore_capienza]
+    ALL i, a, c, t DataOra(i) and Capienza(a,c) and AreaAttivita(a) and numClientiDentro{AreaAttivita,DataOra}(a,i,t) ->  t <= c

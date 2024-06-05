@@ -1,0 +1,65 @@
+1. Persona
+    1.1. nome
+    1.2. cognome
+    1.3. data nascita
+
+2. Cliente
+    2.1. codice cliente (esterno)
+
+3. Personale amministrativo
+    3.1. livello contrattuale (intero positivo)
+
+4. Dipendente
+    4.1. è un membro dello personale amministrativo (3.)
+    4.2. tipologia di contratto (6.)
+    4.3. tipologia ruolo (8.)
+
+5. Libero professionista
+    5.1. è un membro dello personale amministrativo (3.)
+    5.2. tipologia ruolo coperto (7.)
+    5.3. Attività sportive che supervisiona (10.)
+    5.4. contratto solo determinato
+
+
+6. Contratto
+    6.1. tipologia (determinato o indeterminato)
+    6.2. data inizio
+    6.3. data fine (se determinato)
+
+7. Storico contratti
+    7.1. contratto
+    7.2. dipendente
+    7.3. ruolo ricoperto (?)
+
+8. Tipologia ruolo libero professionista
+    8.1. nome
+
+9. TIpologia ruolo dipendente
+    9.1 nome
+
+10. Attività sportive
+    10.1. nome
+    10.2. erogazione
+        10.2.1. aree
+        10.2.2. ora inizio
+        10.2.3. ora fine
+
+11. Abbonamento
+    11.1. attività sportive a cui da accesso
+    11.2. Tipologia
+        11.2.1. Mensile
+            11.2.1.1. numero mesi intero > 0 (un mese = 30 giorni)
+        11.2.2. Giorni
+            11.2.2.1. numero giorni intero in [1,29]
+    11.3. Stato (attivo, scaduto, )
+
+12. Area
+    12.1. nome
+    12.2. capienza massima (intero > 0)
+    12.3. Area comune (tutti vi hanno accesso, non si tengono attività) o meno
+
+
+13. Varco di accesso
+    13.1. insieme delle aree a cui consente l'accesso
+    13.2. 
+

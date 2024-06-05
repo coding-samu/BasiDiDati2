@@ -1,0 +1,41 @@
+Specifica delle operazioni della classe Varco
+
+puoEntrare(): boolean
+
+    precondizioni: nessuna
+
+    postcondizioni:
+        result = 
+
+
+Specifica delle operazioni della classe Contratto
+
+attivo(): boolean
+
+    precondizioni: nessuna
+
+    postcondizioni:
+
+
+Specifica delle operazioni della classe AreaAttivita
+
+numClientiDentro(istante DataOra): InteroGEZ
+
+    precondizioni: nessuna
+
+    postcondizioni:
+
+
+Specifica delle operazioni della classe Abbonamento
+
+fine(): Data
+
+    precondizioni: nessuna
+
+    postcondizioni:
+
+scaduto(): boolean
+
+    precondizioni: nessuna
+
+    postcondizioni:
