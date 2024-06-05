@@ -1,0 +1,55 @@
+Cliente(_codice: Codice_, nome: StringaS, cognome: StringS, dataN: date)
+
+Personale(_id: serial_, nome: StringaS, cognome: StringaS, dataN: date)
+
+Contratto(_id: serial_, inizio: date, ral: RealeGZ, livello: InteroGZ, *fine: date, tipo: TipoContratto, persona: Integer)
+    FK: persona references Personale(id)
+    altra chiave: (inizio,persona)
+
+RuoloPersonale(_nome: StringaS_)
+
+Dipendente(_persona: integer_, ruolo: StringaS)
+    FK: persona references Personale(id)
+    FK: ruolo references RuoloPersonale(nome)
+
+Istruttore(_persona: integer_)
+    FK: persona references Personale(id)
+    v. inclusione: Istruttore(persona) occorre in supervisiona(istruttore)
+
+AttivitaSportiva(_nome: StringaS)
+
+TipologiaAbbonamento(_id: serial_, nome: StringaS, durataMesi: InteroGZ, prezzoEur: RealeGZ)
+    altra chiave (nome, durataMesi, prezzoEur)
+    v. inclusione: TipologiaAbbonamento(id) occorre in Accede(tipologia)
+
+Abbonamento(_id: serial_, inizio: date, tipologia: integer, cliente: Codice)
+    FK: tipologia references TipologiaAbbonamento(id)
+    FK: cliente references Cliente(codice)
+
+Area(_id: serial_, nome: StringaS)
+
+AreaComune(_area: integer_)
+    FK: area references Area(id)
+
+AreaAttivita(_area: integer_, capienza: InteroGZ)
+    FK: area references Area(id)
+
+Lezione(_id: serial_, inizio: timestamp, fine: timestamp, attivita: StringaS, area: integer)
+    FK: attivita references AttivitaSportiva(nome)
+    FK: area references AreaAttivita(area)
+
+Supervisiona(_istruttore: integer, attivita: StringaS_)
+    FK: istruttore references Istruttore(persona)
+    FK: attivita references AttivitaSportiva(nome)
+
+Accede(_tipologia: integer, attivita: StringaS_)
+    FK: tipologia references TipologiaAbbonamento(id)
+    FK: attivita references AttivitaSportiva(nome)
+
+Varco(_id: serial_, entraDa: integer, entraIn: integer)
+    FK: entraDa references Area(id)
+    FK: entraIn references Area(id)
+
+StoricoIngressi(_id: serial_, entrata: timestamp, *uscita: timestamp, cliente: Codice, varco: integer)
+    FK: cliente references Cliente(codice)
+    FK: varco references Varco(id)

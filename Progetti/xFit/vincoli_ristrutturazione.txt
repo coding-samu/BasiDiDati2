@@ -1,0 +1,14 @@
+[V.Personale.disjoint]
+    ALL p,d,i dip_isa_per(d,p) -> not istr_isa_per(i,p)
+
+[V.Personale.complete]
+    ALL p,d,i Personale(p) -> dip_isa_per(d,p) or istr_isa_per(i,p)
+
+[V.Contratto.fine_determinato]
+    ALL c,t Contratto(c) and tipo(c,t) and t = 'Determinato' -> exists f fine(c,f)
+
+[V.Area.disjoint]
+    ALL a,aa,ac com_isa_are(ac,a) -> not att_isa_are(aa,a)
+
+[V.Area.complete]
+    ALL a,aa,ac Area(a) -> com_isa_are(ac,a) or att_isa_are(aa,a)
