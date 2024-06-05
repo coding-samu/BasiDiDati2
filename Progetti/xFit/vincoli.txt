@@ -19,3 +19,12 @@
 
 [V.AreaAttivita.num_clienti_dentro_minore_capienza]
     ALL i, a, c, t DataOra(i) and Capienza(a,c) and AreaAttivita(a) and numClientiDentro{AreaAttivita,DataOra}(a,i,t) ->  t <= c
+
+[V.entra_da_disjoint_entra_in]
+    ALL v,a entra_da(v,a) -> not entra_in(v,a)
+
+[V.ContrattoIndeterminato.effettivamente_finito]
+    ALL c ContrattoIndeterminato(c) and EXISTS f fine(c,f) -> f < data_corrente
+
+[V.StoricoAccessi.uscita_consistente]
+    ALL sa,e StoricoAccessi(sa) and entrata(sa,e) and exists u uscita(sa,u) -> e < u

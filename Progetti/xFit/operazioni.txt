@@ -1,20 +1,47 @@
 Specifica delle operazioni della classe Varco
 
-puoEntrare(): boolean
+puoEntrare(c Cliente, i DataOra): boolean
 
     precondizioni: nessuna
 
     postcondizioni:
-        result = 
+        not exists a ab_cli(a,c) -> result = false
+        and
+        exists a,entra,d ab_cli(a,c) and Data(i,d) and scaduto{Abbonamento,Data}(a,d,False) and entra_in(this,entra) -> ((
+            (exists n,c AreaAttivita(entra) and numClientiDentro{AreaAttivita,DataOra}(entra,i,n) and capienza(entra,c) -> n+1 <= c)
+            AND
+            (EXISTS abb Abbonamento(abb) and attivitaLezioneAbbonamento{Abbonamento, DataOra}(abb,i,Q) and attivitaRichieste{Varco,DataOra}(this,i,P) and exists o -> o in Q and o in P)
+            )
+            or AreaComune(entra)
+        )
+        
+varchiRaggiungibili() : Varchi [0..*]
 
+    precondizioni: nessuna
+
+    postcondizioni:
+        V = {v | (exists a v != this and entra_in(this,a) and entra_da(v,)) or (exists v' v' in V varchiRaggiungibili{Varchi}(v',v))}
+
+        result = V
 
 Specifica delle operazioni della classe Contratto
 
-attivo(): boolean
+attivo(i Data): boolean
 
     precondizioni: nessuna
 
     postcondizioni:
+
+    ContrattoIndeterminato(this) -> ( exists f fine(this,f) and i < f -> result = True
+                                      and
+                                      exists f fine(this,f) and i > f -> result = False
+                                      and
+                                      not exists f fine(this,f) -> result = True)
+    and
+    ContrattoDeterminato(this) -> ( exists f fine(this, f) and i < f -> result = True
+                                    and
+                                    exists f fine(this,f) and i > f -> result = False)
+        
 
 
 Specifica delle operazioni della classe AreaAttivita
@@ -24,6 +51,8 @@ numClientiDentro(istante DataOra): InteroGEZ
     precondizioni: nessuna
 
     postcondizioni:
+        N = {c | exists v,s entra_in(v,this) and cli_sto(c,s) and sto_var(s,v) and
+                 (ALL i entrata(s,i) -> i < istante) and exists u uscita(v,u) -> u > istante}
 
 
 Specifica delle operazioni della classe Abbonamento
@@ -33,9 +62,30 @@ fine(): Data
     precondizioni: nessuna
 
     postcondizioni:
+        all t,i,d ab_tipab(this,a) and inizio(this,i) and durataMesi(t,d) -> result = i + d*30
 
-scaduto(): boolean
+scaduto(d Data): boolean
 
     precondizioni: nessuna
 
     postcondizioni:
+        exists f fine{Abbonamento}(this,f) -> result = (f < d)
+
+attivitaLezioneAbbonamento(istante DataOra) : Attivita [0..*]
+
+    precondizioni: nessuna
+
+    postcondizioni:
+        A = {a | exists t,l,att,d Data(d,istante) and ab_tipab(this,t) and LezioneInCorso{Lezione,DataOra}(l,istante,True) and att_tipab(a,t) and att_lez(a,l) and scaduto{Abbonamento,Data}(a,d,False)}
+        result = A
+
+Specifica delle operazioni della classe Cliente
+
+attivitaDisponibili(d Data): Attivita [0..*]
+
+    precondizioni: nessuna
+
+    postcondizioni:
+        A = {a | EXISTS t, abb, ab_cli(a,this) and scaduto{Abbonamento,Data}(abb,d,False) and ab_tipab(abb,t) and att_tipab(a,t)}
+
+        result = A

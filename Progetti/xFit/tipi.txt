@@ -1,5 +1,0 @@
-TipoAccesso = ('Entrata','Uscita')
-InteroGZ = intero > 0
-codCliente = fornito esternamente
-InteroGEZ = intero >= 0
-StringaS = stringa di 75 caratteri

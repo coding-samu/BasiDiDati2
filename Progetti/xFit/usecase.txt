@@ -15,3 +15,11 @@ u.2. Usecase di management
         u.2.6.2. Dato un cliente, calcolare il numero di volte in cui il cliente ha frequentato ogni area del centro nell'ultimo mese. Ordinato in modo decrescente per numero di volte.
 u.3. Usecase di Cliente
     u.3.1 Poter accedere a varchi di accesso a cui ha diritto (cioè se il cliente ha un abbonamento attivo in una delle aree accessibili da quel varco)
+
+
+affluenza clienti(inizio Dataora, fine Dataora): (area: AreaAttivita, minimo: InteroGEZ, media: InteroGEZ, massimo: InteroGEZ)
+    ALL 
+    S = {(a,g2) | g in "1..30"(g2) and
+            Sia A = {s | exists i, d StoricoAccessi(s) and entrata(s,i) and Data(i,d) and d = g1-30-g2}
+            a = |A|
+        }
