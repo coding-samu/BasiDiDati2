@@ -20,3 +20,15 @@ Operazioni classe GiornoPromozione
             I = {(n,pren) | exists i,f gp_pren(this,pren) and inizio(this,i) and fine(this,f) and not PrenotazioneAnnullata(pren) and not PrenotazioneRifiutata(pren) and not PrenotazionePending(pren) and i <= t and t <= f}
             and
             result = sum_(n,p) in I n
+
+Operazioni classe Promozione
+
+    promPerDate(i DataOra, f DataOra): GiornoPromozione [0..*]
+        precondizioni:
+            nessuna
+        postcondizioni:
+            R = {gp | exists dg,ig,fg,id,io,fd,fo Data(i,id) and Data(f,fd) and
+                      Ora(i,io) and Ora(f,fo) and prom_gp(this,gp) and data(gp,dg) and inizio(gp,ig) and fine(gp,fg)
+                      and id <= dg and dg <= fd and io <= ig and fg <= fo
+                      }
+            result = R

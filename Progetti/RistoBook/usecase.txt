@@ -61,35 +61,124 @@ Usecases:
             1.1.6. Riaprire prenotazioni
                 apriPrenotazione(cp ChiusuraPrenotazione)
                     sia ur il ristoratore che sta invocando questa operazione
-                    sia r tale che pren_rist(pren,r) è verificata
                     precondizioni:
-                        rist_utRist(r,ur)
+                        exists r rist_cp(r,cp) and rist_utRist(r,ur)
                     postcondizioni:
+                        Viene modificato lo spazio estensionale
+                        Ennuple modificate:
+                            not ChiusuraPrenotazione(cp)
+                            not inizio(cp,i)
+                            not fine(cp,f)
+                            not istanteInserimento(cp,t)
 
         1.2. Gestire le promozioni
             1.2.1. Creare nuove promozioni
-                creaPromozione(nome StringaS, percentuale Sconto, numCoperti InteroGZ)
+                creaPromozione(r Ristorante, nome StringaS, percentuale Sconto, numCoperti InteroGZ): Promozione
                     sia ur il ristoratore che sta invocando questa operazione
-                    sia r tale che pren_rist(pren,r) è verificata
                     precondizioni:
                         rist_utRist(r,ur)
                     postcondizioni:
+                        Viene modificato lo spazio estensionale dei dati
+                        Nuovo elemento del dominio di interpretazione alpha
+                        Promozione(alpha)
+                        nome(alpha,nome)
+                        percentuale(alpha,percentuale)
+                        numCoperti(alpha,numCoperti)
+                        prom_rist(alpha,r)
 
             1.2.2. Aggiungere data alla promozione
                 aggiungiGiornoPromozione(prom Promozione, giorno Data, inizio Ora, fine Ora): GiornoPromozione
                     sia ur il ristoratore che sta invocando questa operazione
-                    sia r tale che pren_rist(pren,r) è verificata
                     precondizioni:
-                        rist_utRist(r,ur)
+                        exists r prom_rist(prom,r) and rist_utRist(r,ur) and (ALL p,ip,fp,gp prom_gp(prom,p) and inizio(p,ip) and fine(p,ip) and giorno(p,ig) and ig = giorno not exists t,v Data(t) and Ora(v) and (inizio <= t and ip <= t and t <= fine and t <= fp))
                     postcondizioni:
+                        Viene modificato lo spazio estensionale dei dati
+                        Nuovo elemento del dominio di interpretazione alpha
+                        GiornoPromozione(alpha)
+                        giorno(alpha,giorno)
+                        inizio(alpha,inizio)
+                        fine(alpha,fine)
+                        prom_gp(prom,alpha)
 
         1.3. Aggiungere un nuovo ristorante
+            aggiungiNuovoRistorante(r UtenteRistoratore, nome StringaS, piva PartitaIVA, Indirizzo Ind): Ristorante
+                precondizioni:
+                    not exists rist Ristorante(rist) and piva(rist,piva)
+                postcondizioni:
+                    Viene modificato lo spazio estensionale dei dati
+                    Nuovo elemento del dominio di interpretazione alpha
+                    Ristorante(alpha)
+                    nome(alpha,nome)
+                    piva(alpha,piva)
+                    indirizzo(alpha,indirizzo)
+                    rist_utRist(alpha,r)
 
     2. Cliente
         2.1. Deve poter effettuare una prenotazione
+            effettuaPrenotazioneSenzaPromozione(r Ristorante, data DataOra, nc InteroGZ): PrenotazionePending
+                Sia u il cliente che invoca l'operazione
+                precondizioni:
+                    prenotabile{Ristorante,DataOra}(r,adesso,True) and adesso < data
+                postcondizioni:
+                    Viene modificato lo spazio estensionale dei dati
+                    Nuovo elemento del dominio di interpretazione alpha
+                    Prenotazione(alpha)
+                    PrenotazionePending(alpha)
+                    data(alpha,data)
+                    numeroCommensali(alpha,nc)
+                    istantePren(alpha,adesso)
+                    pren_rist(alpha,r)
+                    cli_pren(u,alpha)
 
+            effettuaPrenotazioneConPromozione(r Ristorante, data DataOra, nc InteroGZ, gp GiornoPromozione): PrenotazionePending
+                Sia u il cliente che invoca l'operazione
+                precondizioni:
+                    adesso < data and prenotabile{Ristorante,DataOra}(r,adesso,True) and (ALL co,ncc,prom prom_gp(prom,gp) and numCoperti(prom,ncc) and copertiOccupati{GiornoPromozione,DataOra}(gp,adesso,co) -> ncc - co >= nc)
+                postcondizioni:
+                    Viene modificato lo spazio estensionale dei dati
+                    Nuovo elemento del dominio di interpretazione alpha
+                    Prenotazione(alpha)
+                    PrenotazionePending(alpha)
+                    data(alpha,data)
+                    numeroCommensali(alpha,nc)
+                    istantePren(alpha,adesso)
+                    pren_rist(alpha,r)
+                    cli_pren(u,alpha)
+                    gp_pren(gp,alpha)
+                
         2.2. Deve poter annullare una prenotazione
+            annullaPrenotazione(pren Prenotazione)
+                Sia u il cliente che invoca l'operazione
+                precondizioni:
+                    not PrenAccCompletata(pren) and not PrenAccNonUtilizzata(pren) and not PrenotazioneAnnullata(pren)
+                postcondizioni:
+                    Viene modificato lo spazio estensionale
+                    Ennuple modificate:
+                    PrenotazioneAnnullata(pren)
+
     3. Responsabile statistiche ristorante
         3.1. Dato un periodo di tempo, calcolare per ogni promozione del ristorante considerato il numero medio di clienti al giorno. (dove la media è calcolata sui giorni di validità della promozione)
+            mediaAffluenzaPerPromozioni(r Ristorante, i DataOra, f DataOra): (p: Promozione, mediale: reale >= 0) [0..*]
+                Sia u l'utente che invoca l'operazione
+                precondizioni:
+                    i <= f and rist_utRist(r,u)
+                postcondizioni:
+                    R = { (p,m) | prom_rist(p,r) and (
+                        P = {(g,n) | prom_gp(p,g) and copertiOccupati{GiornoPromozione,DataOra}(g,f,n) and promPerDate{Promozione,DataOra,DataOra}(p,i,f,g)}
+                        and
+                        |P| = 0 -> (m = 0)
+                        and
+                        |P| > 0 -> (m = (sum_(g,n) in P n)/|P|)
+                    )
+                    }
+                    result = R
+
         3.2. Data una città x, un insieme di tipologie di cucina C, un tasso di sconto minimo s ed una data d, i clienti devono poter trovare quali sono i ristoranti nella città x che offrono almeno una delle tipologie di cucina in C e prevedono promozioni con sconti di tasso almeno s nella data d ancora utilizzabili per il numero di coperti che sono interessanti a prenotare.
+            ricerca(x Citta, C CucinaTipo [0..*], sm Sconto, d Data): Ristorante [0..*]
+                precondizioni:
+                    nessuna
+                postcondizioni:
+                    I = {r | cit_rist(x,r) and exists c in C cuc_rist(c,r) and 
+                             exists p,per,gp, t (prom_rist(p,r) and prom_gp(p,gp) and percentuale(p,per) and giorno(gp,t) and t = d and per >= sm)}
+                    result = I
 
