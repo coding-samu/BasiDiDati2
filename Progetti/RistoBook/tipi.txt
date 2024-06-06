@@ -1,7 +1,7 @@
 StringaS: stringa di 75 caratteri
 Email: stringa secondo standard
 PartitaIVA: stringa secondo standard
-Indirizzo: (via: StringaS, civico: Civico)
+Ind: (via: StringaS, civico: Civico)
 Civico: Stringa secondo standard
 Sconto: Reale in (0,1]
 CF: Stringa di 16 caratteri secondo standard

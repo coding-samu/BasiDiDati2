@@ -158,7 +158,7 @@ Usecases:
 
     3. Responsabile statistiche ristorante
         3.1. Dato un periodo di tempo, calcolare per ogni promozione del ristorante considerato il numero medio di clienti al giorno. (dove la media è calcolata sui giorni di validità della promozione)
-            mediaAffluenzaPerPromozioni(r Ristorante, i DataOra, f DataOra): (p: Promozione, mediale: reale >= 0) [0..*]
+            mediaAffluenzaPerPromozioni(r Ristorante, i DataOra, f DataOra): (p: Promozione, media: reale >= 0) [0..*]
                 Sia u l'utente che invoca l'operazione
                 precondizioni:
                     i <= f and rist_utRist(r,u)
