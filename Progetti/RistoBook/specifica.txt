@@ -1,0 +1,68 @@
+1. Cliente
+    1.1. Nome
+    1.2. Cognome
+    1.3. email
+
+
+2. Ristorante
+    2.1. nome
+    2.2. partita iva (stringa secondo standard)
+    2.3. Indirizzo
+    2.4. Città (6.)
+    2.5. tipologie cucina offerta (5.)
+
+
+3. Promozione
+    3.1. nome
+    3.2. percentuale sconto (reale in (0,1])
+    3.3. numero coperti
+    3.4. I giorni e le fasce orarie di validità (9.)
+
+9. GiornoPromozione
+    9.1. giorno
+    9.2. ora inizio
+    9.3. ora fine
+    9.4. promozione al quale è riferito (3.)
+    3.7. o: numero coperti rimanenti i
+
+
+4. Prenotazione
+    4.1. Prenotazione rifiutata
+    4.2. Prenotazione accettata
+        4.2.1. Prenotazione completata
+        4.2.2. Prenotazione non utilizzata
+    4.2. Data
+    4.3. Ora
+    4.4. Numero commensali
+    4.5. Promozione (se ancora disponibile) (al più una, anche zero)
+    4.6. Quando viene creata una prenotazione è "Pendente"
+    4.7. Prenotazione annullata (anche se già accettata)
+
+5. Tipologia cucina offerta
+    5.1. Nome
+
+6. Città
+    6.1. Nome
+    6.2. Nazione (7.)
+
+7. Nazione
+    7.1. Nome
+
+8. Chiusura Prenotazioni
+    8.1. Giorno
+    8.2. Ora inizio
+    8.3. Ora fine
+    8.4. Motivazione
+
+Usecases:
+    1. Personale prenotazioni
+        1.1. Gestire le prenotazioni
+            1.1.1. Rifiutare prenotazione
+            1.1.2. Accettare prenotazioni
+            1.1.3.  
+        1.2. Creare nuove promozioni
+    2. Cliente
+        2.1. Deve poter effettuare una prenotazione
+    3. Responsabile statistiche ristorante
+        3.1. Dato un periodo di tempo, calcolare per ogni promozione del ristorante considerato il numero medio di clienti al giorno. (dove la media è calcolata sui giorni di validità della promozione)
+        3.2. Data una città x, un insieme di tipologie di cucina C, un tasso di sconto minimo s ed una data d, i clienti devono poter trovare quali sono i ristoranti nella città x che offrono almeno una delle tipologie di cucina in C e prevedono promozioni con sconti di tasso almeno s nella data d ancora utilizzabili per il numero di coperti che sono interessanti a prenotare.
