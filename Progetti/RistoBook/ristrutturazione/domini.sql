@@ -33,3 +33,6 @@ create type StatoPrenotazione as enum('Pending','Accettata','Rifiutata');
 
 create type StatoAccettazione as enum('Completata','NonUtilizzata');
 
+create domain RealeGEZ as real
+	check(value >= 0);
+

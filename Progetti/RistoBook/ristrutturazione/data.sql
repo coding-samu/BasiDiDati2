@@ -41,8 +41,8 @@ insert into GiornoPromozione (giorno, inizio, fine, promozione) values
 
 -- Prenotazioni
 insert into Prenotazione (data, coperti, istantePren, statoPren, annullata, giornoProm, ristorante, cliente) values 
-(current_timestamp + interval '1 hour', 2, current_timestamp, 'Pending', false, 1, 'IT12345678901', 'mario.rossi@example.com'),
-(current_timestamp + interval '2 hours', 4, current_timestamp, 'Accettata', false, 1, 'IT12345678901', 'luigi.bianchi@example.com'),
+(current_timestamp - interval '1 hour', 2, current_timestamp, 'Pending', false, 1, 'IT12345678901', 'mario.rossi@example.com'),
+(current_timestamp - interval '2 hours', 4, current_timestamp, 'Accettata', false, 1, 'IT12345678901', 'luigi.bianchi@example.com'),
 (current_timestamp + interval '3 hours', 2, current_timestamp, 'Pending', false, 2, 'FR98765432109', 'mario.rossi@example.com'),
 (current_timestamp + interval '1 day', 3, current_timestamp, 'Accettata', false, 2, 'FR98765432109', 'luigi.bianchi@example.com');
 
