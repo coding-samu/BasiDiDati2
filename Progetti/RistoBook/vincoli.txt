@@ -1,0 +1,39 @@
+[V.PrenotazioneAnnullata.Non_Completata]
+    ALL p PrenotazioneAnnullata(p) -> not PrenAccCompletata(p)
+
+[V.PrenotazioneAnnullata.Non_NonUtilizzata]
+    ALL p PrenotazioneAnnullata(p) -> not PrenAccNonUtilizzata(p)
+
+[V.GiornoPromozione.Ora_coerente]
+    ALL g,i,f GiornoPromozione(g) and inizio(g,i) and fine (g,f) -> i < f
+
+[V.ChiusuraPrenotazione.Ora_coerente]
+    ALL c,i,f ChiusuraPrenotazione(c) and inizio(c,i) and fine (c,f) -> i < f
+
+[V.ChiusuraPrenotazione.overlapping_stesso_ristorante]
+    ALL cp1,cp2,r,i1,i2,f1,f2,g rist_cp(r,cp1) and rist_cp(r,cp2) and 
+    inizio(cp1,i1) and inizio(cp2,i2) and fine(cp1,f1) and fine (cp2,f2) and 
+    giorno(cp1,g) and giorno(cp2,g) and cp1 != cp2 
+        -> not exists t ora(t) and (i1 <= t and i2 <= t and t <= f1 and t <= f2)
+
+[V.GiornoPromozione.overlapping_stessa_promozione]
+    ALL gp1,gp2,p,i1,i2,f1,f2,g prom_gp(p,gp1) and prom_gp(p,gp2) and
+    inizio(gp1,i1) and inizio(gp2,i2) and fine(gp1,f1) and fine(gp2,f2) and
+    giorno(gp1,g) and giorno(gp2,g) and gp1 != gp2
+        -> not exists t ora(t) and (i1 <= t and i2 <= t and t <= f1 and t <= f2)
+
+[V.Prenotazione.istante_inserimento_consistente]
+    ALL p,i,d Prenotazione(p) and data(p,d) and istantePren(p,i) -> i < d
+
+[V.Prenotazione.Ristorante_non_chiuso]
+    ALL p,r,i pren_rist(p,r) and istantePren(p,i) -> prenotabile{Ristorante,DataOra}(r,i,True)
+
+[V.Promozione.Ristorante_giusto]
+    ALL p,r,gp pren_rist(p,r) and prom_gp(p,gp) -> prom_rist(p,r)
+
+[V.Prenotazione.GiornoPromozione.giusto]
+    ALL p,gp,dp,giornop,orap,ggp,igp,fgp gp_pren(gp,p) and giorno(gp,ggp) and inizio(gp,igp) and fine(gp,fgp) and data(p,dp) and data(dp,giornop) and ora(dp,orap)
+        -> giornop = ggp and igp <= orap and orap <= fgp
+
+[V.Prenotazione.GiornoPromozione_numero_coperti_sufficienti_in_quel_istante]
+    ALL i,gp,p,pn,n DataOra(i) and prom_gp(p,gp) and numCoperti(p,pn) and copertiOccupati{GiornoPromozione,DataOra}(gp,i,n) -> n <= pn
