@@ -1,0 +1,32 @@
+Cliente(_indirizzoEmail: Email_,nome: StringaS,cognome: StringaS)
+
+UtenteRistoratore(_indirizzoEmail: Email_,nome: StringaS,cognome: StringaS)
+
+Nazione(_nome: StringaS_)
+
+Citta(_id: serial_,nome: StringaS,nazione: StringaS)
+    FK: nazione references Nazione(nome)
+
+CucinaTipo(_nome: StringaS_)
+
+Ristorante(_pIva: PartitaIva_,nome: StringaS,indirizzo: Ind,citta: integer,ristoratore: Email)
+    FK: citta references Citta(id)
+    FK: ristoratore references UtenteRistoratore(indirizzoEmail)
+
+cuc_rist(_ristorante: PartitaIva,tipoCucina: StringaS_)
+    FK: ristoratore references Ristorante(pIva)
+    FK: tipoCucina references CucinaTipo(nome)
+
+Promozione(_id: serial_,nome: StringaS,percentuale: Sconto,numCoperti: InteroGZ,ristorante: PartitaIva)
+    FK: ristorante references Ristorante(pIva)
+
+GiornoPromozione(_id: serial_,giorno: date,inizio: time,fine: time,promozione: integer)
+    FK: promozione references Promozione(id)
+
+Prenotazione(_id: serial_,data: timestamp,coperti: InteroGZ,istantePren: timestamp,statoPren: statoPrenotazione,*statoAcc: statoAccettazione,annullata: boolean,*giornoProm: integer,ristorante: PartitaIva,cliente: Email)
+    FK: giornoProm references GiornoPromozione(id)
+    FK: ristorante references Ristorante(pIva)
+    FK: cliente references Cliente(indirizzoEmail)
+
+ChiusuraPrenotazione(_id: serial_,inizio: timestamp,fine: timestamp,istanteInserimento: timestamp,ristorante: PartitaIva)
+    FK: ristorante references Ristorante(pIva)

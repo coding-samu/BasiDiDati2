@@ -1,0 +1,46 @@
+1. impedire la modifica di chiavi artificiali
+
+2.Trigger V.GiornoPromozione.overlapping_stessa_promozione
+
+quando deve scattare: dopo INSERT(new) o UPDATE(new) in GiornoPromozione
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from GiornoPromozione gp
+        where gp.promozione = new.promozione and new.id <> gp.id and ((gp.data + gp.inizio,gp.data + gp.fine) overlaps (new.data + new.inizo,new.data + new.fine))
+    )
+
+3.Trigger V.Persona.utente_cliente_stessa_email_stessa_persona_1
+
+quando deve scattare: dopo INSERT(new) o UPDATE(new) in UtenteRistoratore
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from Cliente c
+        where c.indirizzoEmail = new.indirizzoEmail and (c.nome <> new.nome or c.cognome <> new.cognome)
+    )
+
+4.Trigger V.Persona.utente_cliente_stessa_email_stessa_persona_2
+
+quando deve scattare: dopo INSERT(new) o UPDATE(new) in Cliente
+
+controllo da effettuare:
+    isError := exists (
+        select *
+        from UtenteRistoratore c
+        where c.indirizzoEmail = new.indirizzoEmail and (c.nome <> new.nome or c.cognome <> new.cognome)
+    )
+
+5.Trigger V.Prenotazione.GiornoPromozione_numero_coperti_sufficienti_in_quel_istante
+
+quando deve scattare: dopo INSERT(new) o UPDATE(new) in Prenotazione
+
+controllo da effettuare:
+    isError := new.giornoProm is not null and copertiOccupati(new.giornoProm,new.istantePren) > (
+        select p.numCoperti
+        from Promozione p,GiornoPromozione gp
+        where gp.id = new.giornoProm and gp.promozione = p.id
+        limit 1
+    )
