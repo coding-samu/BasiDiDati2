@@ -1,0 +1,8 @@
+// vincoli aggiunti
+
+ALL p Prenotazione(p) and (EXISTS s statoAcc(p,s)) -> statoPren(p,"Accettata")
+
+// vincoli ristrutturati
+
+[V.PrenotazioneAnnullata.Non_Completata_e_NonUtilizzata]
+    ALL p Prenotazione(p) and annullata(p,true) -> not exists a statoAcc(p,a)

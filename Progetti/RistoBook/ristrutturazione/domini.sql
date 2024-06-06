@@ -28,3 +28,8 @@ create domain PartitaIva as StringaS;
 
 create Email as StringaS;
     -- check(isEmail(value));
+
+create type StatoPrenotazione as enum('Pending','Accettata','Rifiutata');
+
+create type StatoAccettazione as enum('Completata','NonUtilizzata');
+
