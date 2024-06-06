@@ -1,6 +1,11 @@
 // vincoli aggiunti
-
+[V.Prenotazione.generalizzazione]
 ALL p Prenotazione(p) and (EXISTS s statoAcc(p,s)) -> statoPren(p,"Accettata")
+
+[V.Persona.utente_cliente_stessa_email_stessa_persona]
+ALL c,u,e,n1,m1,n2,m2 Cliente(c) and UtenteRistoratore(u) and indirizzoEmail(c,e) 
+and indirizzoEmail(u,e) and nome(c,n1) and cognome(c,m1)
+and nome(u,n2) and cognome(u,m2) -> n1 = n2 and m1 = m2
 
 // vincoli ristrutturati
 
