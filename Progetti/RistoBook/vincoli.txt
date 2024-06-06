@@ -11,10 +11,9 @@
     ALL c,i,f ChiusuraPrenotazione(c) and inizio(c,i) and fine (c,f) -> i < f
 
 [V.ChiusuraPrenotazione.overlapping_stesso_ristorante]
-    ALL cp1,cp2,r,i1,i2,f1,f2,g rist_cp(r,cp1) and rist_cp(r,cp2) and 
-    inizio(cp1,i1) and inizio(cp2,i2) and fine(cp1,f1) and fine (cp2,f2) and 
-    giorno(cp1,g) and giorno(cp2,g) and cp1 != cp2 
-        -> not exists t ora(t) and (i1 <= t and i2 <= t and t <= f1 and t <= f2)
+    ALL cp1,cp2,r,i1,i2,f1,f2 rist_cp(r,cp1) and rist_cp(r,cp2) and 
+    inizio(cp1,i1) and inizio(cp2,i2) and fine(cp1,f1) and fine (cp2,f2) and cp1 != cp2 
+        -> not exists t DataOra(t) and (i1 <= t and i2 <= t and t <= f1 and t <= f2)
 
 [V.GiornoPromozione.overlapping_stessa_promozione]
     ALL gp1,gp2,p,i1,i2,f1,f2,g prom_gp(p,gp1) and prom_gp(p,gp2) and
@@ -25,8 +24,11 @@
 [V.Prenotazione.istante_inserimento_consistente]
     ALL p,i,d Prenotazione(p) and data(p,d) and istantePren(p,i) -> i < d
 
+[V.ChiusuraPrenotazione.istante_inserimento_consistente]
+    ALL cp,i,d ChiusuraPrenotazione(cp) and istanteInserimento(cp,i) and inizio(cp,d) -> i < d
+
 [V.Prenotazione.Ristorante_non_chiuso]
-    ALL p,r,i pren_rist(p,r) and istantePren(p,i) -> prenotabile{Ristorante,DataOra}(r,i,True)
+    ALL p,r,i,cp,ii pren_rist(p,r) and istantePren(p,i) and rist_cp(r,cp) and istanteInserimento(cp,ii) -> prenotabile{Ristorante,DataOra}(r,i,True)
 
 [V.Promozione.Ristorante_giusto]
     ALL p,r,gp pren_rist(p,r) and prom_gp(p,gp) -> prom_rist(p,r)
