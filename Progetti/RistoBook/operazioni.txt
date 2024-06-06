@@ -1,0 +1,22 @@
+Operazione classe Ristorante
+    prenotabile(t DataOra): boolean
+        precondizioni:
+            nessuna
+        postcondizioni:
+            non modifica lo spazio estensionale
+            ALL cp,i,f rist_cp(this,cp) and inizio(cp,i) and fine(cp,f) and istanteInserimento(cp,ii)
+                -> (
+                    (i <= t and t <= f) or (ii < t and t <= f)  -> result = False
+                ) and (
+                    t < i or t > f -> result = True
+                )
+
+
+Operazioni classe GiornoPromozione
+    copertiOccupati(t DataOra): InteroGEZ
+        precondizioni:
+            nessuna
+        postcondizioni:
+            I = {(n,pren) | exists i,f gp_pren(this,pren) and inizio(this,i) and fine(this,f) and not PrenotazioneAnnullata(pren) and not PrenotazioneRifiutata(pren) and not PrenotazionePending(pren) and i <= t and t <= f}
+            and
+            result = sum_(n,p) in I n

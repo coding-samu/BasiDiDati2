@@ -1,0 +1,95 @@
+Usecases:
+    1. Ristoratore
+        1.1. Gestire le prenotazioni
+            1.1.1. Rifiutare prenotazione
+                rifiutaPrenotazione(pren PrenotazionePending)
+                    sia ur il ristoratore che sta invocando questa operazione
+                    precondizioni:
+                        exists r pren_rist(pren,r) and rist_utRist(r,ur) and not PrenotazioneAnnullata(pren)
+                    postcondizioni:
+                        Viene modificato lo spazio estensionale
+                        Ennuple modificate:
+                            not PrenotazionePending(pren)
+                            PrenotazioneRifiutata(pren)
+
+            1.1.2. Accettare prenotazioni
+                accettaPrenotazione(pren PrenotazionePending)
+                    sia ur il ristoratore che sta invocando questa operazione
+                    precondizioni:
+                        exists r pren_rist(pren,r) and rist_utRist(r,ur) and not PrenotazioneAnnullata(pren) and (ALL d data(pren,d) -> d > adesso)
+                    postcondizioni:
+                        Viene modificato lo spazio estensionale
+                        Ennuple modificate:
+                            not PrenotazionePending(pren)
+                            PrenotazioneAccettata(pren)
+
+            1.1.3. Completa Prenotazione
+                completaPrenotazione(pren PrenotazioneAccettata)
+                    sia ur il ristoratore che sta invocando questa operazione
+                    precondizioni:
+                        exists r pren_rist(pren,r) and rist_utRist(r,ur) and not PrenotazioneAnnullata(pren) and not PrenAccCompletata(pren) and not PrenAccNonUtilizzata(pren)
+                    postcondizioni:
+                        Viene modificato lo spazio estensionale
+                        Ennuple modificate:
+                            PrenAccCompletata(pren)
+
+            1.1.4. Inutilizza Prenotazione
+                inutilizzaPrenotazione(pren PrenotazioneAccettata)
+                    sia ur il ristoratore che sta invocando questa operazione
+                    sia r tale che pren_rist(pren,r) è verificata
+                    precondizioni:
+                        rist_utRist(r,ur) and not PrenotazioneAnnullata(pren) and not PrenAccCompletata(pren) and not PrenAccNonUtilizzata(pren)
+                    postcondizioni:
+                        Viene modificato lo spazio estensionale
+                        Ennuple modificato:
+                            PrenAccNonUtilizzata(pren)
+
+            1.1.5. Chiudi prenotazioni
+                chiudiPrenotazione(r Ristorante, i DataOra, f DataOra): ChiusuraPrenotazione
+                    sia ur il ristoratore che sta invocando questa operazione
+                    precondizioni:
+                        rist_utRist(r,ur)
+                    postcondizioni:
+                        Viene modificato lo spazio estensionale
+                        Un nuovo elemento alpha
+                        ChiusuraPrenotazione(alpha)
+                        inizio(alpha,i)
+                        fine(alpha,f)
+                        istanteInserimento(alpha,adesso)
+                        rist_cp(r,alpha)
+
+            1.1.6. Riaprire prenotazioni
+                apriPrenotazione(cp ChiusuraPrenotazione)
+                    sia ur il ristoratore che sta invocando questa operazione
+                    sia r tale che pren_rist(pren,r) è verificata
+                    precondizioni:
+                        rist_utRist(r,ur)
+                    postcondizioni:
+
+        1.2. Gestire le promozioni
+            1.2.1. Creare nuove promozioni
+                creaPromozione(nome StringaS, percentuale Sconto, numCoperti InteroGZ)
+                    sia ur il ristoratore che sta invocando questa operazione
+                    sia r tale che pren_rist(pren,r) è verificata
+                    precondizioni:
+                        rist_utRist(r,ur)
+                    postcondizioni:
+
+            1.2.2. Aggiungere data alla promozione
+                aggiungiGiornoPromozione(prom Promozione, giorno Data, inizio Ora, fine Ora): GiornoPromozione
+                    sia ur il ristoratore che sta invocando questa operazione
+                    sia r tale che pren_rist(pren,r) è verificata
+                    precondizioni:
+                        rist_utRist(r,ur)
+                    postcondizioni:
+
+        1.3. Aggiungere un nuovo ristorante
+
+    2. Cliente
+        2.1. Deve poter effettuare una prenotazione
+
+        2.2. Deve poter annullare una prenotazione
+    3. Responsabile statistiche ristorante
+        3.1. Dato un periodo di tempo, calcolare per ogni promozione del ristorante considerato il numero medio di clienti al giorno. (dove la media è calcolata sui giorni di validità della promozione)
+        3.2. Data una città x, un insieme di tipologie di cucina C, un tasso di sconto minimo s ed una data d, i clienti devono poter trovare quali sono i ristoranti nella città x che offrono almeno una delle tipologie di cucina in C e prevedono promozioni con sconti di tasso almeno s nella data d ancora utilizzabili per il numero di coperti che sono interessanti a prenotare.
+
