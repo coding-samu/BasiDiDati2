@@ -1,0 +1,17 @@
+calcolare per ogni regione di una data nazione n, il numero di viaggi organizzati in un dato periodo di tempo che toccano quella regione
+
+viaggiOrganizzati(naz Nazione, i DataOra, f DataOra): (reg: Regione, n: InteroGEZ)
+
+    precondizioni:
+        exists reg nazReg(naz,reg)
+
+    postcondizioni:
+        R = {(r,n) | nazReg(naz,r) and (
+            N = {e | exists iac, fac,v erVi(e,v) and attvi(ac,v) and inizio{AttivitaComposta}(ac,iac) and fine{AttivitaComposta}(ac,fac) 
+                      and i <= iac and fac <= f and
+                      and exists s (ac_(s) and((Pernottamento(s) and exists l,c (luoPer(l,s) and citLuo(c,l) and citReg(c,r))) 
+                      or (Altro(s) and exists l,c (altLuo(l,s) and citLuo(c,l) and citReg(c,r))) 
+                      or (Spostamento(s) and exists l,c ((partenza(s,l) or arrivo(s,l)) and citLuo(c,l) and citReg(c,r)))
+                ))}
+                n = |N|)
+        }
