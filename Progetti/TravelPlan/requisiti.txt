@@ -1,0 +1,56 @@
+1. Utente
+    1.1. nome
+    1.2. cognome
+    1.3. email
+    1.4. Città di provenienza
+    1.5. Dataora iscrizione
+    1.6. Può creare viaggi in qualità di organizzatore (4.)
+    1.7. Può prendere parte a viaggi creati da altri utenti
+
+2. Città
+    2.1. nome
+    2.2. regione (7.)
+
+7. Regione
+    7.1. nome
+    7.2. nazione (3.)
+
+3. Nazione
+    3.1. nome
+
+4. Viaggio
+    4.1. nome
+    4.2. numero minimo partecipanti
+    4.3. numero massimo partecipanti
+    4.4. Attività (5.)
+
+5. Attività
+    5.1. nome
+    5.2. istante inizio
+    5.3. durata in minuti
+    5.4. il prezzo
+    5.5. il luogo in cui si tiene (6.)
+    5.6. informazioni testuali
+    5.7. eventualmente un insieme di codici identificativi di biglietti/prenotazioni relativi all'attività
+    5.8. Può essere uno Spostamento
+        5.8.1. tipo mezzo (10.)
+        5.8.2. luogo di partenza (6.)
+        5.8.3. luogo di arrivo (6.)
+    5.9 Può essere un pernottamento:
+        5.9.1. Attività particolare, il sistema non deve permettere di rappresentare più di un pernottamento al giorno per ogni utente che partecipa a un viaggio
+    5.10. Utenti che partecipano all'attività (se non viene specificato nessun utente, si assume che tutti partecipino)
+
+6. luogo
+    6.1. indirizzo
+    6.2. città
+    6.3. regione
+    6.4. nazione
+
+8. Attività composte
+    8.1. raggruppano attività più semplici
+
+10. Tipo mezzo 
+    10.1. nome
+
+11. Feedback
+    11. Gli utenti partecipanti a un viaggio possono esprimere feedback assegnando un voto da 1 a 5

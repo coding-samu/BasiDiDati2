@@ -1,0 +1,21 @@
+DeltaOra (giorno InteroGEZ, ora Ora)
+InteroGZ: Intero > 0
+InteroGEZ: Intero >= 0
+Voto: Intero in [1,5]
+Val: stringa di 3 caratteri secondo standard ISO 4217
+
+operazione <: (a DeltaOra, b DeltaOra): boolean
+    precondizioni: nessuna 
+    postcondizioni:
+        non modifica lo spazio estensionale
+        ALL ga,oa,gb,ob giorno(a,ga) and ora(a,oa) and giorno(b,gb) and ora(b,gb) -> (
+            (ga < gb -> result = True)
+            and
+            (ga > gb -> result = False)
+            and
+            (ga = gb -> (
+                (oa < ob -> result = True)
+                and
+                (ob <= oa -> result = False)
+            ))
+        )
