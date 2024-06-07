@@ -1,0 +1,84 @@
+Operazione di classe Valuta
+
+    conversione(v Valuta, d Denaro): Denaro
+        precondizioni: nessuna
+        postcondizioni:
+            result = d convertita da this a v
+
+Operazione di classe AttivitaComposta
+
+    budgetatt(v Valuta): Denaro
+        precondizioni: 
+            nessuna
+
+        postcondizioni:
+            not exists s ac_s(this,s) -> result = 0
+            and
+            exists s ac_s(this,s) -> (
+                S = {(p,s') | exists v',p' ac_s(this,s') and prezzo(s',p') and semVal(s,v') and conversione{Valuta,Valuta,Denaro}(v',v,p',p)}
+                result = sum_((i,_) in S) i
+            ) 
+
+    inizio(): DeltaOra
+        precondizioni:
+            exists s ac_s(this,s)
+
+        postcondizioni:
+            S = {i | exists s ac_s(this,s) and inizio(s,i)}
+            M = argmin_{i in S} i
+            ALL m in M -> result = m
+
+    fine(): DeltaOra
+        precondizioni:
+            exists s ac_s(this,s)
+
+        postcondizioni:
+            S = {f | exists s ac_s(this,s) and fine(s,i)}
+            M = argmax_{f in S} f
+            ALL m in M -> result = m
+
+Operazione classe Viaggio
+
+    budgetvia(v Valuta): Denaro
+        precondizioni:
+            nessuna
+
+        postcondizioni:
+            not exists ac attVi(ac,this) -> result = false
+            and
+            exists ac attVi(ac,this) -> (
+                C = {(ac',b) | attVi(ac',this) and budgetatt{AttivitaComposta,Valuta}(ac',v,b)}
+                result = sum_((_,b) in C) b
+            )
+
+Operazione classe ErogazioneViaggio
+
+    fine(): DataOra
+        precondizioni:
+            all v erVi(this,v) -> exists ac attvi(ac,v)
+
+        postcondizioni:
+            S = {f | exists v, ac erVi(this,v) and attvi(ac,v) and fine{AttivitaComposta}(ac,f)}
+            Sia M = argmax_{m in S} m
+            ALL m,d inizio(this,d) and m in M -> result = d + m
+
+Operazione classe Utente
+
+    punteggio(): InteroGEZ
+        precondizioni:
+            nessuna
+
+        postcondizioni:
+            Sia F = {(u,e,f) | exists v organizza(this,v) and erVi(e,v) and partecipante(u,e) and feedback(u,e,f)}
+            |F| = 0 -> result = 0
+            and
+            |F| != 0 -> (
+                ALL i i = (sum_((_,_,f) in F) f)/|F| -> (
+                    i <= 3 -> result = 0
+                    and
+                    i > 3 -> (
+                        F' = {(u,e,f) | exists v organizza(this,v) and erVi(e,v) and partecipante(u,e) and feedback(u,e,f) and f >= 4}
+                        result = parte intera inferiore |F1|/10
+                    )
+                )
+            )

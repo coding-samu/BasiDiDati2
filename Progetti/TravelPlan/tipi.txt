@@ -3,6 +3,7 @@ InteroGZ: Intero > 0
 InteroGEZ: Intero >= 0
 Voto: Intero in [1,5]
 Val: stringa di 3 caratteri secondo standard ISO 4217
+Denaro: reale >= 0
 
 operazione <: (a DeltaOra, b DeltaOra): boolean
     precondizioni: nessuna 
@@ -19,3 +20,5 @@ operazione <: (a DeltaOra, b DeltaOra): boolean
                 (ob <= oa -> result = False)
             ))
         )
+
+operazione +: (a DataOra, b DeltaOra): DataOra

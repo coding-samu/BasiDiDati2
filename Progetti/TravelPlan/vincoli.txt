@@ -1,6 +1,9 @@
 [V.Viaggio.Partecipanti_consistenti]
 ALL v,min,max Viaggio(v) and minPar(v,min) and maxPar(v,max) -> min <= max
 
+[V.Partecipante.non_troppi]
+all v,max,ev maxPar(v,max) and erVi(ev,v) and P = {u | partecipante(u,ev)} -> |P| <= max
+
 [V.Viaggio.Organizzatore_partecipa_erogazione_viaggio]
 ALL v,ev,u organizza(u,v) and erVi(ev,v) -> partecipante(u,ev)
 
@@ -16,8 +19,26 @@ ALL a,v attVi(a,v) -> exists i,g inizio(a,i) and InteroGEZ(i,g) and g = 0
 [V.Feedback.Non_organizzatore]
 ALL u,ev,v,f Partecipante(u,ev) and erVi(ev,v) and feedback(u,ev,f) -> not organizza(u,v)
 
-[V.Attivita.Non_sovrapposte_stesso_partecipante]
-// TODO
+[V.Feedback.maggiore_fine_viaggio]
+ALL u,ev,f partecipante(u,ev) and fine{ErogazioneViaggio}(ev,f) and f < adesso -> not exists fe feedback(u,ev,fe)
+
+[V.Attivita.Semplici.Non_sovrapposte_stesso_partecipante]
+ALL a1,a2,u,ev,i1,i2,f1,f2 partecipante(u,ev) and (partecipa(u,ev,a1) or (not exists u' partecipa(u',ev,a1)))and (partecipa(u,ev,a2) or (not exists u' partecipa(u',ev,a2))) and a1 != a2 
+    and not Pernottamento(a1) and not Pernottamento(a2) and inizio(a1,i1) and inizio(a2,i2) and fine(a1,f1) and fine(a2,f2)
+    and not Composta(a1) and not Composta(a2) 
+        -> not exists t DeltaOra(t) and (i1 <= t and i2 <= t and t <= f1 and t <= f2)
+
+
+[V.Attivita.inizio_fine_consistente]
+ALL s,i,f Semplice(s) and inizio(s,i) and fine(s,f) -> inizio < fine
 
 [V.Utente.Iscrizione_minore_inizio_erogazione_viaggio]
 ALL u,ev,iu,iv partecipante(u,ev) and iscrizione(u,iu) and inizio(ev,iv) -> iu < iv
+
+[V.Partecipante.un_pernottamento_al_giorno]
+// TODO
+
+[V.Partecipante.no_overlapping_tra_pernottamenti]
+ALL a1,a2,u,ev,i1,i2,f1,f2 partecipante(u,ev) and (partecipa(u,ev,a1) or (not exists u' partecipa(u',ev,a1)))and (partecipa(u,ev,a2) or (not exists u' partecipa(u',ev,a2))) and a1 != a2 
+    and Pernottamento(a1) and Pernottamento(a2) and inizio(a1,i1) and inizio(a2,i2) and fine(a1,f1) and fine(a2,f2) 
+        -> not exists t DeltaOra(t) and (i1 <= t and i2 <= t and t <= f1 and t <= f2)
