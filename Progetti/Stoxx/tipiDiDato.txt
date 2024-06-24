@@ -1,5 +1,5 @@
 Denaro: reale
-Perc: reale >= 0
+Perc: reale in [0,1]
 RealeGZ: Reale > 0
 InteroGEZ: Intero >= 0
 StringaS: stringa di 75 caratteri

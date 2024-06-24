@@ -28,3 +28,6 @@ ALL dis,inv,i,id dis_inv(dis,inv) and istante(inv,i) and istante(dis,id) -> id >
 
 [V.Somma_quantita_disinvestimento_LEQ_quantita_investimento]
 ALL inv,qi Investimento(inv) and quantita(inv,qi) and Q = {(q,d) | dis_inv(d,i) and quantita(d,q)} and tot = (sum_(q,d) in Q q) -> tot <= qi
+
+[V.Rilevazione.valore_positivo]
+ALL r,v Rilevazione(r) and valore(r,v) -> v >= 0

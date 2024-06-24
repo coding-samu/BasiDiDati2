@@ -1,0 +1,44 @@
+RecapitoTelefonico(_telefono: Tel_)
+    v. inclusione: RecapitoTelefonico(telefono) occorre in cli_rt(telefono)
+
+Promotore(_matricola: MatProm_, nome: StringaS, cognome: StringaS)
+
+TipologiaDocumento(_nome: StringaS_)
+
+Emittente(_nome: StringaS_, tipo: tipoEmittente)
+
+StrumentoFinanziario(_id: serial_,emittente:StringaS)
+    FK: emittente references Emittente(nome)
+
+Rilevazione(_id: serial_, istante: timestamp, valore: Denaro, sf: integer)
+    FK: sf references StrumentoFinanziario(id)
+    Altra chiave: (istante,sf)
+    v.ennupla: valore > 0
+
+Titolo(_sf: integer_, tipo: tipoTitolo)
+    FK: sf references StrumentoFinanziario(id)
+
+FondoGestito(_sf: integer_, titoliAzionari: InteroGEZ, titoliObbligazionari: InteroGEZ, titoliDiStato: InteroGEZ)
+    FK: sf references StrumentoFinanziario(id)
+    v.ennupla: titoliAzionari + titoliObbligazionari + titoliDiStato > 0
+
+cli_rt(_telefono: Tel_, cliente: codFisc)
+    FK: telefono references RecapitoTelefonico(telefono)
+    FK: cliente references Cliente(cf)
+
+Cliente(_cf: codFisc_, *email: IndEmail, numDoc: nDoc, nome: StringaS, cognome: StringaS, tipoDocumento: StringaS, )
+    FK: tipoDocumento references TipologiaDocumento(nome)
+    v. inclusione: Cliente(cf) occorre in cli_rt(cliente)
+
+Gestione(_id: serial_, inizio: timestamp, isTerminata: boolean, *fine: timestamp, *motivazione: text, cliente: codFisc, promotore: MatProm)
+    FK: cliente references Cliente(cf)
+    FK: promotore references Promotore(matricola)
+    v.ennupla: fine is null or inizio <= fine
+    v.ennupla: (isTerminata and fine is not null and motivazione is not null) or (not isTerminata and fine is null and motivazione is null)
+
+Investimento(_id: serial_, istante: timestamp, quantita: RealeGZ, gestione: integer, sf: integer)
+    FK: gestione references Gestione(id)
+    FK: sf references StrumentoFinanziario(id)
+
+Disinvestimento(_id: serial_, istante: timestamp, quantita: RealeGZ, investimento: integer)
+    FK: investimento references Investimento(id)

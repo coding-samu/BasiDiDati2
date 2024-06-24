@@ -1,9 +1,52 @@
 Usecase dell'attore Promotore
 
-investimento(c Cliente, d Denaro, sf StrumentoFinanziario)
+investimento(g Gestione, d Denaro, sf StrumentoFinanziario)
+    Sia p il Promotore che sta invocando lo usecase
+    precondizioni:
+        EXISTS t ges_prom(g,p) and (ALL i inizio(g,i) -> i <= t) and (ALL f fine(g,f) -> t <= f) and t = adesso
+    postcondizioni:
+        Modifica lo spazio estensionale
+        Elementi del dominio: alpha
+        Nuove ennuple:
+        Investimento(alpha)
+        istante(alpha,adesso)
+        quantita(alpha,d/valore{StrumentoFinanziario,DataOra}(sf,adesso))
+        inv_ges(alpha,g)
+        inv_sf(alpha,sf)
 
-disinvestimento(c Cliente, q RealeGZ, inv Investimento)
+disinvestimento(q RealeGZ, inv Investimento)
+-- simile a investimento
 
 valorePortafoglio(c Cliente): Denaro
+    Sia p il Promotore che sta invocando lo usecase
+    precondizioni:
+        EXISTS g,t ges_prom(g,p) and cli_ges(c,g) and (ALL i inizio(g,i) -> i <= t) and (ALL f fine(g,f) -> t <= f) and t = adesso
+    postcondizioni:
+        Sia I = {(v,i) | EXISTS g cli_ges(c,g) and inv_ges(i,g) and valore{Investimento,DataOra}(i,adesso,v)}
+        result = sum_{(v,i) in I} v
 
 rischioCliente(c Cliente): Rischio
+    Sia p il Promotore che sta invocando lo usecase
+    precondizioni:
+        EXISTS g,t ges_prom(g,p) and cli_ges(c,g) and (ALL i inizio(g,i) -> i <= t) and (ALL f fine(g,f) -> t <= f) and t = adesso
+    postcondizioni:
+        Sia F = {(sf,v) | EXISTS g,i,sf cli_ges(c,g) and inv_ges(i,g) and inv_sf(i,sf) and FondoGestito(sf) and valore{StrumentoFinanziario,DataOra}(sf,adesso,v)}
+
+        Sia A = {(sf,v) | EXISTS g,i,a cli_ges(c,g) and inv_ges(i,g) and inv_sf(i,sf) and TitoloAzionario(sf) and valore{StrumentoFinanziario,DataOra}(sf,adesso,v)}
+
+        Sia T = {(sf,v) | EXISTS g,i,a cli_ges(c,g) and inv_ges(i,g) and inv_sf(i,sf) valore{StrumentoFinanziario,DataOra}(sf,adesso,v)}
+
+        Sia totF = sum_{(sf,v) in F} v
+        Sia totA = sum_{(sf,v) in A} v
+        Sia totT = sum_{(sf,v) in T} v
+
+        totT = 0 -> result = 'Basso'
+        and
+        (totF+totA)/totT <= 0.1 -> result = 'Basso'
+        and
+        0.1 < (totF+totA)/totT <= 0.4 -> result = 'Medio'
+        and
+        0.4 < (totF+totA)/totT <= 0.6 -> result = 'Alto'
+        and
+        0.6 <= (totF+TotA)/totT -> result = 'Aggressivo'
+

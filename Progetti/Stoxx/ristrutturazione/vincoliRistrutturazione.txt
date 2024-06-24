@@ -1,0 +1,23 @@
+[V.StrumentoFinanziario.disjoint]
+    ALL sf,t,fg fg_isa_sf(fg,sf) -> not t_isa_sf(t,sf)
+
+[V.StrumentoFinanziario.complete]
+    ALL sf StrumentoFinanziario(sf) -> EXISTS t fg_isa_sf(t,sf) or t_isa_sf(t,sf)
+
+[V.GestioneTerminata.Fine_motivazione]
+    ALL g,t Gestione(g) and isTerminata(g,t) <-> EXISTS f,m fine(g,f) and motivazione(g,m)
+
+
+Vincoli modificati:
+
+[V.Gestione.Consistenza_inizio_fine]
+ALL g,i,f Gestione(g) and inizio(g,i) and fine(g,f) -> i <= f
+
+[V.Emittente_Stato_se_e_solo_se_titolo_di_stato]
+ALL sf,e,te,tt,t em_sf(e,sf) and t_isa_sf(t,sf) and tipoEmittente(e,te) and te = 'Stato' <-> Titolo(t) and tipoTitolo(t,tt) and tt = 'DiStato'
+
+[V.Istante_investimento_in_periodo_gestione]
+ALL inv,ges,i,is inv_ges(inv,ges) and inizio(ges,i) and istante(inv,is) -> 
+    (isTerminata(g,True) and fine(ges,f) and i <= is and is <= f)
+    or
+    (isTerminata(g,False) and i <= is)

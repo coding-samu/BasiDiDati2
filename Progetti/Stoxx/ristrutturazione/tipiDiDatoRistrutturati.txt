@@ -1,0 +1,20 @@
+tipi di dato aggiunti dopo la ristrutturazione:
+    tipoTitolo = {'Azionario','Obbligazionario','DiStato'}
+    tipoEmittente = {'Azienda','Stato'}
+
+
+Ristrutturazione dei tipi di dato:
+
+create domain Denaro as real;
+create domain Perc as real check (value >= 0 and value <= 1);
+create domain RealeGZ as real check (value > 0);
+create domain InteroGEZ as integer check (value >= 0);
+create domain StringaS as varchar(75);
+create domain codFisc as text check (isCF(value));
+create domain nDoc as text check (isDoc(value));
+create domain MatProm as text check (isMatricola(value));
+create domain IndEmail as text check (isEmail(value));
+create domain Tel as text check (isTel(value));
+create type Rischio as enum('basso','moderato','alto','aggressivo');
+create type tipoTitolo as enum('Azionario','Obbligazionario','DiStato');
+create type tipoEmittente as enum('Azienda','Stato');

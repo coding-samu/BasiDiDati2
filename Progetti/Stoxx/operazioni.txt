@@ -4,19 +4,19 @@ percentualeAzionari(): Perc
     precondizioni: nessuna 
     postcondizioni:
         ALL ta,to,ts titoliAzionari(this,ta) and titoliObbligazionari(this,to) and titoliDiStato(this,ts)
-            -> result = (ta+to+ts)/100 * ta
+            -> result = ta/(ta+to+ts)
 
 percentualeObbligazionari(): Perc
     precondizioni: nessuna 
     postcondizioni:
         ALL ta,to,ts titoliAzionari(this,ta) and titoliObbligazionari(this,to) and titoliDiStato(this,ts)
-            -> result = (ta+to+ts)/100 * to
+            -> result = to/(ta+to+ts)
 
 percentualeDiStato(): Perc
     precondizioni: nessuna 
     postcondizioni:
         ALL ta,to,ts titoliAzionari(this,ta) and titoliObbligazionari(this,to) and titoliDiStato(this,ts)
-            -> result = (ta+to+ts)/100 * ts
+            -> result = ts/(ta+to+ts)
 
 Operazioni della classe StrumentoFinanziario
 
@@ -35,6 +35,15 @@ importo(): Denaro
     precondizioni: nessuna
     postcondizioni:
         ALL sf,i,v,q inv_sf(this,sf) and istante(this,i) and quantita(this,q) and valore{StrumentoFinanziario,DataOra}(sf,i,v) -> result = v*q
+
+valore(t DataOra): Denaro
+    precondizioni: ALL i inizio(this,i) -> i <= t
+    postcondizioni:
+        Sia D = {(q,d) | EXISTS i dis_inv(d,this) and quantita(d,q) and istante(d,i) and i <= t}
+        ALL q,sf,v quantita(this,q) and inv_sf(this,sf) and valore{StrumentoFinanziario,DataOra}(sf,t,v) -> result = (q - (sum_{(q,d) in D} q))*v
+
+
+Operazioni della classe Disinvestimento
 
 liquidato(): Denaro
     precondizioni: nessuna
