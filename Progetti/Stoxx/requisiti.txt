@@ -1,0 +1,40 @@
+1. Promotore
+    1.1. matricola
+    1.2. nome
+    1.3. cognome
+    1.4. insieme di clienti di cui gestisce il portafoglio
+
+2. Cliente
+    2.1. nome
+    2.2. cognome
+    2.3. recapito telefonico (almeno uno)
+    2.4. email (facoltativa)
+    2.5. codice fiscale
+    2.6. estremi documento di riconoscimento (tipo e numero)
+    2.7. il promotore che gestisce il suo portafoglio
+        2.7.1. i promotori passati con periodo e causa che ha portato il cliente ad abbandonarlo
+
+3. Strumento finanziario
+    3.1. Fondo gestito
+        3.1.1. Società di gestione
+        3.1.2. Numero di titoli (per ogni tipologia)
+        3.1.3. Percentuale (per ogni tipologia di titolo) (operazioni)
+    3.2. Titolo azionario
+        3.2.1. Azienda emittente
+    3.3. Titolo obbligazionario
+        3.3.1. Azienda emittente
+    3.4. Titolo di stato
+        3.4.1. Stato che lo ha emesso
+
+
+4. Investimento
+    4.1. Strumento finanziario al quale fa riferimento (3.)
+    4.2. Cliente di riferimento (2.)
+    4.3. Valore acquisto
+    4.4. Se è disinvestito
+        4.4.1. Valore disinvestimento
+    4.5. Quantità
+
+5. Rilevazione
+    5.1. Strumento finanziario al quale fa riferimento
+    5.2. Valore

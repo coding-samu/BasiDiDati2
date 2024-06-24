@@ -1,0 +1,10 @@
+Denaro: reale
+Perc: reale >= 0
+RealeGZ: Reale > 0
+InteroGEZ: Intero >= 0
+StringaS: stringa di 75 caratteri
+codFisc: stringa di 16 caratteri secondo standard
+nDoc: stringa secondo standard
+MatProm: stringa secondo standard
+IndEmail: stringa secondo standard
+Tel: stringa secondo standard

@@ -1,0 +1,30 @@
+[V.Cliente.No_stessa_email_per_due_clienti_diversi]
+ALL c,e Cliente(c) and email(c,e) -> NOT EXISTS c' Cliente(c') and c' != c and email(c',e)
+
+[V.Gestione.Overlapping]
+ALL c,g',g'',i',i'' cli_ges(c,g') and cli_ges(c,g'') and inizio(g',i') and inizio(g'',i'')
+    -> NOT EXISTS t DataOra(t) and (i' <= t and i'' <= t) and (ALL f fine(g',f) -> t <= f) and (ALL f fine(g'',f) -> t <= f)
+
+[V.Gestione.Consistenza_inizio_fine]
+ALL g,i,f GestioneTerminata(g) and inizio(g,i) and fine(g,f) -> i <= f
+
+[V.Emittente_Stato_se_e_solo_se_titolo_di_stato]
+ALL sf,e em_sf(e,sf) Stato(e) <-> TitoloDiStato(sf)
+
+[V.FondoGestito.Somma_maggiore_di_zero]
+ALL fg,ta,to,ts FondoGestito(fg) and titoliAzionari(fg,ta) and titoliObbligazionari(fg,to) and titoliDiStato(fg,ts) -> ta+to+ts > 0
+
+[V.Istante_investimento_in_periodo_gestione]
+ALL inv,ges,i,is inv_ges(inv,ges) and inizio(ges,i) and istante(inv,is) -> 
+    (EXISTS f GestioneTerminata(ges) and fine(ges,f) and i <= is and is <= f)
+    or
+    (not GestioneTerminata(ges) and i <= is)
+
+[V.Istante_investimento_maggiore_di_rilevazione]
+ALL inv,sf,i inv_sf(inv,sf) and istante(inv,i) -> EXISTS r,ri ril_sf(r,sf) and istante(r,ri) and ri <= i
+
+[V.Istante_disinvestimento_maggiore_di_istante_investimento]
+ALL dis,inv,i,id dis_inv(dis,inv) and istante(inv,i) and istante(dis,id) -> id >= i
+
+[V.Somma_quantita_disinvestimento_LEQ_quantita_investimento]
+ALL inv,qi Investimento(inv) and quantita(inv,qi) and Q = {(q,d) | dis_inv(d,i) and quantita(d,q)} and tot = (sum_(q,d) in Q q) -> tot <= qi

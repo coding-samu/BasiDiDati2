@@ -1,0 +1,43 @@
+Operazioni della classe FondoGestito
+
+percentualeAzionari(): Perc
+    precondizioni: nessuna 
+    postcondizioni:
+        ALL ta,to,ts titoliAzionari(this,ta) and titoliObbligazionari(this,to) and titoliDiStato(this,ts)
+            -> result = (ta+to+ts)/100 * ta
+
+percentualeObbligazionari(): Perc
+    precondizioni: nessuna 
+    postcondizioni:
+        ALL ta,to,ts titoliAzionari(this,ta) and titoliObbligazionari(this,to) and titoliDiStato(this,ts)
+            -> result = (ta+to+ts)/100 * to
+
+percentualeDiStato(): Perc
+    precondizioni: nessuna 
+    postcondizioni:
+        ALL ta,to,ts titoliAzionari(this,ta) and titoliObbligazionari(this,to) and titoliDiStato(this,ts)
+            -> result = (ta+to+ts)/100 * ts
+
+Operazioni della classe StrumentoFinanziario
+
+valore(t DataOra): Denaro
+    precondizioni:
+        EXISTS r,ri ril_sf(r,this) and istante(r,ri) and ri <= t
+    postcondizioni:
+        Sia R = {(i,v) | EXISTS r ril_sf(r,this) and istante(r,i) and i <= t and valore(r,v)}
+        Sia R' = arg_max_{(i,v) in R}
+
+        ALL (i,v) in R' -> result = v
+
+Operazioni della classe Investimento
+
+importo(): Denaro
+    precondizioni: nessuna
+    postcondizioni:
+        ALL sf,i,v,q inv_sf(this,sf) and istante(this,i) and quantita(this,q) and valore{StrumentoFinanziario,DataOra}(sf,i,v) -> result = v*q
+
+liquidato(): Denaro
+    precondizioni: nessuna
+    postcondizioni:
+        ALL inv,sf,v,q dis_inv(this,inv) and inv_sf(inv,sf) and istante(this,i) and quantita(this,q) and valore{StrumentoFinanziario,DataOra}(sf,i,v) -> result = v*q
+
