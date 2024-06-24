@@ -8,3 +8,4 @@ nDoc: stringa secondo standard
 MatProm: stringa secondo standard
 IndEmail: stringa secondo standard
 Tel: stringa secondo standard
+Rischio: {'basso','moderato','alto','aggressivo'}

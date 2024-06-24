@@ -1,0 +1,9 @@
+Usecase dell'attore Promotore
+
+investimento(c Cliente, d Denaro, sf StrumentoFinanziario)
+
+disinvestimento(c Cliente, q RealeGZ, inv Investimento)
+
+valorePortafoglio(c Cliente): Denaro
+
+rischioCliente(c Cliente): Rischio
