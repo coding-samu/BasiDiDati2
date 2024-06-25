@@ -1,0 +1,35 @@
+[V.IntervalloDate.inizio_leq_fine]
+ALL id,i,f IntervalloDate(id) and inizio(id,i) and fine(id,f) -> i <= f
+
+[V.IntervalloDate.Overlapping]
+ALL ta,id1,id2,i1,i2,f1,f2 id_ta(id1,ta) and id_ta(id2,ta) and inizio(id1,i1) and inizio(id2,i2) and fine(id1,f1) and fine(id2,f2) and id1 != id2
+    -> NOT EXISTS t Data(t) and (i1 <= t and i2 <= t) and (t <= f1 and t <= f2)
+
+[V.Abbonamento_in_intervallo_date]
+ALL a,ta,ia ab_ta(a,ta) and inizio(a,ia) -> EXISTS id,i,f id_ta(id,ta) and inizio(id,i) and fine(id,f) and i <= ia <= f
+
+[V.Abbonamento_non_superati_max_abbonati]
+ALL ta, m, d TipologiaAbbonamento(ta) and maxAbbonati(ta,m) and Data(d) -> (
+     U = {u | EXISTS a ab_ut(a,u) and ab_ta(a,ta) and (ALL i inizio(a,i) -> i <= d) and (ALL f fine_{Abbonamento}(a,f) -> d <= f)} 
+        -> |U| <= m)
+
+[V.Uscita.Date_consistenti]
+ALL u,ie,iu Uscita(u) and entrata(u,ie) and uscita(u,iu) -> iu > ie
+
+[V.Accesso_se_abbonato]
+ALL u,a,ie ac_ut(a,u) and entrata(a,ie) -> EXISTS ab,i,f ab_ut(ab,u) and inizio(ab,i) and fine_{Abbonamento}(ab,f) and i <= ie <= f
+
+[V.Accesso.Overlapping_accessi]
+ALL u,a1,a2 ac_ut(a1,u) and ac_ut(a2,u) and a1 != a2
+    -> NOT EXISTS t DataOra(t) and (ALL e entrata(a1,e) -> e <= t) and (ALL e entrata(a2,e) -> e <= t)
+        and (ALL u Uscita(a1) and Uscita(a1,u) -> t <= u) and (ALL u Uscita(a2) and Uscita(a2,u) -> t <= u)
+
+[V.Assegnazione.Overlapping_utente]
+TODO
+
+[V.Assegnazione.Overlapping_postazione]
+TODO
+
+[V.Assegnazione.inizio_dentro_abbonamento]
+TODO
+

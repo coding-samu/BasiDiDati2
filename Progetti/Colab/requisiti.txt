@@ -1,0 +1,53 @@
+1. Utente
+    1.1. nome
+    1.2. cognome
+    1.3. data di nascita
+    1.4. indirizzo
+    1.5. email
+
+2. Cliente
+    2.1. Persona fisica
+        2.1.1. nome
+        2.1.2. cognome
+        2.1.3. data di nascita
+        2.1.4. partita iva [0..1]
+    2.2. Azienda
+        2.2.1. ragione sociale
+        2.2.2. partita iva
+    2.3. Abbonamenti stipulati
+
+3. Abbonamento
+    3.1. istante di inizio
+    3.2. tipologia (4.)
+    3.3. gli utenti che ne usufruiscono
+    3.4. un abbonamento sottoscritto da un cliente aziendale deve indicare l’insieme di utenti che ne usufruiscono.
+
+4. Tipologia abbonamento
+    4.1. prezzo
+    4.2. durata
+    4.3. intervallo di date in cui può essere sottoscritto
+    4.4. numero di utenti che possono usufruire dello stesso abbonamento
+    4.5. insieme di servizi (5.) cui è possibile usufruire
+        4.5.1. sconto
+        4.5.2. soglia mensile di utilizzo gratuito
+
+5. Servizio
+    5.1. descrizione
+    5.2. prezzo unitario 
+    5.3. Può essere uno spazio di coworking (is-a)
+
+6. Utilizzo
+    6.1. istante inizio
+    6.2. istante fine
+    6.3. quantità utilizzata
+    6.4. utente (1.)
+    6.5. servizio utilizzato (5.)
+
+7. Accesso
+    7.1. spazio di coworking (5.3.)
+    7.2. istante entrata
+    7.3. istante uscita
+
+8. postazione di lavoro
+    8.1. utente abbonato
+    8.2. codice identificativo

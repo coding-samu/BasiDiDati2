@@ -1,0 +1,6 @@
+StringaS: stringa di 75 caratteri
+PIVA: stringa secondo standard
+RagSoc: stringa secondo standard
+IndEmail: stringa secondo standard
+Ind: (via: StringaS, civico: Civ)
+Civ: stringa secondo standard
