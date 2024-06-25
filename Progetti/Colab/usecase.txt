@@ -4,6 +4,7 @@ media_giornaliera(I: Intervallo [0..*]): RealeGEZ
 
     postcondizioni:
         non modifica lo spazio estensionale
+        TODO
 
 
 fattura(a: Azienda, i: Data, f: Data): Denaro
