@@ -30,7 +30,7 @@ rischioCliente(c Cliente): Rischio
     precondizioni:
         EXISTS g,t ges_prom(g,p) and cli_ges(c,g) and (ALL i inizio(g,i) -> i <= t) and (ALL f fine(g,f) -> t <= f) and t = adesso
     postcondizioni:
-        Sia F = {(sf,v) | EXISTS g,i,sf cli_ges(c,g) and inv_ges(i,g) and inv_sf(i,sf) and FondoGestito(sf) and valore{StrumentoFinanziario,DataOra}(sf,adesso,v)}
+        Sia F = {(sf,v*p) | EXISTS g,i,sf cli_ges(c,g) and inv_ges(i,g) and inv_sf(i,sf) and FondoGestito(sf) and valore{StrumentoFinanziario,DataOra}(sf,adesso,v) and percentualeAzionari{FondoGestito}(sf,p)}
 
         Sia A = {(sf,v) | EXISTS g,i,a cli_ges(c,g) and inv_ges(i,g) and inv_sf(i,sf) and TitoloAzionario(sf) and valore{StrumentoFinanziario,DataOra}(sf,adesso,v)}
 

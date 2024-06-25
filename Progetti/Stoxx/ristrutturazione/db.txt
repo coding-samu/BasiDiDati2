@@ -29,6 +29,7 @@ cli_rt(_telefono: Tel_, cliente: codFisc)
 Cliente(_cf: codFisc_, *email: IndEmail, numDoc: nDoc, nome: StringaS, cognome: StringaS, tipoDocumento: StringaS, )
     FK: tipoDocumento references TipologiaDocumento(nome)
     v. inclusione: Cliente(cf) occorre in cli_rt(cliente)
+    altra chiave: (email)
 
 Gestione(_id: serial_, inizio: timestamp, isTerminata: boolean, *fine: timestamp, *motivazione: text, cliente: codFisc, promotore: MatProm)
     FK: cliente references Cliente(cf)
