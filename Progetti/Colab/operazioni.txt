@@ -1,0 +1,49 @@
+Operazioni della classe Azienda
+
+    utentiGestiti(i: Data, f: Data): Utente [0..*]
+        precondizioni:
+            nessuna
+
+        postcondizioni:
+            non modifica lo spazio estensionale
+            U = {u | exists a,ia,fa ab_cli(a,this) and ab_ut(a,u) and inizio(a,ia) and fine_{Abbonamento}(a,fa) and (i <= ia <= f or i <= fa <= f)}
+            result = U
+
+
+Operazioni della classe Utilizzo
+
+    prezzo(): Denaro
+        precondizioni:
+            nessuna
+
+        postcondizioni:
+            non modifica lo spazio estensionale
+            ALL i,f,q,a,u,so,p inizio(this,i) and fine(this,f) and quantitaUtilizzata(this,q) and inCorso(a,i,True) and ut_uti(this,u) and ab_ut(a,u) and so_uti(so,this) and prezzo(so,p)
+                -> EXISTS ta ta_so(ta,so) and ab_ta(ta,a)
+                        -> ALL sco,ur sconto(ta,so,sco) and UtilizziRimasti(ta,so,adesso,ur)
+                           and (ur = 0 -> result = p*q*sco
+                                and
+                                ur > 0 -> (
+                                    q-ur <= 0 -> result = 0
+                                    and
+                                    q-ur > 0 -> result = p*(q-ur)
+                                )
+                           )
+                    and 
+                NOT EXISTS ta ta_so(ta,so) and ab_ta(ta,a)
+                        -> result = p*q
+
+
+Operazioni della classe ta_so
+
+    utilizziRimasti(t DataOra): InteroGEZ
+        precondizioni:
+            nessuna
+        postcondizioni:
+            U = {(u,n) | EXISTS m1,m2,a1,a2,i so_uti(thisServizio,u) and inizio(u,i) and mese(i,m1) anno(i,a1) and mese(t,m2) and anno(t,a2) and a1 = a2 and m1 = m2 and i <= t and quantitaUtilizzata(u,n)}
+            and
+            ALL ug,tot utilizzoGratis(thisTipologia,thisServizio,ug) and tot = (sum_{(u,n) in U} n) - ug
+                -> (tot >= 0 -> result = tot
+                    and
+                    tot < 0 -> result = 0
+                )

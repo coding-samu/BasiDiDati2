@@ -24,12 +24,21 @@ ALL u,a1,a2 ac_ut(a1,u) and ac_ut(a2,u) and a1 != a2
     -> NOT EXISTS t DataOra(t) and (ALL e entrata(a1,e) -> e <= t) and (ALL e entrata(a2,e) -> e <= t)
         and (ALL u Uscita(a1) and Uscita(a1,u) -> t <= u) and (ALL u Uscita(a2) and Uscita(a2,u) -> t <= u)
 
-[V.Assegnazione.Overlapping_utente]
-TODO
+[V.Abbonamento.No_overlapping_utenti]
+ALL ab1,ab2,u ab_ut(ab1,u) and ab_ut(ab2,u) and ab1 != ab2 ->
+    NOT EXISTS t Data(t) and (ALL i inizio(ab1,i) -> i <= t) and (ALL i inizio(ab2,i) -> i <= t)
+                 and (ALL f fine_{Abbonamento}(ab1,f) -> t <= f) and (ALL f fine_{Abbonamento}(ab2,f) -> t <= f)
 
-[V.Assegnazione.Overlapping_postazione]
-TODO
+[V.PostazioneLavoro.no_overlapping]
+ALL p,a1,u1,a2,u2,i1,i2 au_pl(a1,u1,p) and au_pl(a2,u2,p) and u1 != u2 and inizio(a1,i1) and inizio(a2,i2)
+    -> NOT EXISTS t Data(t) and (i1 <= t and i2 <= t) and (ALL f fine_{Abbonamento}(a1,f) -> t <= f) and (ALL f fine_{Abbonamento}(a2,f) -> t <= f)
 
-[V.Assegnazione.inizio_dentro_abbonamento]
-TODO
+[V.Utilizzo.date_coerenti]
+ALL u,i,f Utilizzo(u) and inizio(u,i) and fine(u,f) -> i <= f
 
+[V.Utilizzo.Overlapping]
+-- Equivalente ad altri vincoli di overlapping
+
+[V.Utilizzo.dentro_accesso_utente]
+ALL uti,u,i,f ut_uti(u,uti) and inizio(uti,i) and fine(uti,f)
+    -> (EXISTS a,ie ac_ut(a,u) and entrata(a,ie) and ie <= i and (ALL iu uscita(a,iu) -> f <= iu))

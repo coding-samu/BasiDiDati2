@@ -1,0 +1,32 @@
+media_giornaliera(I: Intervallo [0..*]): RealeGEZ
+    precondizioni:
+        -- classico overlapping per verificare che gli intervalli siano tutti disgiunti tra loro
+
+    postcondizioni:
+        non modifica lo spazio estensionale
+
+
+fattura(a: Azienda, i: Data, f: Data): Denaro
+    precondizioni:
+        nessuna
+    
+    postcondizioni:
+        non modifica lo spazio estensionale
+        P = {(ut,p) | EXISTS u,iu utentiGestiti(a,i,f,ut) and ut_uti(u,ut) and prezzo(ut,p) and inizio(u,iu) and i <= iu <= f}
+        and
+        result = sum_{(ut,p) in P} p
+
+
+serviziModa(i: Data, f: Data, k: InteroGZ): ServizioOfferto [0..k]
+    precondizioni:
+
+    postcondizioni:
+        non modifica lo spazio estensionale
+
+
+clientiInutili(i: Data, f: Data): Utente [0..*]
+    precondizioni:
+
+    postcondizioni:
+        non modifica lo spazio estensionale
+

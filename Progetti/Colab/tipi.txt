@@ -4,3 +4,8 @@ RagSoc: stringa secondo standard
 IndEmail: stringa secondo standard
 Ind: (via: StringaS, civico: Civ)
 Civ: stringa secondo standard
+Denaro: reale >= 0
+InteroGEZ: Intero >= 0
+InteroGZ: Intero > 0
+Perc: Reale in [0,1]
+intervallo: (inizio: Ora, fine: Ora) e inizio <= fine

@@ -1,0 +1,6 @@
+Statistiche
+
+    1. media_giornaliera(I: Intervallo [0..*]): RealeGEZ
+    2. fattura(a: Azienda, i: Data, f: Data): Denaro
+    3. serviziModa(i: Data, f: Data, k: InteroGZ): ServizioOfferto [0..k]
+    4. clientiInutili(i: Data, f: Data): Utente [0..*]

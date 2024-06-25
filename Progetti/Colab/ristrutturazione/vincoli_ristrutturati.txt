@@ -1,0 +1,10 @@
+Vincoli aggiunti nella fase di ristrutturazione
+
+[V.Cliente.disjoint]
+    ALL c,x,y pf_isa_cli(x,c) -> not az_isa_cli(y,c)
+
+[V.Cliente.complete]
+    ALL c Cliente(c) -> EXISTS x pf_isa_cli(x,c) or az_isa_cli(x,c)
+
+[V.PIVA_azienda]
+    ALL c,a,p az_isa_cli(a,c) and az_piva(a,p) -> cli_piva(c,p)
