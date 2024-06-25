@@ -19,14 +19,20 @@ fattura(a: Azienda, i: Data, f: Data): Denaro
 
 serviziModa(i: Data, f: Data, k: InteroGZ): ServizioOfferto [0..k]
     precondizioni:
-
+        nessuna
     postcondizioni:
         non modifica lo spazio estensionale
+        Sia S = {(tot,so) | tot = |U| and U = {u | EXISTS iu so_uti(so,u) and inizio(u,iu) and i <= iu <= f} }
+        T = sorted(S,desc)
+        Sia R l'insieme formato dai primi k so tali che (tot,so) in T
+        result = R
 
 
 clientiInutili(i: Data, f: Data): Utente [0..*]
     precondizioni:
-
+        nessuna
     postcondizioni:
         non modifica lo spazio estensionale
+        U = {u | not exists a,e,t DataOra(t) ac_ut(a,u) and entrata(a,e) and (i <= t and e <= t) and (t <= f) and (ALL u uscita(a,u) -> t <= u)}
+        result = U
 

@@ -8,3 +8,5 @@ Vincoli aggiunti nella fase di ristrutturazione
 
 [V.PIVA_azienda]
     ALL c,a,p az_isa_cli(a,c) and az_piva(a,p) -> cli_piva(c,p)
+
+Gli altri vincoli sono rimasti pressoché invariati dopo la fase di ristrutturazione.

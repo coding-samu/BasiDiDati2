@@ -47,3 +47,18 @@ Operazioni della classe ta_so
                     and
                     tot < 0 -> result = 0
                 )
+
+Operazioni della classe Abbonamento
+
+    fine(): date
+        precondizioni:
+            nessuna
+        postcondizioni:
+            ALL ta,dg,i ab_ta(this,ta) and durataGiorni(ta,dg) and inizio(this,i) -> result = i+dg
+
+
+    inCorso(t date): boolean
+        precondizioni:
+            nessuna
+        postcondizioni:
+            ALL i,f inizio(this,i) and fine_{Abbonamento}(this,f) -> result = (i <= t <= f)

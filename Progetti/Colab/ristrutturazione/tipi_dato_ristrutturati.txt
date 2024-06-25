@@ -2,10 +2,9 @@ create domain StringaS as varchar(75);
 create domain StringaSNotNull as varchar(75) check (value is not null);
 create domain PIVA as text; -- check (isPIVA(value))
 create domain RagSoc as text; -- check (isRagSoc(value))
-IndEmail: stringa secondo standard
 create domain IndEmail as StringaS; -- check (isEmail(value))
-create type Ind as (via StringaSNotNull, civico Civ)
 create domain Civ as text; -- check (isCiv(value))
+create type Ind as (via StringaSNotNull, civico Civ);
 create domain Denaro as real check (value >= 0);
 create domain InteroGEZ as integer check (value >= 0);
 create domain InteroGZ as integer check (value > 0);

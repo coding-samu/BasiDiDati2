@@ -1,4 +1,4 @@
-Statistiche
+Usecase Statistiche
 
     1. media_giornaliera(I: Intervallo [0..*]): RealeGEZ
     2. fattura(a: Azienda, i: Data, f: Data): Denaro
