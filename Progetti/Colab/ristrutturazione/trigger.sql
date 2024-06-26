@@ -68,14 +68,14 @@ ALL ta, m, d TipologiaAbbonamento(ta) and maxAbbonati(ta,m) and Data(d) -> (
             where au.utente = new.utente and ab.inizio <= new.entrata and new.uscita <= fineAbbonamento(ab.id)
         )
 
-TODO [V.Accesso.Overlapping_accessi]
-ALL u,a1,a2 ac_ut(a1,u) and ac_ut(a2,u) and a1 != a2
-    -> NOT EXISTS t DataOra(t) and (ALL e entrata(a1,e) -> e <= t) and (ALL e entrata(a2,e) -> e <= t)
-        and (ALL u Uscita(a1) and Uscita(a1,u) -> t <= u) and (ALL u Uscita(a2) and Uscita(a2,u) -> t <= u)
 -- 7. Trigger V.Accesso.Overlapping_accessi (trigger equivalenti: V.IntervalloDate.Overlapping, V.PostazioneLavoro.no_overlapping, V.Utilizzo.Overlapping, V.Abbonamento.No_overlapping_utenti)
-    quando deve essere effettuato: dopo
+    quando deve essere effettuato: dopo insert(new) o update(new) in Accesso
     controllo da effettuare:
-        isError :=
+        isError := exists (
+            select *
+            from Accesso a1
+            where a1.utente = new.utente and a1.id != new.id and ((new.entrata,coalesce(new.uscita,'infinity'::timestamp)) overlaps (a1.entrata,coalesce(a1.uscita,'infinity'::timestamp)))
+        )
 
 -- 8. Trigger V.Utilizzo.dentro_accesso_utente
     quando deve essere effettuato: dopo insert(new) o update(new) in Utilizzo

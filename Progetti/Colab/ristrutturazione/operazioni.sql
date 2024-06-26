@@ -34,7 +34,7 @@ begin
     from Utilizzo uti, Utente ut, ab_ut au
     where au.utente = ut.email and au.abbonamento = this and uti.utente = ut.email and extract(month from uti.inizio) = extract(month from t) and extract(year from uti.inizio) = extract(year from t);
 
-    select ts.utilizziGratis
+    select ts.utilizzoGratis
     into ug
     from Abbonamento ab, ta_so ts
     where ab.id = this and ts.servizio = s and ts.tab = ab.tab;
