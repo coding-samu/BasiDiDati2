@@ -5,7 +5,7 @@ begin
     return (
         SELECT ab.inizio + ta.durataGiorni
         FROM Abbonamento ab, TipologiaAbbonamento ta
-        WHERE ab.id = this and ta.id = ab.ta
+        WHERE ab.id = this and ta.id = ab.tab
     );
 end;
 $$ language plpgsql;
@@ -21,24 +21,24 @@ begin
 end;
 $$ language plpgsql;
 
-            U = {(u,n) | EXISTS m1,m2,a1,a2,i,ut so_uti(s,u) and inizio(u,i) and mese(i,m1) anno(i,a1) and mese(t,m2) and anno(t,a2) and a1 = a2 and m1 = m2 and i <= t and quantitaUtilizzata(u,n) and ab_ut(this,ut) and ut_uti(ut,u)}
-
 create or replace function utilizziRimasti(this integer, s integer, t timestamp)
 returns InteroGEZ as $$
 declare
     tot InteroGEZ = null;
     ug InteroGEZ = null;
 begin
-    select count(uti.id)
+    select sum(uti.quantitaUtilizzata)
     into tot
-    from Utilizzo uti, Utente ut, ab_ut au
-    where au.utente = ut.email and au.abbonamento = this and uti.utente = ut.email and extract(month from uti.inizio) = extract(month from t) and extract(year from uti.inizio) = extract(year from t);
+    from Utilizzo uti, ab_ut au
+    where au.abbonamento = this and uti.utente = au.utente and uti.servizio = s and uti.inizio < t
+        and extract(month from uti.inizio) = extract(month from t) and extract(year from uti.inizio) = extract(year from t);
 
     select ts.utilizzoGratis
     into ug
     from Abbonamento ab, ta_so ts
     where ab.id = this and ts.servizio = s and ts.tab = ab.tab;
     if ug is null then return 0; end if;
+    if tot is null then return ug; end if;
     if ug-tot >= 0 then return (ug-tot); end if;
     return 0;
 end;
@@ -46,7 +46,7 @@ $$ language plpgsql;
 
 -- Operazioni della classe Azienda
 create or replace function utentiGestiti(this integer, i date, f date)
-returns setof IndEmail as $$
+returns table(utente IndEmail) as $$
 begin
     return query (
         select distinct u.email
@@ -58,31 +58,25 @@ $$ language plpgsql;
 
 
 -- Operazioni della classe Utilizzo
-    TODO
-    prezzo(): Denaro
-        precondizioni:
-            nessuna
-
-        postcondizioni:
-            non modifica lo spazio estensionale
-            ALL i,f,q,a,u,so,p inizio(this,i) and fine(this,f) and quantitaUtilizzata(this,q) and inCorso(a,i,True) and ut_uti(this,u) and ab_ut(a,u) and so_uti(so,this) and prezzo(so,p)
-                -> EXISTS ta ta_so(ta,so) and ab_ta(ta,a)
-                        -> ALL sco,ur sconto(ta,so,sco) and UtilizziRimasti(a,adesso,ur)
-                           and (ur = 0 -> result = p*q - p*q*sco
-                                and
-                                ur > 0 -> (
-                                    q-ur <= 0 -> result = 0
-                                    and
-                                    q-ur > 0 -> result = p*(q-ur) - p*(q-ur)*sco
-                                )
-                           )
-                    and 
-                NOT EXISTS ta ta_so(ta,so) and ab_ta(ta,a)
-                        -> result = p*q
-
 create or replace function prezzoUtilizzo(this integer)
 returns Denaro as $$
+declare
+    sco Perc = 0;
+    ur InteroGEZ = 0;
+    q InteroGEZ = 0;
+    p Denaro = 0;
 begin
+    select uti.quantitaUtilizzata,ts.sconto,utilizziRimasti(ab.id,ts.servizio,uti.inizio),s.prezzo
+    into q,sco,ur,p
+    from utilizzo uti join ab_ut au
+        on (uti.utente = au.utente) join Abbonamento ab
+        on (au.abbonamento = ab.id) join servizioOfferto s
+        on (s.id = uti.servizio) left outer join ta_so ts
+        on (ts.servizio = s.id and ts.tab = ab.tab)
+    where uti.id = this;
+    if sco is null then return p*q; end if;
+    if q-ur >= 0 then return p*(q-ur) - p*(q-ur)*sco; end if;
+    return 0;
 
 end;
 $$ language plpgsql;

@@ -1,75 +1,70 @@
-TODO
-media_giornaliera(I: Intervallo [0..*]): (Intervallo, RealeGEZ) [0..*]
-    precondizioni:
-        -- classico overlapping per verificare che gli intervalli siano tutti disgiunti tra loro
-
-    postcondizioni:
-        non modifica lo spazio estensionale
-        A = {(a,i) | exists u,in,fi,ia,a,m,an,em,ean i in I and inizio(i,in) and fine(i,fi) and ac_ut(a,u) and ora(ia,oia) and entrata(a,ia) and in <= oia <= fi and mese(adesso,m) and anno(adesso,an) and mese(ia,em) and anno(ia,ean) and em = m and ean = an}
-        result = {(i,r) | r = |AM|/gm and i in I and AM = {(a1,i1) | (a1,i1) in A and i1 = i} and giorno(adesso,gm)}
-
-create or replace function mediaGiornaliera(setof Intervallo)
-returns RealeGEZ as $$
+-- Usecase mediaGiornaliera
+create or replace function mediaGiornaliera(I Intervallo[])
+returns table(il Intervallo,m RealeGEZ) as $$
 begin
+    if exists (
+        select
+        from unnest(I) as x(ini,f), unnest(I) as y(ini,f)
+        where x <> y and ((x.ini,x.f) overlaps (y.ini,y.f))
+    ) then raise exception 'Error 001 - ci sono intervalli sovrapposti'; end if;
 
+    return query (
+        with acc as (
+            select a.id, x
+            from unnest(I) as x(ini,f), Accesso a
+            where a.entrata::time >= x.ini and a.entrata::time <= x.f
+            and date_part('month',now()::timestamp) = date_part('month',a.entrata)
+            and date_part('year',now()::timestamp) = date_part('year',a.entrata)
+        )
+        select acc.x as il, (count(acc.id)/date_part('day',now()::timestamp))::RealeGEZ as m
+        from acc
+        group by acc.x
+    );
 end;
 $$ language plpgsql;
 
-
-TODO
-fattura(a: Azienda, i: Data, f: Data): Denaro
-    precondizioni:
-        nessuna
-    
-    postcondizioni:
-        non modifica lo spazio estensionale
-        P = {(ut,p) | EXISTS u,iu utentiGestiti(a,i,f,ut) and ut_uti(u,ut) and prezzo(ut,p) and inizio(u,iu) and i <= iu <= f}
-        and
-        result = sum_{(ut,p) in P} p
-
+-- Usecase fattura
 create or replace function fattura(az integer, i date, f date)
 returns Denaro as $$
 begin
-
+    return (
+        select sum(prezzoUtilizzo(uti.id))
+        from utentiGestiti(az,i,f) as ug, Utilizzo uti
+        where uti.utente = ug.utente
+    );
 end;
 $$ language plpgsql;
 
-
-TODO
-serviziModa(i: Data, f: Data, k: InteroGZ): ServizioOfferto [0..k]
-    precondizioni:
-        nessuna
-    postcondizioni:
-        non modifica lo spazio estensionale
-        definizione operazione <= per le tuple (s,n):
-            (s,n) <= (s1,n1) <=> n >= n1
-
-        Sia S = {(tot,so) | tot = |U| and U = {u | EXISTS iu so_uti(so,u) and inizio(u,iu) and i <= iu <= f} }
-        result = {s | exists (s1,n,i) in sorted(S) and s = s1 and i <= k}
-
+-- Usecase serviziModa
 create or replace function serviziModa(i date, f date, k interoGZ)
 returns setof integer as $$
 begin
-
+    return query (
+        select so.id
+        from Utilizzo uti, ServizioOfferto so
+        where uti.servizio = so.id and i <= uti.inizio and uti.inizio <= f
+		group by so.id
+        order by sum(uti.quantitaUtilizzata) desc
+        limit k
+    );
 end;
-$$ languageplpgsql;
+$$ language plpgsql;
 
-
-TODO
-clientiInutili(i: Data, f: Data): Utente [0..*]
-    precondizioni:
-        nessuna
-    postcondizioni:
-        non modifica lo spazio estensionale
-        U = {u | exists ab ab_ut(a,u) and exists t inCorso_{Abbonamento, Data}(ab,t)}
-        A = {u | exists a,t ac_ut(a,u) and entrata(a,t) and i <= t <= f}
-
-        result = U \ A
-
+-- Usecase clientiInutili
 create or replace function clientiInutili(i date, f date)
 returns setof IndEmail as $$
 begin
+    return query(
+        select u.email
+        from Utente u, Abbonamento ab, ab_ut au
+        where u.email = au.utente and au.abbonamento = ab.id and ((i,f) overlaps (ab.inizio,fineAbbonamento(ab.id)))
 
+        except
+
+        select u.email
+        from Utente u, Accesso ac
+        where ac.utente = u.email and date(ac.entrata) >= i and date(ac.uscita) <= f
+    );
 end;
 $$ language plpgsql;
 

@@ -50,14 +50,16 @@
             where ind.tab = new.tab and ind.inizio <= new.inizio and ind.fine >= new.inizio
         )
 
-TODO [V.Abbonamento_non_superati_max_abbonati]
-ALL ta, m, d TipologiaAbbonamento(ta) and maxAbbonati(ta,m) and Data(d) -> (
-     U = {u | EXISTS a ab_ut(a,u) and ab_ta(a,ta) and (ALL i inizio(a,i) -> i <= d) and (ALL f fine_{Abbonamento}(a,f) -> d <= f)} 
-        -> |U| <= m)
 -- 5. Trigger V.Abbonamento_non_superati_max_abbonati
-    quando deve essere effettuato: dopo
+    quando deve essere effettuato: dopo insert(new) o update(new) in ab_ut
     controllo da effettuare:
-        isError :=
+        isError := exists (
+            select *
+            from Abbonamento ab, TipologiaAbbonamento ta, ab_ut au
+            where ab.id = au.abbonamento and ta.id = ab.tab
+            group by ab.id,ta.id,au.utente,au.abbonamento
+            having count(au.abbonamento) > ta.maxAbbonati
+        )
 
 -- 6. Trigger V.Accesso_se_abbonato
     quando deve essere effettuato: dopo insert(new) o update(new) in Accesso

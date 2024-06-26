@@ -10,3 +10,4 @@ create domain InteroGEZ as integer check (value >= 0);
 create domain InteroGZ as integer check (value > 0);
 create domain Perc as real check (value >= 0 and value <= 1);
 create type intervallo as (inizio Time, fine Time) check (inizio <= fine);
+create domain RealeGEZ as real check (value >= 0);
