@@ -1,10 +1,12 @@
 TODO
-media_giornaliera(I: Intervallo [0..*]): RealeGEZ
+media_giornaliera(I: Intervallo [0..*]): (Intervallo, RealeGEZ) [0..*]
     precondizioni:
         -- classico overlapping per verificare che gli intervalli siano tutti disgiunti tra loro
 
     postcondizioni:
         non modifica lo spazio estensionale
+        A = {(a,i) | exists u,in,fi,ia,a,m,an,em,ean i in I and inizio(i,in) and fine(i,fi) and ac_ut(a,u) and ora(ia,oia) and entrata(a,ia) and in <= oia <= fi and mese(adesso,m) and anno(adesso,an) and mese(ia,em) and anno(ia,ean) and em = m and ean = an}
+        result = {(i,r) | r = |AM|/gm and i in I and AM = {(a1,i1) | (a1,i1) in A and i1 = i} and giorno(adesso,gm)}
 
 create or replace function mediaGiornaliera(setof Intervallo)
 returns RealeGEZ as $$

@@ -1,10 +1,11 @@
-media_giornaliera(I: Intervallo [0..*]): RealeGEZ
+media_giornaliera(I: Intervallo [0..*]): (Intervallo, RealeGEZ) [0..*]
     precondizioni:
         -- classico overlapping per verificare che gli intervalli siano tutti disgiunti tra loro
 
     postcondizioni:
         non modifica lo spazio estensionale
-        TODO
+        A = {(a,i) | exists u,in,fi,ia,a,m,an,em,ean i in I and inizio(i,in) and fine(i,fi) and ac_ut(a,u) and ora(ia,oia) and entrata(a,ia) and in <= oia <= fi and mese(adesso,m) and anno(adesso,an) and mese(ia,em) and anno(ia,ean) and em = m and ean = an and ia <= adesso}
+        result = {(i,r) | r = |AM|/gm and i in I and AM = {(a',i') | (a',i') in A and i' = i} and giorno(adesso,gm)}
 
 
 fattura(a: Azienda, i: Data, f: Data): Denaro
@@ -23,10 +24,11 @@ serviziModa(i: Data, f: Data, k: InteroGZ): ServizioOfferto [0..k]
         nessuna
     postcondizioni:
         non modifica lo spazio estensionale
+        definizione operazione <= per le tuple (s,n):
+            (s,n) <= (s',n') <=> n >= n'
+
         Sia S = {(tot,so) | tot = |U| and U = {u | EXISTS iu so_uti(so,u) and inizio(u,iu) and i <= iu <= f} }
-        T = sorted(S,desc)
-        Sia R l'insieme formato dai primi k so tali che (tot,so) in T
-        result = R
+        result = {s | exists (s',n,i) in sorted(S) and s = s' and i <= k}
 
 
 clientiInutili(i: Data, f: Data): Utente [0..*]
@@ -34,6 +36,8 @@ clientiInutili(i: Data, f: Data): Utente [0..*]
         nessuna
     postcondizioni:
         non modifica lo spazio estensionale
-        U = {u | not exists a,e,t DataOra(t) ac_ut(a,u) and entrata(a,e) and (i <= t and e <= t) and (t <= f) and (ALL u uscita(a,u) -> t <= u)}
-        result = U
+        U = {u | exists ab ab_ut(a,u) and exists t inCorso_{Abbonamento, Data}(ab,t)}
+        A = {u | exists a,t ac_ut(a,u) and entrata(a,t) and i <= t <= f}
+
+        result = U \ A
 

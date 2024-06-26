@@ -8,7 +8,6 @@ Utente(_email: IndEmail_, nome: StringaS, cognome: StringaS, dataN: date, indiri
 
 Cliente(_id: serial_)
 
-
 PartitaIVA(_cliente: integer_, val: PIVA)
     FK: cliente references Cliente(id)
     altra chiave: (val)
