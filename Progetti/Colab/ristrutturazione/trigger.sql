@@ -1,25 +1,54 @@
 -- 1. Non è possibile modificare gli id artificiali
 
-TODO [V.Cliente.disjoint]
-    ALL c,x,y pf_isa_cli(x,c) -> not az_isa_cli(y,c)
--- 2. Trigger V.Cliente.disjoint
-    quando deve essere effettuato: dopo
+-- 2.1 Trigger V.Cliente.disjoint.Azienda
+    quando deve essere effettuato: dopo insert(new) o update(new) in Azienda
     controllo da effettuare:
-        isError :=
+        isError := not exists(
+            select *
+            from PersonaFisica pf
+            where pf.cliente = new.cliente
+        )
 
-TODO [V.Cliente.complete]
-    ALL c Cliente(c) -> EXISTS x pf_isa_cli(x,c) or az_isa_cli(x,c)
--- 3. Trigger V.Cliente.complete
-    quando deve essere effettuato: dopo
+-- 2.2 Trigger V.Cliente.disjoint.PersonaFisica
+    quando deve essere effettuato: dopo insert(new) o update(new) in PersonaFisica
     controllo da effettuare:
-        isError :=
+        isError := not exists(
+            select *
+            from Azienda az
+            where new.cliente = az.cliente
+        )
 
-TODO [V.Abbonamento_in_intervallo_date]
-ALL a,ta,ia ab_ta(a,ta) and inizio(a,ia) -> EXISTS id,i,f id_ta(id,ta) and inizio(id,i) and fine(id,f) and i <= ia <= f
+-- 3.1 Trigger V.Cliente.complete.Insert
+    quando deve essere effettuato: dopo insert(new) o update(new) in Cliente
+    controllo da effettuare:
+        isError := not (exists (
+            select *
+            from Azienda az
+            where new.id = azienda.cliente
+        )
+        or exists (
+            select *
+            from PersonaFisica pf, Cliente c
+            where new.id = pf.cliente
+        ))
+
+-- 3.2 Trigger V.Cliente.complete.Drop
+    quando deve essere effettuato: dopo drop(old) in Azienda o PersonaFisica
+    controllo da effettuare:
+        isError := not exists (
+            select *
+            from Cliente c
+            where old.cliente = c.id
+        )
+
 -- 4. Trigger V.Abbonamento_in_intervallo_date
-    quando deve essere effettuato: dopo
+    quando deve essere effettuato: dopo insert(new) o update(new) in Abbonamento
     controllo da effettuare:
-        isError :=
+        isError := not exists (
+            select *
+            from IntervalloDate ind
+            where ind.tab = new.tab and ind.inizio <= new.inizio and ind.fine >= new.inizio
+        )
 
 TODO [V.Abbonamento_non_superati_max_abbonati]
 ALL ta, m, d TipologiaAbbonamento(ta) and maxAbbonati(ta,m) and Data(d) -> (
@@ -30,12 +59,14 @@ ALL ta, m, d TipologiaAbbonamento(ta) and maxAbbonati(ta,m) and Data(d) -> (
     controllo da effettuare:
         isError :=
 
-TODO [V.Accesso_se_abbonato]
-ALL u,a,ie ac_ut(a,u) and entrata(a,ie) -> EXISTS ab,i,f ab_ut(ab,u) and inizio(ab,i) and fine_{Abbonamento}(ab,f) and i <= ie <= f
 -- 6. Trigger V.Accesso_se_abbonato
-    quando deve essere effettuato: dopo
+    quando deve essere effettuato: dopo insert(new) o update(new) in Accesso
     controllo da effettuare:
-        isError :=
+        isError := not exists (
+            select *
+            from Abbonamento ab, ab_ut au
+            where au.utente = new.utente and ab.inizio <= new.entrata and new.uscita <= fineAbbonamento(ab.id)
+        )
 
 TODO [V.Accesso.Overlapping_accessi]
 ALL u,a1,a2 ac_ut(a1,u) and ac_ut(a2,u) and a1 != a2
@@ -46,10 +77,11 @@ ALL u,a1,a2 ac_ut(a1,u) and ac_ut(a2,u) and a1 != a2
     controllo da effettuare:
         isError :=
 
-TODO [V.Utilizzo.dentro_accesso_utente]
-ALL uti,u,i,f ut_uti(u,uti) and inizio(uti,i) and fine(uti,f)
-    -> (EXISTS a,ie ac_ut(a,u) and entrata(a,ie) and ie <= i and (ALL iu uscita(a,iu) -> f <= iu))
 -- 8. Trigger V.Utilizzo.dentro_accesso_utente
-    quando deve essere effettuato: dopo
+    quando deve essere effettuato: dopo insert(new) o update(new) in Utilizzo
     controllo da effettuare:
-        isError :=
+        isError := not exists (
+            select *
+            from Accesso ac
+            where ac.utente = new.utente and ac.entrata <= new.inizio and (ac.uscita is null or new.fine <= ac.uscita)
+        )
