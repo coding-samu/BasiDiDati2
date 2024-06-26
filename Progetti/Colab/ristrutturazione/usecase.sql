@@ -41,10 +41,11 @@ serviziModa(i: Data, f: Data, k: InteroGZ): ServizioOfferto [0..k]
         nessuna
     postcondizioni:
         non modifica lo spazio estensionale
+        definizione operazione <= per le tuple (s,n):
+            (s,n) <= (s1,n1) <=> n >= n1
+
         Sia S = {(tot,so) | tot = |U| and U = {u | EXISTS iu so_uti(so,u) and inizio(u,iu) and i <= iu <= f} }
-        T = sorted(S,desc)
-        Sia R l'insieme formato dai primi k so tali che (tot,so) in T
-        result = R
+        result = {s | exists (s1,n,i) in sorted(S) and s = s1 and i <= k}
 
 create or replace function serviziModa(i date, f date, k interoGZ)
 returns setof integer as $$
@@ -60,8 +61,10 @@ clientiInutili(i: Data, f: Data): Utente [0..*]
         nessuna
     postcondizioni:
         non modifica lo spazio estensionale
-        U = {u | not exists a,e,t DataOra(t) ac_ut(a,u) and entrata(a,e) and (i <= t and e <= t) and (t <= f) and (ALL u uscita(a,u) -> t <= u)}
-        result = U
+        U = {u | exists ab ab_ut(a,u) and exists t inCorso_{Abbonamento, Data}(ab,t)}
+        A = {u | exists a,t ac_ut(a,u) and entrata(a,t) and i <= t <= f}
+
+        result = U \ A
 
 create or replace function clientiInutili(i date, f date)
 returns setof IndEmail as $$

@@ -20,33 +20,19 @@ Operazioni della classe Utilizzo
             non modifica lo spazio estensionale
             ALL i,f,q,a,u,so,p inizio(this,i) and fine(this,f) and quantitaUtilizzata(this,q) and inCorso(a,i,True) and ut_uti(this,u) and ab_ut(a,u) and so_uti(so,this) and prezzo(so,p)
                 -> EXISTS ta ta_so(ta,so) and ab_ta(ta,a)
-                        -> ALL sco,ur sconto(ta,so,sco) and UtilizziRimasti(ta,so,adesso,ur)
-                           and (ur = 0 -> result = p*q*sco
+                        -> ALL sco,ur sconto(ta,so,sco) and UtilizziRimasti(a,so,adesso,ur)
+                           and (ur = 0 -> result = p*q - p*q*sco
                                 and
                                 ur > 0 -> (
                                     q-ur <= 0 -> result = 0
                                     and
-                                    q-ur > 0 -> result = p*(q-ur)
+                                    q-ur > 0 -> result = p*(q-ur) - p*(q-ur)*sco
                                 )
                            )
                     and 
                 NOT EXISTS ta ta_so(ta,so) and ab_ta(ta,a)
                         -> result = p*q
 
-
-Operazioni della classe ta_so
-
-    utilizziRimasti(t DataOra): InteroGEZ
-        precondizioni:
-            nessuna
-        postcondizioni:
-            U = {(u,n) | EXISTS m1,m2,a1,a2,i so_uti(thisServizio,u) and inizio(u,i) and mese(i,m1) anno(i,a1) and mese(t,m2) and anno(t,a2) and a1 = a2 and m1 = m2 and i <= t and quantitaUtilizzata(u,n)}
-            and
-            ALL ug,tot utilizzoGratis(thisTipologia,thisServizio,ug) and tot = (sum_{(u,n) in U} n) - ug
-                -> (tot >= 0 -> result = tot
-                    and
-                    tot < 0 -> result = 0
-                )
 
 Operazioni della classe Abbonamento
 
@@ -62,3 +48,15 @@ Operazioni della classe Abbonamento
             nessuna
         postcondizioni:
             ALL i,f inizio(this,i) and fine_{Abbonamento}(this,f) -> result = (i <= t <= f)
+
+    utilizziRimasti(s ServizioOfferto, t DataOra): InteroGEZ
+        precondizioni:
+            nessuna
+        postcondizioni:
+            U = {(u,n) | EXISTS m1,m2,a1,a2,i,ut so_uti(s,u) and inizio(u,i) and mese(i,m1) anno(i,a1) and mese(t,m2) and anno(t,a2) and a1 = a2 and m1 = m2 and i <= t and quantitaUtilizzata(u,n) and ab_ut(this,ut) and ut_uti(ut,u)}
+            and
+            ALL ug,tot,ta ab_ta(this,ta) utilizzoGratis(ta,s,ug) and tot = (sum_{(u,n) in U} n) - ug
+                -> (tot >= 0 -> result = tot
+                    and
+                    tot < 0 -> result = 0
+                )
