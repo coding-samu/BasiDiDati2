@@ -1,0 +1,10 @@
+RealeGEZ: reale >= 0
+StringaS: stringa di 75 caratteri
+Denaro: reale >= 0
+InteroGO: intero > 1
+CC: stringa secondo standard
+Civ: stringa secondo standard
+Ind: (via: StringaS, civico: Civ)
+IndEmail: stringa secondo standard
+Identificativo: stringa secondo standard
+Tel: stringa secondo standard
