@@ -1,0 +1,12 @@
+create domain RealeGEZ as real check (value >= 0);
+create domain StringaS as varchar(75);
+create domain StringaSNotNull as varchar(75) check (value is not null);
+create domain Denaro as real check (value >= 0);
+create domain InteroGO as integer check (value > 1);
+create domain CC as text; -- check (value isCC);
+create domain Civ as StringaSNotNull; -- check (value isCiv);
+create type Ind as(via StringaSNotNull, civico Civ);
+create domain IndEmail as text; -- check (value isEmail);
+create domain Identificativo as text; -- check (value isIdentificativo);
+create domain Tel as text; -- check (value isTel);
+create type TipoWish as enum('Pubblica','Privata');

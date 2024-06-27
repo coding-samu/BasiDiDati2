@@ -2,6 +2,7 @@ RealeGEZ: reale >= 0
 StringaS: stringa di 75 caratteri
 Denaro: reale >= 0
 InteroGO: intero > 1
+InteroGZ: Intero > 0
 CC: stringa secondo standard
 Civ: stringa secondo standard
 Ind: (via: StringaS, civico: Civ)

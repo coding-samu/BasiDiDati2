@@ -1,0 +1,4 @@
+Vincoli aggiunti dopo la ristrutturazione:
+
+    [V.amicizia_isa_amiciziapending]
+    ALL u1,u2 amicizia(u1,u2) -> amiciziaPending(u1,u2)
