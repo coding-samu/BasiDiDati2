@@ -1,0 +1,63 @@
+1. Negozio
+    1.1 Ragione sociale
+    1.2. indirizzo sede legale
+    1.3. email (almeno una)
+    1.4. numero di telefono (0..1)
+    1.5. Offerte (2.)
+
+2. Offerta
+    2.1. Articolo al quale si riferisce (3.)
+    2.2. prezzo
+    2.3. spedizione verso nazione (e relativo prezzo)
+        2.3.1. il prezzo di spedizione può variare in base alla quantità di articoli acquistati
+    2.4. istante inizio
+    2.5. istante fine (0..1)
+
+
+3. Articolo
+    3.1. nome
+    3.2. marca (id2)
+    3.3. numero del modello (id2)
+    3.4. categoria
+    3.5. insieme di tag
+    3.6. descrizione
+    3.7. codice identificativo (id1)
+
+
+4. Utente
+    4.1. nome (id1)
+    4.2. istante registrazione
+
+
+5. Buono regalo
+    5.1. tipologia (8.)
+    5.2. utente che lo ha acquistato (4.)
+    5.3. istante inizio
+    5.4. utente che lo ha ricevuto (4.)
+    5.5. istante fine (operazione)
+    5.6. può essere associato a un acquisto
+
+6. Acquisto
+    6.1. utente (4.)
+    6.2. offerta (2.)
+    6.3. buoni regalo utilizzati
+
+7. Segnalazione Errore
+    7.1. articolo (3.)
+    7.2. negozio (1.)
+    7.3. descrizione errore
+
+8. Tipologia buono regalo
+    8.1. nome (id)
+    8.2. saldo
+    8.3. periodo di validità
+
+9. Wishlist
+    9.1. Possono essere pubbliche o private
+    9.2. Articoli che desiderano (3.)
+    9.3. nome (id)
+    9.4. proprietario (4.) (id)
+
+10. Amicizia
+    10.1. Simmetrica
+    10.2. prima viene fatta una richiesta da un utente verso un altro utente, poi può essere accettata dall'altro utente
