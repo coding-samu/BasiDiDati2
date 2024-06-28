@@ -65,3 +65,35 @@ mediaGiornaliera(i: Data, f: Data): RealeGEZ
         A = {(a,o,q) | exists is art_of(this,o) and acq_of(a,o) and quantita(a,o,q) and istante(a,is) and i <= is <= f}
 
         result = (sum_{(a,o,q) in A} q)/(f-i+1)
+
+prezzoMinArticolo(i : timestamp, n: Nazione) : Denaro
+
+    precondizioni: 
+        O = {(o,p) | prezzoOfferta_{Offerta,Nazione,InteroGZ}(o,n,1,p) and art_of(this,o) and (ALL ini inizio(o,ini) -> ini <= i) and (ALL f fine(o,f) -> i <= f)}
+        and |O| > 0
+
+    postcondizioni:
+
+        O = {(o,p) | prezzoOfferta_{Offerta,Nazione,InteroGZ}(o,n,1,p) and art_of(this,o) and (ALL ini inizio(o,ini) -> ini <= i) and (ALL f fine(o,f) -> i <= f)}
+
+        M = arg_min_{(o,p) in O}(p)
+
+        ALL (o,p) in M -> result = p
+
+Operazioni della classe Offerta
+
+prezzoOfferta(n : Nazione: q: InteroGZ) : Denaro
+
+    precondizioni: spedizione(n,this)
+
+    postcondizioni:
+        ALL po prezzo(this,po) -> ( 
+        exists r rid_spe(r,n,this) and (ALL i inizio(r,i) -> i <= q) and (ALL f fine(r,f) -> q <= f)
+            -> (
+                ALL ps prezzo(r,ps) -> result = (pr+po)*q
+            )
+        and not exists r rid_spe(r,n,this) and (ALL i inizio(r,i) -> i <= q) and (ALL f fine(r,f) -> q <= f)
+            -> (
+                ALL ps prezzo(n,o,ps) -> result = (pr+po)*q
+            )
+        )

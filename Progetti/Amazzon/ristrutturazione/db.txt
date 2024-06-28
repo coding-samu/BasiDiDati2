@@ -84,3 +84,7 @@ BuonoRegalo(_id: serial_, inizio: timestamp, tipo: StringaS, acquista: StringaS,
     FK: acquista references Utente(nickname)
     FK: possiede references Utente(nickname)
     FK: acquisto references Acquisto(integer)
+
+Rilevazione(_id: serial_, istante: timestamp, articolo: Identificativo)
+    FK: articolo references Articolo(codId)
+    altra chiave: (istante,articolo)

@@ -62,6 +62,22 @@ begin
 end;
 $$ language plpgsql;
 
+create or replace function prezzoMinArticolo(this Identificativo, i timestamp, n StringaS)
+returns Denaro as $$
+begin
+    if not exists (
+        select *
+        from Offerta o
+        where o.articolo = this and ((i,i) overlaps (o.inizio,coalesce(o.fine,'infinity'::timestamp)))
+    ) then raise exception 'Error 003 - Non ci sono offerte per lo articolo scelto'; end if;
+    return (
+        select min(prezzoOfferta(o.id,n,1))
+        from Offerta o
+        where ((i,i) overlaps (o.inizio,coalesce(o.fine,'infinity'::timestamp))) and o.articolo = this
+    );
+end;
+$$ language plpgsql;
+
 
 -- Operazioni della classe Offerta
 

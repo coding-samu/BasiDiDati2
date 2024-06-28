@@ -201,3 +201,10 @@ CREATE TABLE BuonoRegalo (
     FOREIGN KEY (possiede) REFERENCES Utente(nickname),
     FOREIGN KEY (acquisto) REFERENCES Acquisto(id)
 );
+
+CREATE TABLE Rilevazione (
+    id SERIAL PRIMARY KEY,
+    istante timestamp not null,
+    articolo Identificativo not null,
+    foreign key (articolo) references Articolo(codId)
+);
