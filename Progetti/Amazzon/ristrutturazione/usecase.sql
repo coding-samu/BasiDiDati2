@@ -37,15 +37,6 @@ begin
 end;
 $$ language plpgsql;
 
-/*
-articoliModa(): Articolo [0..*]
-
-    precondizioni: nessuna
-
-    postcondizioni:
-        result = {a | exists r1,r2 mediaGiornaliera{Articolo,Data,Data}(a,dataOggi-30,dataOggi,r2) and
-                    mediaGiornaliera{Articolo,Data,Data}(a,dataOggi-90,dataOggi-31,r1) and r1 < r2}
-*/
 -- Usecase articoliModa
 create or replace function articoliModa()
 returns table(articolo Identificativo) as $$

@@ -38,7 +38,11 @@ prezzoSenzaBuoni(): Denaro
 create or replace function prezzoSenzaBuoni(this integer)
 returns Denaro as $$
 begin
-    TODO
+    return (
+        select sum(prezzoOfferta(ao.offerta, c.nazione, ao.quantita))
+        from acq_of ao, Acquisto acq, Citta c, Nazione n
+        where ao.acquisto = this and acq.id = this and acq.citta = c.id
+    );
 end;
 $$ language plpgsql;
 
@@ -81,5 +85,38 @@ begin
     from Acquisto acq, Offerta o, acq_of ao
     where o.articolo = this and ao.offerta = o.id and ao.acquisto = acq.id and i <= acq.istante and acq.istante <= f;
     return tot/(f-i+1);
+end;
+$$ language plpgsql;
+
+
+-- Operazioni della classe Offerta
+
+create or replace function prezzoOfferta(this integer, n StringaS, q InteroGZ)
+returns Denaro as $$
+declare
+    rid integer = null;
+begin
+    if not exists (
+        select *
+        from Spedizione s
+        where s.offerta = this and s.nazione = n
+    ) then raise exception 'Error 002 - Non sono presenti tariffe di spedizione nella nazione specificata'; end if;
+
+    select r.id
+    into rid
+    from Riduzione r, Spedizione s
+    where s.nazione = n and s.offerta = this and r.spedizione = s.id and ((q,q) overlaps (r.inizio,coalesce(r.fine,'infinity'::integer)));
+    -- se esiste Riduzione, allora ritorna q*prezzoRidotto + q*prezzoArticolo
+    if rid is not null then return (
+        select (r.prezzo + o.prezzo)*q
+        from Riduzione r, Offerta o
+        where o.id = this and r.id = rid
+    ); end if;
+    -- se non esiste Riduzione, allora ritorna q*prezzoBase + q*prezzoArticolo
+    return (
+        select (s.prezzo + o.prezzo)*q
+        from Spedizione s, Offerta o
+        where s.nazione = n and s.offerta = this and o.id = this
+    );
 end;
 $$ language plpgsql;
