@@ -18,22 +18,32 @@ begin
 end;
 $$ language plpgsql;
 
-/*
-ricerca(c: Categoria, T: tag [0..*],n:Nazione): (a: Articolo, p:Denaro) [0..*]
-
-    precondizioni:
-        nessuna
-
-    postcondizioni:
-        A = {(a,o,p) | art_cat(a,c) and exists t1 in T art_tag(a,t1) and art_of(a,o) and spedizione(n,o) and exists p1,p2 prezzo(o,p1) and prezzo(n,o,p2) and p = p1+p2}
-
-        result = {(a,p) | EXISTS (a1,o1,p1) in A and NOT EXISTS (a2,o2,p2) in A and a1 = a2 = a and p2 < p1 and p = p1}
-*/
 -- Usecase ricerca
 create or replace function ricerca(c StringaS, T StringaS[], n StringaS)
 returns table(articolo Identificativo, prezzo Denaro) as $$
 begin
-    TODO
+    return query (
+        with TAB as (
+            select offe.articolo as a, offe.id as o,prezzoOfferta(offe.id, n, 1) as p
+            from Offerta offe, Articolo art
+            where exists (
+                        select *
+                        from Spedizione s
+                        where s.offerta = offe.id and s.nazione = n
+                    ) and art.codId = offe.articolo and art.categoria = c and exists (
+                        select *
+                        from art_tag ata
+                        where ata.articolo = art.codId and ata.tag = any(T)
+                    )
+        )
+        select TAB.a,TAB.p
+        from TAB
+        where not exists (
+            select *
+            from TAB as tab2
+            where TAB.a = tab2.a and tab.o <> tab2.o and tab2.p < tab.p
+        )
+    );
 end;
 $$ language plpgsql;
 

@@ -9,32 +9,6 @@ begin
 end;
 $$ language plpgsql;
 
-/*
-prezzoSenzaBuoni(): Denaro
-
-    precondizioni: nessuna
-
-    postcondizioni:
-
-        O = {(o,q,po,ps) | exists c,n acq_of(this,o) and quantita(this,o,q) and prezzo(o,po) and acq_cit(this,c) and cit_naz(c,n) and (
-            q = 1 -> (
-                prezzo(n,o,ps)
-            )
-            and
-            q != 1 -> (
-                not exists r,i rid_spe(r,n,o) and inizio(r,i) and i <= q -> (
-                    prezzo(n,o,ps)
-                )
-                and
-                exists r,i rid_spe(r,n,o) and inizio(r,i) and i <= q -> (
-                    ALL r1,i1 rid_spe(r1,o,n) and (ALL f1 fine(r1,f1) -> q <= f1) and i1 <= q -> prezzo(r1,ps)
-                )
-            )
-        )}
-
-        result = sum_{(o,q,po,ps) in O} q*po + q*ps
-*/
-
 create or replace function prezzoSenzaBuoni(this integer)
 returns Denaro as $$
 begin
