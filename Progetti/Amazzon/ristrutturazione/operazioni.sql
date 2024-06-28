@@ -78,6 +78,17 @@ begin
 end;
 $$ language plpgsql;
 
+create or replace function utimaRilevazione(this Identificativo, t timestamp)
+returns timestamp as $$
+begin
+    return (
+        select max(r.istante)
+        from Rilevazione r
+        where r.articolo = this
+    );
+end;
+$$ language plpgsql;
+
 
 -- Operazioni della classe Offerta
 

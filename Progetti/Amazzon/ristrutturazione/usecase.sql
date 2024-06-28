@@ -59,8 +59,8 @@ begin
 end;
 $$ language plpgsql;
 
--- Usecase rilevaAumentoPrezzo(W Wishlist): Articolo [0..*]
-create or replace function rilevaAumentoPrezzo(W integer[])
+-- Usecase rilevaAumentoPrezzo(W Wishlist, n Nazione): Articolo [0..*]
+create or replace function rilevaAumentoPrezzo(W integer[], n StringaS)
 returns table (art Identificativo) as $$
 begin
     TODO
