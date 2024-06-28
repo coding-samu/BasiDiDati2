@@ -31,14 +31,6 @@ TODO
         isError := 
 
 /*
-[V.Riduzione.inizio_fine_coerenti]
-ALL r,i Riduzione(r) and inizio(r,i) and (ALL f fine(r,f)) -> i <= f
-*/
-TODO
--- Trigger
-    DA IMPLEMENTARE COME VINCOLO DI ENNUPLA
-
-/*
 [V.Riduzione.piu_grande_senza_fine]
 ALL r,n,o rid_spe(r,n,o) -> EXISTS r1 rid_spe(r1,n,o) and NOT EXISTS f fine(r1,f)
 */
@@ -89,14 +81,6 @@ TODO
         isError := 
 
 /*
-[V.Offerta.inizio_leq_fine]
-ALL o,i,f Offerta(o) and inizio(o,i) and fine(o,f) -> i <= f
-*/
-TODO
--- Trigger
-    DA IMPLEMENTARE COME VINCOLO DI ENNUPLA
-
-/*
 [V.Acquisto.buono_utilizzato_in_periodo_validità]
 ALL a,b,is,i,f acq_br(a,b) and inizio(b,i) and fine_{BuonoRegalo}(b,f) -> i <= is <= f
 */
@@ -105,14 +89,6 @@ TODO
     quando deve essere effettuato: dopo
     controllo da effettuare:
         isError := 
-
-/*
-[V.amiciziaPending.non_a_se_stesso]
-ALL u1,u2 amiciziaPending(u1,u2) -> u1 != u2
-*/
-TODO
--- Trigger
-    DA IMPLEMENTARE COME VINCOLO DI ENNUPLA
 
 /*
 [V.Acquisto.istante_acquisto_maggiore_registrazione_utente]
@@ -173,14 +149,6 @@ TODO
     quando deve essere effettuato: dopo
     controllo da effettuare:
         isError := 
-
-/*
-[V.amicizia_isa_amiciziapending]
-ALL u1,u2 amicizia(u1,u2) -> amiciziaPending(u1,u2)
-*/
-TODO
--- Trigger
-    DA IMPLEMENTARE COME VINCOLO DI INCLUSIONE
 
 /*
 [V.Amicizia.no_due_relazioni]

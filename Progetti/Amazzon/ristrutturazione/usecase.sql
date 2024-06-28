@@ -1,21 +1,20 @@
-/*
-paeseConPiuAcquisti(i: Data, f: Data): Nazione [0..*]
-
-    precondizioni: i <= f
-
-    postcondizioni:
-
-        N = {(n,a,q) | exists c,is acq_cit(a,c) and cit_naz(c,n) and istante(a,is) and i <= is <= f}
-
-        T = {(t,n) | Nazione(n) and (t = sum_{(n1,a,q) in N} and n1 = n)}
-
-        result = arg_max_{(t,n) in T}(t)
-*/
 -- Usecase paeseConPiuAcquisti
 create or replace function paeseConPiuAcquisti(i date, f date)
-returns table(nazione StringS) as $$
+returns table(nazione StringaS) as $$
 begin
-    TODO
+    if f < i then raise exception 'Error 001 - fine minore di inizio'; end if;
+	return query (with ins as(
+	    select n.nome as n,sum(ao.quantita) as t
+	    from Nazione n, acq_of ao, citta c, Acquisto acq
+	    where n.nome = c.nazione and c.id = acq.citta and i <= acq.istante and acq.istante <= f and acq.id = ao.acquisto
+		group by n.nome
+	), massimo as(
+	    select max(INS.t) as mas
+	    from INS)
+    select INS.n
+    from INS,massimo
+	where INS.t = massimo.mas
+    );
 end;
 $$ language plpgsql;
 
@@ -50,5 +49,11 @@ articoliModa(): Articolo [0..*]
 -- Usecase articoliModa
 create or replace function articoliModa()
 returns table(articolo Identificativo) as $$
-    TODO
+begin
+    return query (
+        select a.codId
+        from Articolo a
+        where mediaGiornaliera(a.codid,current_date-90,current_date-31) < mediaGiornaliera(a.codid,current_date-30,current_date)
+    );
+end;
 $$ language plpgsql;

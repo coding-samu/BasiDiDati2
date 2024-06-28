@@ -1,21 +1,11 @@
 -- Operazioni classe Acquisto
 
-/*
-valoreBuoni(): Denaro
-
-    precondizioni: nessuna
-
-    postcondizioni:
-
-        B = {(b,s) | exists tbr acq_br(this,b) and br_tbr(b,tbr) and saldo(tbr,s)}
-
-        result = sum_{(b,s) in B} s
-*/
-
 create or replace function valoreBuoni(this integer)
 returns Denaro as $$
 begin
-    TODO
+    return (SELECT sum(tbr.saldo)
+    FROM Acquisto ac, BuonoRegalo br, TipologiaBuonoRegalo tbr
+    WHERE ac.id = this and ac.id = br.acquisto and br.tipo = tbr.nome);
 end;
 $$ language plpgsql;
 
@@ -52,59 +42,44 @@ begin
 end;
 $$ language plpgsql;
 
-/*
-prezzo(): Denaro
-
-    precondizioni: nessuna
-
-    postcondizioni:
-
-        ALL psb,vb pressoSenzaBuoni_{Acquisto}(this,psb) and valoreBuoni_{Acquisto}(this,vb) -> result = psb-vb
-*/
-
 create or replace function prezzo(this integer)
 returns Denaro as $$
 begin
-    TODO
+    return prezzosenzaBuoni(this) - valoreBuoni(this);
 end;
 $$ language plpgsql;
 
 
 -- Operazioni della classe BuonoRegalo
 
-/*
-fine(): DataOra
-
-    precondizioni: nessuna
-
-    postcondizioni:
-
-        ALL i,tbr,d br_tbr(this,tbr) and inizio(this,i) and durataGiorni(tbr,d) -> result = i+d
-*/
-
 create or replace function fine(this integer)
 returns timestamp as $$
+declare
+    inizio timestamp = null;
+    durata InteroGZ = null;
 begin
-    TODO
+    select br.inizio, tbr.durataGiorni
+    into inizio, durata
+    from BuonoRegalo br, TipologiaBuonoRegalo tbr
+    where br.id = this and br.tipo = tbr.nome;
+
+    return inizio + make_interval(days => durata);
 end;
 $$ language plpgsql;
 
 
 -- Operazioni della classe Articolo
 
-/*
-mediaGiornaliera(i: Data, f: Data): RealeGEZ
-
-    precondizioni:
-        i <= f
-
-    postcondizioni:
-        A = {(a,o,q) | exists is art_of(this,o) and acq_of(a,o) and quantita(a,o,q) and istante(a,is) and i <= is <= f}
-
-        result = (sum_{(a,o,q) in A} q)/(f-i+1)
-*/
-
-create or replace function mediaGiornaliera(this Identificativo)
+create or replace function mediaGiornaliera(this Identificativo, i Date, f Date)
 returns RealeGEZ as $$
-    TODO
+DECLARE
+tot RealeGez = null;
+begin
+    if f < i then raise exception 'Error 001 - Inizio maggiore di fine'; end if;
+    select sum(ao.quantita)
+    into tot
+    from Acquisto acq, Offerta o, acq_of ao
+    where o.articolo = this and ao.offerta = o.id and ao.acquisto = acq.id and i <= acq.istante and acq.istante <= f;
+    return tot/(f-i+1);
+end;
 $$ language plpgsql;

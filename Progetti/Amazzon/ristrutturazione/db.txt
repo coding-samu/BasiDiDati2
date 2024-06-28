@@ -1,0 +1,86 @@
+Categoria(_nome: StringaS_)
+
+Tag(_nome: StringaS_)
+
+Marca(_nome: StringaS_)
+
+Nazione(_nome: StringaS_)
+
+Citta(_id: serial_, nome: StringaS, nazione: StringaS)
+    FK: nazione references Nazione(nome)
+
+Negozio(_ragioneSociale: RagSoc_, indirizzo: Ind, *telefono: Tel, citta: integer)
+    FK: citta references Citta(id)
+    v. inclusione: Negozio(ragioneSociale) occorre in em_neg(negozio)
+
+em_neg(_email: IndEmail_, negozio: RagSoc)
+    FK: negozio references Negozio(ragioneSociale)
+
+Utente(_nickname: StringaS_, reg: timestamp, nome: StringaS, cognome: StringaS)
+
+amiciziaPending(_invia: StringaS, riceve: StringaS_)
+    FK: invia references Utente(nickname)
+    FK: riceve references Utente(nickname)
+    v. ennupla: invia <> riceve
+
+amicizia(_da: StringaS, a: StringaS_)
+    FK: da references Utente(nickname)
+    FK: a references Utente(nickname)
+    v. ennupla: da <> a
+
+Wishlist(_id: serial_, nome: StringaS, tipo: TipoWish, utente: StringaS)
+    FK: utente references Utente(nickname)
+    altra chiave: (nome,utente)
+
+
+TipologiaBuonoRegalo(_nome: StringaS_, saldo: Denaro, durataGiorni: InteroGZ)
+
+CartaDiCredito(_numero: CC_, scadenza: Date, utente: StringaS)
+    FK: utente references Utente(nickname)
+
+Articolo(_codId: Identificativo_, nome: StringaS, modello: StringaS, descrizione: text, categoria: StringaS, marca: StringaS)
+    FK: categoria references Categoria(nome)
+    FK: marca references Marca(nome)
+    altra chiave: (modello, marca)
+
+Acquisto(_id: serial_, indirizzo: Ind, istante: timestamp, citta: integer, utente: StringaS, *carta: CC)
+    FK: citta references Citta(id)
+    FK: utente references Utente(nickname)
+    FK: carta references CartaDiCredito(numero)
+    v.inclusione: Acquisto(id) occorre in acq_of(acquisto)
+
+art_wish(_articolo: Identificativo, wishlist: integer_)
+    FK: articolo references Articolo(codId)
+    FK: wishlist references Wishlist(id)
+
+art_tag(_articolo: Identificativo, tag: StringaS_)
+    FK: articolo references Articolo(codId)
+    FK: tag references Tag(nome)
+
+SegnalazioneErrore(_id: serial_, istante: timestamp, descrizione: text, articolo: Identificativo, negozio: RagSoc)
+    FK: articolo references Articolo(codId)
+    FK: negozio references Negozio(ragioneSociale)
+
+Offerta(_id: integer_, prezzo: Denaro, inizio: timestamp, *fine: timestamp, negozio: RagSoc, articolo: Identificativo)
+    FK: negozio references Negozio(ragioneSociale)
+    FK: articolo references Articolo(codId)
+    v. ennupla: fine is null or inizio <= fine
+
+acq_of(_acquisto: integer, offerta: integer_, quantita: interoGZ)
+    FK: acquisto references Acquisto(id)
+    FK: offerta references Offerta(id)
+
+Spedizione(_id: serial_, nazione: StringaS, offerta: integer, prezzo: Denaro)
+    FK: nazione references Nazione(nome)
+    FK: offerta references Offerta(id)
+    altra chiave: (nazione,offerta)
+
+Riduzione(_id: serial_, inizio: InteroGO, *fine: InteroGO, prezzo: Denaro, spedizione: integer)
+    FK: spedizione references Spedizione(id)
+    v. ennupla: fine is null or inizio <= fine
+
+BuonoRegalo(_id: serial_, inizio: timestamp, tipo: StringaS, acquista: StringaS, possiede: StringaS, *acquisto: integer)
+    FK: tipo references TipologiaBuonoRegalo(nome)
+    FK: acquista references Utente(nickname)
+    FK: possiede references Utente(nickname)
+    FK: acquisto references Acquisto(integer)
