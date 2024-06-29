@@ -36,4 +36,9 @@ rilevaAumentoPrezzo(w Wishlist, n Nazione): Articolo [0..*]
     postcondizioni:
         R = {(a,i) | art_wish(a,w) and ultimaRilevazione_{Articolo,DataOra}(a,istante_corrente,i)}
 
+        ALL a art_wish(a,w) ->
+            Nuova ennupla nel dominio di interpretazione alpha
+            Rilevazione(alpha)
+            istante(alpha,istante_corrente)
+
         result = {a | ALL pc,pi (a1,i) in R and a1 = a and prezzoMinArticolo_{Articolo,DataOra,Nazione}(a,i,n,pi) and prezzoMinArticolo_{Articolo,DataOra,Nazione}(a,istante_corrente,n,pc) and pc > pi}
