@@ -1,6 +1,9 @@
 StringaS: stringa di 75 caratteri
-TipoAttrezzatura: ('Strumento Leggero','Veicolo','Veicolo speciale')
-Priorita: intero in [1,10]
+TipAttr: ('Strumento Leggero','Veicolo','Veicolo speciale')
+Prior: intero in [1,10]
 Rischio: ('Trascurabile','Basso','Medio','Alto')
-Gravita: ('Bassa','Media','Alta','Mortale')
-Posizione: (latitudine: reale, longitudine: reale)
+Grav: ('Bassa','Media','Alta','Mortale')
+Pos: (latitudine: reale, longitudine: reale)
+CF: stringa secondo standard di 16 caratteri
+CodSquadra: stringa secondo standard
+InteroGZ: Intero > 0

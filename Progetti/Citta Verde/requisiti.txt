@@ -8,7 +8,7 @@
         1.5.2. altezza (0..1)
         1.5.3. diametro medio della chioma (0..1)
     1.6. se un prato:
-        1.6.1. diametro totale (0..1)
+        1.6.1. area totale (0..1)
     1.7. se un cespuglio:
         1.7.1. altezza (0..1)
     1.8. l'area verde a cui appartiene (2.)

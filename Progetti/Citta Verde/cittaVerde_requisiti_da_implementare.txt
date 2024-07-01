@@ -1,0 +1,12 @@
+1. Soggetto verde
+    1.5. se un albero:
+        1.5.1. diametro del tronco (0..1)
+        1.5.2. altezza (0..1)
+        1.5.3. diametro medio della chioma (0..1)
+    1.6. se un prato:
+        1.6.1. area totale (0..1)
+    1.7. se un cespuglio:
+        1.7.1. altezza (0..1)
+    1.9. se un insieme di più piante dello stesso tipo:
+        1.9.1.
+
