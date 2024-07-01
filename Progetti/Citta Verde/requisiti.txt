@@ -1,0 +1,91 @@
+1. Soggetto verde
+    1.1. Data di piantumazione
+    1.2. posizione geografica (latitudine e longitudine)
+    1.3. specie (con nome scientifico e nome comune)
+    1.4. categoria di rischio (trascurabile, basso, medio, alto)
+    1.5. se un albero:
+        1.5.1. diametro del tronco (0..1)
+        1.5.2. altezza (0..1)
+        1.5.3. diametro medio della chioma (0..1)
+    1.6. se un prato:
+        1.6.1. diametro totale (0..1)
+    1.7. se un cespuglio:
+        1.7.1. altezza (0..1)
+    1.8. l'area verde a cui appartiene (2.)
+    1.9. se un insieme di più piante dello stesso tipo:
+        1.9.1.
+    1.10. Se è rimossa:
+        1.10.1. la causa (completamento del ciclo di vita, sostituzione, cedimento, rischio alto, necessità di costruzione, ...)
+
+2. Area verde
+    2.1. denominazione
+    2.2. fruibile:
+        2.2.1. alcune sono sensibili (giardini delle scuole, ospedali, aree verdi attrezzate con giochi per bambini, ...)
+    2.3. non fruibile:
+        2.3.1.
+
+3. Operatore
+    3.1. nome
+    3.2. cognome
+    3.3. data di inizio servizio
+    3.4. data di fine servizio (0..1)
+    3.5. codice fiscale
+    3.6. attrezzature che può utilizzare
+
+4. Squadra
+    4.1. Operatori che ne fanno parte (3.)
+    4.2. Di cui (4.1.) uno è capo (3.)
+    4.3. codice identificativo
+    4.4. data di formazione
+    4.5. data di scioglimento (0..1)
+
+5. Attrezzatura
+    5.1. nome
+    5.2. tipologia (strumento leggero, veicolo, veicolo speciale)
+
+6. Intervento
+    6.1. numero minimo di operatori richiesti
+    6.2. area verde
+    6.3. data di inizio
+    6.4. durata attesa
+    6.5. insieme di tipologie di attività da svolgere
+    6.6. priorità (intero in [1,10])
+    6.7. insieme di piante dell'area verde (6.2), se non sono presenti piante si assume che tutte le piante dell'area sono oggetto di intervento
+    6.8. insieme di attrezzature richieste
+    6.9. se assegnato:
+        6.9.1. la squadra
+            6.9.1.1. la squadra deve avere sufficienti membri per rispettare (6.1.)
+            6.9.1.2. ogni attrezzatura richiesta (6.8.) deve poter essere utilizzata da almeno un membro della squadra
+        6.9.2. istante assegnamento
+        6.9.3. se completato:
+            6.9.3.1. istante completamento
+
+7. Malattia
+    7.1. nome scientifico
+    7.2. nome volgare
+    7.3. gravità (bassa, media, alta, mortale)
+
+8. Storico malattie
+    8.1. pianta alla quale si riferisce (1.)
+    8.2. data di scoperta del problema
+    8.3. malattia (7.)
+    8.4. Se risolta:
+        8.4.1. data risoluzione
+        8.4.2. intervento (6.)
+
+
+Use-case:
+
+    1. Dato un intervento non ancora assegnato, il sistema deve restituire tutte le squadre 
+       che hanno tutte le caratteristiche necessarie per poterlo eseguire. 
+       In particolare, le squadre restituite devono essere tali che
+            • il numero di membri è maggiore o uguale al numero minimo di operatori richiesti,
+            • per ogni attrezzatura richiesta, c’è almeno un membro della squadra autorizzato al suo utilizzo.
+
+    2. Il management deve poter calcolare, dato un periodo di tempo, 
+       l’insieme delle aree verdi sensibili che non sono state oggetto di intervento nel periodo indicato.
+
+    3. Dato un periodo di tempo e un insieme di malattie, 
+       il sistema deve calcolare un resoconto che associ ad ognuna delle malattie indicate il suo tasso ξ. 
+       Il tasso ξ di una malattia è il rapporto tra il numero di soggetti verdi che ha avuto tale malattia nel periodo dato 
+       e il numero di soggetti verdi che ha avuto una qualunque malattia nel periodo dato.
