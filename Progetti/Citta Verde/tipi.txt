@@ -3,3 +3,4 @@ TipoAttrezzatura: ('Strumento Leggero','Veicolo','Veicolo speciale')
 Priorita: intero in [1,10]
 Rischio: ('Trascurabile','Basso','Medio','Alto')
 Gravita: ('Bassa','Media','Alta','Mortale')
+Posizione: (latitudine: reale, longitudine: reale)
