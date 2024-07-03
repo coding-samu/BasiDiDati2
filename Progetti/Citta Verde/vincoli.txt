@@ -29,7 +29,8 @@ ALL r,c,ii,is compl_ris(c,r) and inizio(c,ic) and scoperta(r,is)
     -> is <= ii
 
 [V.SoggettoVerde.date_intervento_consistenti]
-TODO (piantumazione <= inizioIntervento e fineIntervento <= rimozione)
+ALL sv, int, ii, dp int_sv(int,sv) and dataPiantumazione(sv,dp) and inizio(int,ii)
+    -> dp <= ii and (ALL ic, ir istanteCompl(int,ic) and rimozione(sv,ir) -> ic <= ir)
 
 [V.SoggettoVerde.date_malattia.consistenti]
 TODO
