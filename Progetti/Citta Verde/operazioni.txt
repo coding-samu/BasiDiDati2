@@ -1,0 +1,24 @@
+Operazioni della classe Squadra
+
+    numOperatori(): InteroGEZ
+        precondizioni:
+            nessuna
+        postcondizioni:
+            Sia O = {o | partecipa(o,this)}
+            result = |O|
+
+    attrezzaturaUsabile(): Attrezzatura [0..*]
+        precondizioni:
+            nessuna
+        postcondizioni:
+            Sia A = {a | EXISTS o partecipa(o,this) and attr_op(a,o)}
+            result = A
+
+Operazioni della classe Intervento
+
+    attrezzaturaRichiesta(): Attrezzatura [0..*]
+        precondizioni:
+            nessuna
+        postcondizioni:
+            Sia A = {a | EXISTS ta int_ta(this,ta) and attr_ta(a,ta)}
+            result = A

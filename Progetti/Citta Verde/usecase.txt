@@ -1,11 +1,24 @@
-1. Dato un intervento non ancora assegnato, il sistema deve restituire tutte le squadre 
-    che hanno tutte le caratteristiche necessarie per poterlo eseguire. 
-    In particolare, le squadre restituite devono essere tali che
-        • il numero di membri è maggiore o uguale al numero minimo di operatori richiesti,
-        • per ogni attrezzatura richiesta, c’è almeno un membro della squadra autorizzato al suo utilizzo.
+squadrePerIntevento(i Intervento): Squadra [0..*]
+    precondizioni:
+        not Assegnato(i) and (ALL ii inizio(i,ii) -> adesso <= ii)
+    postcondizioni:
+        S = { s | EXISTS AU, AR, no, mo, is Squadra(s) and attrezzaturaRichiesta_{Intervento}(i,AR) 
+                    and attrezzaturaUsabile_{Squadra}(s,AU) and numOperatori_{Squadra}(s,no)
+                    and minimoOperatori(i,mo) and no >= mo and AR ⊆ AU and inizio(s,is) and is <= adesso
+                    and not exists f fine(s,f)}
+        result = S
 
 2. Il management deve poter calcolare, dato un periodo di tempo, 
     l’insieme delle aree verdi sensibili che non sono state oggetto di intervento nel periodo indicato.
+    areeSenzaInterventiSensibili(i Data, f Data): AreaVerde
+        precondizioni:
+            nessuna
+        postcondizioni:
+            AS = {a | Sensibile(a)}
+
+            AI = {} -- TODO
+
+            result = AS - AI
 
 3. Dato un periodo di tempo e un insieme di malattie, 
     il sistema deve calcolare un resoconto che associ ad ognuna delle malattie indicate il suo tasso ξ. 
