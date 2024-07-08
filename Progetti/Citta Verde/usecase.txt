@@ -12,7 +12,7 @@ squadrePerIntevento(i Intervento): Squadra [0..*]
     l’insieme delle aree verdi sensibili che non sono state oggetto di intervento nel periodo indicato.
     areeSenzaInterventiSensibili(i Data, f Data): AreaVerde
         precondizioni:
-            nessuna
+            i <= f
         postcondizioni:
             AS = {a | Sensibile(a)}
 
@@ -24,3 +24,16 @@ squadrePerIntevento(i Intervento): Squadra [0..*]
     il sistema deve calcolare un resoconto che associ ad ognuna delle malattie indicate il suo tasso ξ. 
     Il tasso ξ di una malattia è il rapporto tra il numero di soggetti verdi che ha avuto tale malattia nel periodo dato 
     e il numero di soggetti verdi che ha avuto una qualunque malattia nel periodo dato.
+    resocontoTassoMalattia(i Data, f Data, Malattia [0..*]): (m Malattia, t RealeGEZ)
+        precondizioni:
+            i <= f
+
+        postcondizioni:
+
+            -- TODO
+
+            -- Sia T l'insieme di tutti i soggetti verdi che hanno registrato una malattia nel periodo dato
+
+            -- Sia TpM l'insieme di tutte le coppie (m,n) dove m è una Malattia ed n è data da |{l'insieme di tutti i soggetti verdi che hanno registrato la malattia m nel periodo dato}|/|T|
+
+            result = TpM

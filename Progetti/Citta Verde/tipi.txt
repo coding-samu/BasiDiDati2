@@ -7,3 +7,4 @@ Pos: (latitudine: reale, longitudine: reale)
 CF: stringa secondo standard di 16 caratteri
 CodSquadra: stringa secondo standard
 InteroGZ: Intero > 0
+RealeGEZ: Reale >= 0
