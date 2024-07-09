@@ -8,19 +8,17 @@ squadrePerIntevento(i Intervento): Squadra [0..*]
                     and not exists f fine(s,f)}
         result = S
 
-2. Il management deve poter calcolare, dato un periodo di tempo, 
-    l’insieme delle aree verdi sensibili che non sono state oggetto di intervento nel periodo indicato.
-    areeSenzaInterventiSensibili(i Data, f Data): AreaVerde
-        precondizioni:
-            i <= f
-        postcondizioni:
-            AS = {a | Sensibile(a)}
+areeSenzaInterventiSensibili(i DataOra, f DataOra): AreaVerde
+    precondizioni:
+        i <= f
+    postcondizioni:
+        AS = {a | Sensibile(a)}
 
-            AI = {} -- TODO
+        AI = {a | exists int Sensibile(a) and av_int(a,int) and ((ALL in inizio(int,in) -> i <= in <= f) or (ALL ic istanteCompl(int,ic) -> i <= ic <= f))}
 
-            result = AS - AI
+        result = AS - AI
 
-resocontoTassoMalattia(i Data, f Data, M Malattia [0..*]): (m Malattia, t RealeGEZ)
+resocontoTassoMalattia(i DataOra, f DataOra, M Malattia [0..*]): (m Malattia, t RealeGEZ)
     precondizioni:
         i <= f
 
