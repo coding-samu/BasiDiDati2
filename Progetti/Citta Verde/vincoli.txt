@@ -7,6 +7,7 @@
     ALL s,i,f Squadra(s) and inizio(s,i) and fine(s,f) 
         -> i <= f
 
+(DA MODIFICARE - TODO)
 [V.Assegnato.Squadra_puo_usare_attrezzatura]
 ALL a,s ass_sq(a,s) and AS = {attr | exists o partecipa(o,s) and attr_op(attr,o)} and ATA = {attr | exists ta int_ta(a,ta) and attr_ta(attr,ta)}
     -> AS contiene ATA
@@ -33,10 +34,31 @@ ALL sv, int, ii, dp int_sv(int,sv) and dataPiantumazione(sv,dp) and inizio(int,i
     -> dp <= ii and (ALL ic, ir istanteCompl(int,ic) and rimozione(sv,ir) -> ic <= ir)
 
 [V.SoggettoVerde.date_malattia.consistenti]
-TODO
+ALL sm, sv, dsm sm_sv(sm,sv) and scoperta(sm,dsm) -> (ALL dp dataPiantumazione(sv,dp) -> dp <= dsm) and (ALL r rimozione(sv,r) -> dsm <= r)
 
 [V.Intervento.SoggettoVerde_in_area_verde]
 ALL i,av,sv int_sv(i,sv) and av_sv(av,sv) -> av_int(av,i)
 
 [V.Intervento_su_malattia_allora_intervento_su_soggetto_verde_oppure_su_area_verde_senza_soggetti_verdi]
 ALL c,r,sv compl_ris(c,r) and sm_sv(c,sv) -> int_sv(c,sv) OR ((exists av av_sv(av,sv) and av_int(av,c)) and (not exists sv1 int_sv(c,sv1)))
+
+[V.partecipa.no_overlapping_operatore]
+TODO
+
+[V.Operatore.no_overlapping_per_stessa_persona]
+TODO
+
+[V.Partecipa.no_overlapping_capo]
+TODO
+
+[V.Operatore.date_consistenti]
+TODO
+
+[V.Partecipa.date_consistenti]
+TODO
+
+[V.PuoUtilizzare.date_consistenti]
+TODO
+
+[V.PuoUtilizzare.no_overlapping_operatore]
+TODO

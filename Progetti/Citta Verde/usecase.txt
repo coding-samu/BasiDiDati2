@@ -20,20 +20,13 @@ squadrePerIntevento(i Intervento): Squadra [0..*]
 
             result = AS - AI
 
-3. Dato un periodo di tempo e un insieme di malattie, 
-    il sistema deve calcolare un resoconto che associ ad ognuna delle malattie indicate il suo tasso ξ. 
-    Il tasso ξ di una malattia è il rapporto tra il numero di soggetti verdi che ha avuto tale malattia nel periodo dato 
-    e il numero di soggetti verdi che ha avuto una qualunque malattia nel periodo dato.
-    resocontoTassoMalattia(i Data, f Data, Malattia [0..*]): (m Malattia, t RealeGEZ)
-        precondizioni:
-            i <= f
+resocontoTassoMalattia(i Data, f Data, M Malattia [0..*]): (m Malattia, t RealeGEZ)
+    precondizioni:
+        i <= f
 
-        postcondizioni:
-
-            -- TODO
-
-            -- Sia T l'insieme di tutti i soggetti verdi che hanno registrato una malattia nel periodo dato
-
-            -- Sia TpM l'insieme di tutte le coppie (m,n) dove m è una Malattia ed n è data da |{l'insieme di tutti i soggetti verdi che hanno registrato la malattia m nel periodo dato}|/|T|
-
-            result = TpM
+    postcondizioni:
+        ALL T, TpM
+            T = {sv | exists sm, dsm sm_sv(sm,sv) and scoperta(sm,dsm) and i <= dsm and dsm <= f}
+            and
+            TpM = {(m,n) | m in M and n = |{sv | exists sm, dsm sm_sv(sm,sv) and scoperta(sm,dsm) and i <= dsm and dsm <= f and mal_sm(m,sm)}|/|T|}
+                -> result = TpM

@@ -1,13 +1,15 @@
 Operazioni della classe Squadra
 
-    numOperatori(): InteroGEZ
+    (DA MODIFICARE - TODO)
+    numOperatori(d Data): InteroGEZ
         precondizioni:
             nessuna
         postcondizioni:
             Sia O = {o | partecipa(o,this)}
             result = |O|
 
-    attrezzaturaUsabile(): Attrezzatura [0..*]
+    (DA MODIFICARE - TODO)
+    attrezzaturaUsabile(d Data): Attrezzatura [0..*]
         precondizioni:
             nessuna
         postcondizioni:
