@@ -1,0 +1,33 @@
+TODO
+squadrePerIntevento(i Intervento): Squadra [0..*]
+    precondizioni:
+        not Assegnato(i) and (ALL ii inizio(i,ii) -> adesso <= ii)
+    postcondizioni:
+        S = { s | EXISTS AU, AR, no, mo, is Squadra(s) and attrezzaturaRichiesta_{Intervento}(i,AR) 
+                    and attrezzaturaUsabile_{Squadra}(s,AU) and numOperatori_{Squadra}(s,no)
+                    and minimoOperatori(i,mo) and no >= mo and AR ⊆ AU and inizio(s,is) and is <= adesso
+                    and not exists f fine(s,f)}
+        result = S
+
+TODO
+areeSensibiliSenzaInterventi(i DataOra, f DataOra): AreaVerde
+    precondizioni:
+        i <= f
+    postcondizioni:
+        AS = {a | Sensibile(a)}
+
+        AI = {a | exists int Sensibile(a) and av_int(a,int) and ((ALL in inizio(int,in) -> i <= in <= f) or (ALL ic istanteCompl(int,ic) -> i <= ic <= f))}
+
+        result = AS - AI
+
+TODO
+resocontoTassoMalattia(i DataOra, f DataOra, M Malattia [0..*]): (m Malattia, t RealeGEZ)
+    precondizioni:
+        i <= f
+
+    postcondizioni:
+        ALL T, TpM
+            T = {sv | exists sm, dsm sm_sv(sm,sv) and scoperta(sm,dsm) and i <= dsm and dsm <= f}
+            and
+            TpM = {(m,n) | m in M and n = |{sv | exists sm, dsm sm_sv(sm,sv) and scoperta(sm,dsm) and i <= dsm and dsm <= f and mal_sm(m,sm)}|/|T|}
+                -> result = TpM

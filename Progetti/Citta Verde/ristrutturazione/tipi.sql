@@ -7,3 +7,4 @@ create type Pos as (latitudine real, longitudine real);
 create domain CF as varchar(16);
 create domain CodSquadra as varchar(10);
 create domain InteroGZ as integer check(value > 0);
+create domain RealeGEZ as real check(value >= 0);

@@ -1,0 +1,73 @@
+TipologiaAttivita(_nome: StringaS_)
+
+Attrezzatura(_nome: StringaS_, tipologia: TipAttr)
+
+attr_ta(_attrezzatura: StringaS, tipologiaAttivita: StringaS_)
+    FK: attrezzatura references Attrezzatura(nome)
+    FK: tipologiaAttivita references TipologiaAttivita(nome)
+
+Persona(_codFisc: CF_, nome: StringaS, cognome: StringaS)
+
+Operatore(_id: serial_, inizio: timestamp, *fine: timestamp, persona: CF)
+    FK: persona references Persona(codFisc)
+    v.ennupla: fine is null or inizio <= fine
+
+Squadra(_codice: CodSquadra_, inizio: timestamp, *fine: timestamp)
+    v.ennupla: fine is null or inizio <= fine
+
+Partecipa(_id: serial_, inizio: timestamp, *fine: timestamp, isCapo: boolean, operatore: integer, squadra: CodSquadra)
+    FK: operatore references Operatore(id)
+    FK: squadra references Squadra(codice)
+    v.ennupla: fine is null or inizio <= fine
+
+PuoUtilizzare(_id: serial_, inizio: timestamp, *fine: timestamp, attrezzatura: StringaS, operatore: integer)
+    FK: attrezzatura references Attrezzatura(nome)
+    FK: operatore references Operatore(id)
+    v.ennupla: fine is null or inizio <= fine
+
+AreaVerde(_denominazione: StringaS_, isFruibile: boolean, isSensibile: boolean)
+    v.ennupla: not isSensibile or isFruibile
+
+Intervento(_id: serial_, minimoOperatori: InteroGZ, inizio: timestamp, durataGiorniStimata: InteroGZ, priorita: Prior, areaVerde: StringaS)
+    FK: areaVerde references AreaVerde(denominazione)
+    v.inclusione: Intervento(id) occorre in int_ta(intervento)
+
+int_ta(_intervento: integer, tipologiaAttivita: StringaS_)
+    FK: intervento references Intervento(id)
+    FK: tipologiaAttivita references TipologiaAttivita(nome)
+
+Assegnato(_intervento: integer_, istanteAss: timestamp, squadra: CodSquadra)
+    FK: intervento references Intervento(id)
+    FK: squadra references Squadra(codice)
+
+Completato(_intervento: integer_, istanteCompl: timestamp)
+    FK: intervento references Intervento(id)
+
+Causa(_nome: StringaS_)
+
+Specie(_nomeScientifico: StringaS_, nomeComune: StringaS)
+
+SoggettoVerde(_id: serial_, dataPiantumazione: timestamp, posizione: Pos, catRischio: Rischio, *rimozione: timestamp, specie: StringaS, *causa: StringaS, areaVerde: StringaS)
+    FK: specie references Specie(nomeScientifico)
+    FK: causa references Causa(nome)
+    FK: areaVerde references AreaVerde(denominazione)
+    v.ennupla: rimozione is null or dataPiantumazione <= rimozione
+    v.ennupla: (rimozione is null and causa is null) or (rimozione is not null and causa is not null)
+
+int_sv(_intervento: integer, soggettoVerde: integer_)
+    FK: intervento references Intervento(id)
+    FK: soggettoVerde references SoggettoVerde(id)
+
+TipologiaDimensione(_nome: StringaS_)
+
+Dimensione(_soggettoVerde: integer, tipologiaDimensione: StringaS_, valore: real)
+    FK: soggettoVerde references SoggettoVerde(id)
+    FK: tipologiaDimensione references TipologiaDimensione(nome)
+
+Malattia(_nomeScientifico: StringaS_, nomeVolgare: StringaS, gravita: Grav)
+
+StoricoMalattia(_id: serial_, scoperta: timestamp, isRisolta: boolean, malattia: StringaS, soggettoVerde: integer, *intervento: integer)
+    FK: malattia references Malattia(nomeScientifico)
+    FK: soggettoVerde references SoggettoVerde(id)
+    FK: intervento references Completato(intervento)
+    v.ennupla: (not isRisolta and intervento is null) or (isRisolta and intervento is not null)
