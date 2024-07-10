@@ -16,7 +16,7 @@ ALL a,s,ii,ic,i Completato(a) and inizio(a,ii) and istanteCompl(a,ic) and DataOr
     -> AS contiene ATA
 
 [V.Assegnato.Squadra_cardinalita_almeno_minimo_operatori_richiesti]
-ALL a,s,m ass_sq(a,s) and S = {o | partecipa(o,s)} and minimoOperatori(a,m) -> |S| >= m
+ALL a,s,m,ia,no ass_sq(a,s) and istanteAss(a,ia) and numOperatori_{Squadra,DataOra}(s,ia,no) and minimoOperatori(a,m) -> no >= m
 
 [V.Assegnato.istante_minore_di_inizio_intervento]
 ALL a,ia,ii Assegnato(a) and istanteAss(a,ia) and inizio(a,ii) -> ia < ii

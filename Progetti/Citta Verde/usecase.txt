@@ -8,7 +8,7 @@ squadrePerIntevento(i Intervento): Squadra [0..*]
                     and not exists f fine(s,f)}
         result = S
 
-areeSenzaInterventiSensibili(i DataOra, f DataOra): AreaVerde
+areeSensibiliSenzaInterventi(i DataOra, f DataOra): AreaVerde
     precondizioni:
         i <= f
     postcondizioni:
