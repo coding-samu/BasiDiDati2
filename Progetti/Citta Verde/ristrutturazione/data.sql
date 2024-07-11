@@ -48,7 +48,7 @@ INSERT INTO AreaVerde (denominazione, isFruibile, isSensibile) VALUES
     ('Parco Nord', true, true),
     ('Giardino Villa Rossi', true, false),
     ('Parco Centrale', true, true),
-    ('Area Verde San Pietro', false, true);
+    ('Area Verde San Pietro', true, true);
 
 -- Inserimento dati per la tabella Intervento
 INSERT INTO Intervento (minimoOperatori, inizio, durataGiorniStimata, priorita, areaVerde) VALUES
