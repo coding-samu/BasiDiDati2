@@ -95,6 +95,23 @@ INSERT INTO SoggettoVerde (dataPiantumazione, posizione, catRischio, rimozione, 
     ('2023-03-20 11:15:00', '(45.4712, 9.1757)', 'Alto', '2023-04-02 14:00:00', 'Platanus hybrida', 'Taglio preventivo', 'Parco Centrale'),
     ('2023-04-10 08:45:00', '(45.4688, 9.1911)', 'Basso', NULL, 'Fraxinus excelsior', NULL, 'Area Verde San Pietro');
 
+-- Inserimento dati per la tabella Malattia
+INSERT INTO Malattia (nomeScientifico, nomeVolgare, gravita) VALUES
+    ('Ceratocystis platani', 'Cancro colorato del platano', 'Alta'),
+    ('Oidium mangiferae', 'Oidio', 'Media'),
+    ('Phytophthora infestans', 'Peronospora', 'Bassa'),
+    ('Xylella fastidiosa', 'Xylella', 'Mortale'),
+    ('Armillaria mellea', 'Marciume radicale', 'Media'),
+    ('Venturia inaequalis', 'Ticchiolatura', 'Bassa'),
+    ('Pseudomonas syringae', 'Cancro batterico', 'Alta'),
+    ('Verticillium dahliae', 'Verticillosi', 'Media'),
+    ('Erysiphe necator', 'Mal bianco', 'Bassa'),
+    ('Fusariosi', 'Fusariosi', 'Alta'),
+    ('Aphididae', 'Afidi', 'Bassa'),
+    ('Xylella', 'Xylella', 'Mortale'),
+    ('Phytophthora', 'Phytophthora', 'Alta'),
+    ('Botrytis cinerea', 'Muffa grigia', 'Media');
+
 -- Inserimento dati per la tabella StoricoMalattia
 INSERT INTO StoricoMalattia (scoperta, isRisolta, malattia, soggettoVerde, intervento) VALUES
     ('2023-01-18 12:00:00', true, 'Fusariosi', 1, 1),
