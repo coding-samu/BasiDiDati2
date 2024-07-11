@@ -1,3 +1,5 @@
+begin transaction;
+
 -- Inserimento dati di esempio per le tabelle
 
 -- Inserimento dati per la tabella Persona
@@ -114,3 +116,6 @@ INSERT INTO int_ta (intervento, tipologiaAttivita) VALUES
     (2, 'Monitoraggio'),
     (3, 'Ripristino ambientale'),
     (4, 'Trattamento fitosanitario');
+
+commit;
+end transaction;
