@@ -143,4 +143,3 @@ INSERT INTO int_ta (intervento, tipologiaAttivita) VALUES
     (4, 'Trattamento fitosanitario');
 
 commit;
-end transaction;
