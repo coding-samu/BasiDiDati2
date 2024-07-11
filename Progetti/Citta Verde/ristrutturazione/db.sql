@@ -1,163 +1,180 @@
--- Creazione dei domain
+-- Creazione dei domini e dei tipi
 create domain StringaS as varchar(75);
+create type TipAttr as enum('Strumento Leggero', 'Veicolo', 'Veicolo speciale');
 create domain Prior as integer check(value between 1 and 10);
+create type Rischio as enum('Trascurabile', 'Basso', 'Medio', 'Alto');
+create type Grav as enum('Bassa', 'Media', 'Alta', 'Mortale');
+create type Pos as (latitudine real, longitudine real);
 create domain CF as varchar(16);
 create domain CodSquadra as varchar(10);
 create domain InteroGZ as integer check(value > 0);
 create domain RealeGEZ as real check(value >= 0);
 
--- Creazione dei tipi
-create type TipAttr as enum('Strumento Leggero','Veicolo','Veicolo speciale');
-create type Rischio as enum('Trascurabile','Basso','Medio','Alto');
-create type Grav as enum('Bassa','Media','Alta','Mortale');
-create type Pos as (latitudine real, longitudine real);
-
 -- Creazione delle tabelle
 create table TipologiaAttivita (
-    _nome StringaS primary key
+    nome StringaS primary key
 );
 
 create table Attrezzatura (
-    _nome StringaS primary key,
-    tipologia TipAttr
+    nome StringaS primary key,
+    tipologia TipAttr not null
 );
 
 create table attr_ta (
-    _attrezzatura StringaS,
-    _tipologiaAttivita StringaS,
-    foreign key (_attrezzatura) references Attrezzatura(_nome),
-    foreign key (_tipologiaAttivita) references TipologiaAttivita(_nome),
-    primary key (_attrezzatura, _tipologiaAttivita)
+    attrezzatura StringaS not null,
+    tipologiaAttivita StringaS not null,
+    primary key (attrezzatura, tipologiaAttivita),
+    foreign key (attrezzatura) references Attrezzatura(nome),
+    foreign key (tipologiaAttivita) references TipologiaAttivita(nome)
 );
 
 create table Persona (
-    _codFisc CF primary key,
-    nome StringaS,
-    cognome StringaS
+    codFisc CF primary key,
+    nome StringaS not null,
+    cognome StringaS not null
 );
 
 create table Operatore (
-    _id serial primary key,
-    inizio timestamp,
+    id serial primary key,
+    inizio timestamp not null,
     fine timestamp,
-    persona CF references Persona(_codFisc)
+    persona CF not null,
+    foreign key (persona) references Persona(codFisc),
+    check (fine is null or inizio <= fine)
 );
 
 create table Squadra (
-    _codice CodSquadra primary key,
-    inizio timestamp,
-    fine timestamp
+    codice CodSquadra primary key,
+    inizio timestamp not null,
+    fine timestamp,
+    check (fine is null or inizio <= fine)
 );
 
 create table Partecipa (
-    _id serial primary key,
-    inizio timestamp,
+    id serial primary key,
+    inizio timestamp not null,
     fine timestamp,
-    isCapo boolean,
-    operatore integer references Operatore(_id),
-    squadra CodSquadra references Squadra(_codice)
+    isCapo boolean not null,
+    operatore integer not null,
+    squadra CodSquadra not null,
+    foreign key (operatore) references Operatore(id),
+    foreign key (squadra) references Squadra(codice),
+    check (fine is null or inizio <= fine)
 );
 
 create table PuoUtilizzare (
-    _id serial primary key,
-    inizio timestamp,
+    id serial primary key,
+    inizio timestamp not null,
     fine timestamp,
-    attrezzatura StringaS references Attrezzatura(_nome),
-    operatore integer references Operatore(_id)
+    attrezzatura StringaS not null,
+    operatore integer not null,
+    foreign key (attrezzatura) references Attrezzatura(nome),
+    foreign key (operatore) references Operatore(id),
+    check (fine is null or inizio <= fine)
 );
 
 create table AreaVerde (
-    _denominazione StringaS primary key,
-    isFruibile boolean,
-    isSensibile boolean,
+    denominazione StringaS primary key,
+    isFruibile boolean not null,
+    isSensibile boolean not null,
     check (not isSensibile or isFruibile)
 );
 
 create table Intervento (
-    _id serial primary key,
-    minimoOperatori InteroGZ,
-    inizio timestamp,
-    durataGiorniStimata InteroGZ,
-    priorita Prior,
-    areaVerde StringaS references AreaVerde(_denominazione)
+    id serial primary key,
+    minimoOperatori InteroGZ not null,
+    inizio timestamp not null,
+    durataGiorniStimata InteroGZ not null,
+    priorita Prior not null,
+    areaVerde StringaS not null,
+    foreign key (areaVerde) references AreaVerde(denominazione)
 );
 
 create table int_ta (
-    _intervento integer,
-    _tipologiaAttivita StringaS,
-    foreign key (_intervento) references Intervento(_id),
-    foreign key (_tipologiaAttivita) references TipologiaAttivita(_nome),
-    primary key (_intervento, _tipologiaAttivita)
+    intervento integer not null,
+    tipologiaAttivita StringaS not null,
+    primary key (intervento, tipologiaAttivita),
+    foreign key (intervento) references Intervento(id),
+    foreign key (tipologiaAttivita) references TipologiaAttivita(nome)
 );
 
 create table Assegnato (
-    _intervento integer,
-    istanteAss timestamp,
-    squadra CodSquadra references Squadra(_codice),
-    foreign key (_intervento) references Intervento(_id),
-    primary key (_intervento)
+    intervento integer not null,
+    istanteAss timestamp not null,
+    squadra CodSquadra not null,
+    primary key (intervento),
+    foreign key (intervento) references Intervento(id),
+    foreign key (squadra) references Squadra(codice)
 );
 
 create table Completato (
-    _intervento integer primary key,
-    istanteCompl timestamp,
-    foreign key (_intervento) references Intervento(_id)
+    intervento integer not null,
+    istanteCompl timestamp not null,
+    primary key (intervento),
+    foreign key (intervento) references Intervento(id)
 );
 
 create table Causa (
-    _nome StringaS primary key
+    nome StringaS primary key
 );
 
 create table Specie (
-    _nomeScientifico StringaS primary key,
-    nomeComune StringaS
+    nomeScientifico StringaS primary key,
+    nomeComune StringaS not null
 );
 
 create table SoggettoVerde (
-    _id serial primary key,
-    dataPiantumazione timestamp,
-    posizione Pos,
-    catRischio Rischio,
+    id serial primary key,
+    dataPiantumazione timestamp not null,
+    posizione Pos not null,
+    catRischio Rischio not null,
     rimozione timestamp,
-    specie StringaS references Specie(_nomeScientifico),
-    causa StringaS references Causa(_nome),
-    areaVerde StringaS references AreaVerde(_denominazione),
+    specie StringaS not null,
+    causa StringaS,
+    areaVerde StringaS not null,
+    foreign key (specie) references Specie(nomeScientifico),
+    foreign key (causa) references Causa(nome),
+    foreign key (areaVerde) references AreaVerde(denominazione),
+    check (rimozione is null or dataPiantumazione <= rimozione),
     check ((rimozione is null and causa is null) or (rimozione is not null and causa is not null))
 );
 
 create table int_sv (
-    _intervento integer,
-    _soggettoVerde integer,
-    foreign key (_intervento) references Intervento(_id),
-    foreign key (_soggettoVerde) references SoggettoVerde(_id),
-    primary key (_intervento, _soggettoVerde)
+    intervento integer not null,
+    soggettoVerde integer not null,
+    primary key (intervento, soggettoVerde),
+    foreign key (intervento) references Intervento(id),
+    foreign key (soggettoVerde) references SoggettoVerde(id)
 );
 
 create table TipologiaDimensione (
-    _nome StringaS primary key
+    nome StringaS primary key
 );
 
 create table Dimensione (
-    _soggettoVerde integer,
-    _tipologiaDimensione StringaS,
-    valore real,
-    foreign key (_soggettoVerde) references SoggettoVerde(_id),
-    foreign key (_tipologiaDimensione) references TipologiaDimensione(_nome),
-    primary key (_soggettoVerde, _tipologiaDimensione)
+    soggettoVerde integer not null,
+    tipologiaDimensione StringaS not null,
+    valore real not null,
+    primary key (soggettoVerde, tipologiaDimensione),
+    foreign key (soggettoVerde) references SoggettoVerde(id),
+    foreign key (tipologiaDimensione) references TipologiaDimensione(nome)
 );
 
 create table Malattia (
-    _nomeScientifico StringaS primary key,
-    nomeVolgare StringaS,
-    gravita Grav
+    nomeScientifico StringaS primary key,
+    nomeVolgare StringaS not null,
+    gravita Grav not null
 );
 
 create table StoricoMalattia (
-    _id serial primary key,
-    scoperta timestamp,
-    isRisolta boolean,
-    malattia StringaS references Malattia(_nomeScientifico),
-    soggettoVerde integer references SoggettoVerde(_id),
-    intervento integer references Completato(_intervento),
+    id serial primary key,
+    scoperta timestamp not null,
+    isRisolta boolean not null,
+    malattia StringaS not null,
+    soggettoVerde integer not null,
+    intervento integer,
+    foreign key (malattia) references Malattia(nomeScientifico),
+    foreign key (soggettoVerde) references SoggettoVerde(id),
+    foreign key (intervento) references Completato(intervento),
     check ((not isRisolta and intervento is null) or (isRisolta and intervento is not null))
 );

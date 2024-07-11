@@ -1,63 +1,49 @@
--- Inserimento dati in TipologiaAttivita
-insert into TipologiaAttivita (_nome) values
-    ('Pulizia'), ('Manutenzione'), ('Piantumazione');
+-- Inserimento di dati nella tabella TipologiaAttivita
+INSERT INTO TipologiaAttivita (descrizione)
+VALUES ('Piantagione'), ('Potatura'), ('Monitoraggio');
 
--- Inserimento dati in Attrezzatura
-insert into Attrezzatura (_nome, tipologia) values
-    ('Trattorino', 'Veicolo speciale'),
-    ('Rasaerba', 'Strumento Leggero'),
-    ('Pala', 'Strumento Leggero');
+-- Inserimento di dati nella tabella Attrezzatura
+INSERT INTO Attrezzatura (nome)
+VALUES ('Pala'), ('Tagliaerba'), ('Scala');
 
--- Inserimento dati in Persona
-insert into Persona (_codFisc, nome, cognome) values
-    ('ABC12345', 'Mario', 'Rossi'),
-    ('DEF67890', 'Luca', 'Verdi'),
-    ('GHI54321', 'Giulia', 'Bianchi');
+-- Inserimento di dati nella tabella Persona
+INSERT INTO Persona (codice_fiscale, nome, cognome)
+VALUES ('CF001', 'Mario', 'Rossi'),
+       ('CF002', 'Anna', 'Verdi'),
+       ('CF003', 'Luigi', 'Bianchi');
 
--- Inserimento dati in Operatore
-insert into Operatore (_id, inizio, fine, persona) values
-    (1, '2023-01-01 08:00:00', '2023-01-01 16:00:00', 'ABC12345'),
-    (2, '2023-01-02 08:30:00', '2023-01-02 17:30:00', 'DEF67890'),
-    (3, '2023-01-03 07:45:00', NULL, 'GHI54321');
+-- Inserimento di dati nella tabella Operatore
+INSERT INTO Operatore (id, inizio, fine, codice_fiscale)
+VALUES (1, '2023-01-01 08:00:00', NULL, 'CF001'),
+       (2, '2023-01-02 09:00:00', '2023-01-02 17:00:00', 'CF002'),
+       (3, '2023-01-03 10:00:00', NULL, 'CF003');
 
--- Inserimento dati in Squadra
-insert into Squadra (_codice, inizio, fine) values
-    ('SQUADRA1', '2023-01-01', '2023-01-31'),
-    ('SQUADRA2', '2023-02-01', '2023-02-28'),
-    ('SQUADRA3', '2023-03-01', NULL);
+-- Inserimento di dati nella tabella Squadra
+INSERT INTO Squadra (id, inizio, fine)
+VALUES ('S001', '2023-01-01 08:00:00', NULL),
+       ('S002', '2023-01-02 09:00:00', '2023-01-02 17:00:00'),
+       ('S003', '2023-01-03 10:00:00', NULL);
 
--- Inserimento dati in Partecipa
-insert into Partecipa (_id, inizio, fine, isCapo, operatore, squadra) values
-    (1, '2023-01-01', '2023-01-31', true, 1, 'SQUADRA1'),
-    (2, '2023-02-01', '2023-02-28', false, 2, 'SQUADRA2'),
-    (3, '2023-03-01', NULL, true, 3, 'SQUADRA3');
+-- Inserimento di dati nella tabella Partecipa
+INSERT INTO Partecipa (id, inizio, fine, capo, operatore_id, squadra_id)
+VALUES (1, '2023-01-01 08:00:00', NULL, TRUE, 1, 'S001'),
+       (2, '2023-01-02 09:00:00', '2023-01-02 17:00:00', FALSE, 2, 'S002'),
+       (3, '2023-01-03 10:00:00', NULL, TRUE, 3, 'S003');
 
--- Inserimento dati in AreaVerde
-insert into AreaVerde (_denominazione, isFruibile, isSensibile) values
-    ('Parco Centrale', true, true),
-    ('Giardino Botanico', true, false),
-    ('Area di Conservazione', false, true);
+-- Inserimento di dati nella tabella PuoUtilizzare
+INSERT INTO PuoUtilizzare (id, inizio, fine, attrezzatura, operatore_id)
+VALUES (1, '2023-01-01 08:00:00', NULL, 'Pala', 1),
+       (2, '2023-01-02 09:00:00', '2023-01-02 17:00:00', 'Tagliaerba', 2),
+       (3, '2023-01-03 10:00:00', NULL, 'Scala', 3);
 
--- Inserimento dati in Intervento
-insert into Intervento (_id, minimoOperatori, inizio, durataGiorniStimata, priorita, areaVerde) values
-    (1, 5, '2023-01-05', 3, 7, 'Parco Centrale'),
-    (2, 3, '2023-02-10', 1, 5, 'Giardino Botanico'),
-    (3, 8, '2023-03-15', 5, 10, 'Area di Conservazione');
+-- Inserimento di dati nella tabella AreaVerde
+INSERT INTO AreaVerde (nome, isFruibile, isSensibile)
+VALUES ('Giardino pubblico', TRUE, TRUE),
+       ('Parco naturale', TRUE, FALSE),
+       ('Orto botanico', FALSE, TRUE);
 
--- Inserimento dati in SoggettoVerde
-insert into SoggettoVerde (_id, dataPiantumazione, posizione, catRischio, specie, areaVerde) values
-    (1, '2021-05-15', (45.123, 9.456), 'Medio', 'Quercus robur', 'Parco Centrale'),
-    (2, '2022-04-20', (45.678, 9.789), 'Basso', 'Ficus benjamina', 'Giardino Botanico'),
-    (3, '2020-06-30', (45.890, 9.012), 'Alto', 'Pinus nigra', 'Area di Conservazione');
-
--- Inserimento dati in Completato
-insert into Completato (_intervento, istanteCompl) values
-    (1, '2023-01-08 16:30:00'),
-    (2, '2023-02-11 12:00:00'),
-    (3, '2023-03-20 14:45:00');
-
--- Inserimento dati in StoricoMalattia
-insert into StoricoMalattia (_id, scoperta, isRisolta, malattia, soggettoVerde, intervento) values
-    (1, '2022-12-10', true, 'Phytophthora', 1, NULL),
-    (2, '2023-02-20', false, 'Xylella', 2, 2),
-    (3, '2023-03-25', true, 'Ciclosporina', 3, 3);
+-- Inserimento di dati nella tabella Intervento
+INSERT INTO Intervento (id, durata, inizio, fine, squadra_id, area_verde)
+VALUES (1, 5, '2023-01-01 08:00:00', '2023-01-01 13:00:00', 'S001', 'Giardino pubblico'),
+       (2, 3, '2023-01-02 09:00:00', '2023-01-02 12:00:00', 'S002', 'Parco naturale'),
+       (3, 4, '2023-01-03 10:00:00', '2023-01-03 14:00:00', 'S003', 'Orto botanico');
