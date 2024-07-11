@@ -71,6 +71,13 @@ INSERT INTO Completato (intervento, istanteCompl) VALUES
     (3, '2023-03-18 16:00:00'),
     (4, '2023-04-09 15:00:00');
 
+-- Inserimento dati per la tabella Specie
+INSERT INTO Specie (nomeScientifico, nomeComune) VALUES
+    ('Picea abies', 'Abete rosso'),
+    ('Quercus robur', 'Quercia peduncolata'),
+    ('Platanus hybrida', 'Platano'),
+    ('Fraxinus excelsior', 'Frassino comune');
+
 -- Inserimento dati per la tabella SoggettoVerde
 INSERT INTO SoggettoVerde (dataPiantumazione, posizione, catRischio, rimozione, specie, causa, areaVerde) VALUES
     ('2022-12-15 10:00:00', '(45.4654, 9.1865)', 'Basso', NULL, 'Picea abies', NULL, 'Parco Nord'),
