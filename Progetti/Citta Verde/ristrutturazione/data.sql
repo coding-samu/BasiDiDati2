@@ -126,6 +126,14 @@ INSERT INTO int_sv (intervento, soggettoVerde) VALUES
     (3, 3),
     (4, 4);
 
+-- Inserimento dati per la tabella TipologiaAttivita
+INSERT INTO TipologiaAttivita (nome) VALUES
+    ('Potatura'),
+    ('Ripiantumazione'),
+    ('Monitoraggio'),
+    ('Ripristino ambientale'),
+    ('Trattamento fitosanitario');
+
 -- Inserimento dati per la tabella int_ta
 INSERT INTO int_ta (intervento, tipologiaAttivita) VALUES
     (1, 'Potatura'),
