@@ -78,6 +78,14 @@ INSERT INTO Specie (nomeScientifico, nomeComune) VALUES
     ('Platanus hybrida', 'Platano'),
     ('Fraxinus excelsior', 'Frassino comune');
 
+-- Inserimento dati per la tabella Causa
+INSERT INTO Causa (nome) VALUES
+    ('Infezione fungina'),
+    ('Parassiti'),
+    ('Taglio preventivo'),
+    ('Condizioni meteorologiche estreme');
+
+
 -- Inserimento dati per la tabella SoggettoVerde
 INSERT INTO SoggettoVerde (dataPiantumazione, posizione, catRischio, rimozione, specie, causa, areaVerde) VALUES
     ('2022-12-15 10:00:00', '(45.4654, 9.1865)', 'Basso', NULL, 'Picea abies', NULL, 'Parco Nord'),
