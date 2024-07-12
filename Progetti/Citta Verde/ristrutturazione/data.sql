@@ -142,4 +142,13 @@ INSERT INTO int_ta (intervento, tipologiaAttivita) VALUES
     (3, 'Ripristino ambientale'),
     (4, 'Trattamento fitosanitario');
 
+-- Inserimento dati per la tabella attr_ta
+INSERT INTO attr_ta (tipologiaAttivita, attrezzatura) VALUES
+    ('Potatura', 'Motozappa'),
+    ('Potatura', 'Motosega'),
+    ('Ripiantumazione', 'Autobotte'),
+    ('Monitoraggio', 'Motosega'),
+    ('Ripristino ambientale', 'Escavatore'),
+    ('Trattamento fitosanitario', 'Motozappa');
+
 commit;

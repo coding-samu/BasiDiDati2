@@ -36,10 +36,14 @@ $$ language plpgsql;
 
 -- Operazioni della classe Intervento
 
-    TODO
-    attrezzaturaRichiesta(): Attrezzatura [0..*]
-        precondizioni:
-            nessuna
-        postcondizioni:
-            Sia A = {a | EXISTS ta int_ta(this,ta) and attr_ta(a,ta)}
-            result = A
+create or replace function attrezzaturaRichiesta(this integer)
+returns table (nome StringaS)
+as $$
+    begin
+        return query(
+            select distinct atta.attrezzatura
+            from attr_ta atta, int_ta ia
+            where atta.tipologiaAttivita = ia.tipologiaAttivita and ia.intervento = this
+        );
+    end;
+$$ language plpgsql;
