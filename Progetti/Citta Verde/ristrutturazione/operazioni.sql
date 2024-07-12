@@ -1,12 +1,20 @@
 -- Operazioni della classe Squadra
 
-    TODO
-    numOperatori(d DataOra): InteroGEZ
-        precondizioni:
-            (ALL i inizio(this,i) -> i <= d) and (ALL f fine(this,f) -> d <= f)
-        postcondizioni:
-            Sia O = {o | exists p op_par(o,p) and par_sq(p,this) and (ALL i inizio(p,i) -> i <= d) and (ALL f fine(p,f) -> d <= f)}
-            result = |O|
+create or replace function numOperatori(codice CodSquadra, d timestamp) returns integer as $$
+    begin
+        if exists (
+            select *
+            from squadra sq
+            where sq.codice = codice and (d <= sq.inizio or (coalesce(sq.fine,'infinity'::timestamp) <= d))
+        ) then raise exception 'Error O_001 - Data inserita non valida'; end if;
+    
+    return (
+        select count(p.id)
+        from partecipa p
+        where p.squadra = codice and p.inizio <= d and (d <= coalesce(p.fine,'infinity'::timestamp))
+    );
+    end;
+$$ language plpgsql;
 
     TODO
     attrezzaturaUsabile(d DataOra): Attrezzatura [0..*]
