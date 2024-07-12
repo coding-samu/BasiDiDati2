@@ -16,15 +16,23 @@ create or replace function numOperatori(cs CodSquadra, d timestamp) returns inte
     end;
 $$ language plpgsql;
 
-    TODO
-    attrezzaturaUsabile(d DataOra): Attrezzatura [0..*]
-        precondizioni:
-            (ALL i inizio(this,i) -> i <= d) and (ALL f fine(this,f) -> d <= f)
-        postcondizioni:
-            Sia A = {a | EXISTS o, p, pu par_sq(p,this) and op_par(o,p) and op_pu(o,pu) and attr_pu(a,pu) and (ALL i inizio(p,i) -> i <= d) and (ALL f fine(p,f) -> d <= f) and (ALL i inizio(pu,i) -> i <= d) and (ALL f fine(pu,f) -> d <= f)}
-            result = A
+create or replace function attrezzaturaUsabile(cs CodSquadra, d timestamp) 
+returns table (nome StringaS)
+as $$
+    begin
+        if exists (
+            select *
+            from squadra sq
+            where sq.codice = cs and (d <= sq.inizio or (coalesce(sq.fine,'infinity'::timestamp) <= d))
+        ) then raise exception 'Error O_001 - Data inserita non valida'; end if;
 
-create or replace function attrezzaturaUsabile()
+        return query(
+            select distinct pu.attrezzatura
+            from PuoUtilizzare pu, partecipa p
+            where p.squadra = cs and p.operatore = pu.operatore and pu.inizio <= d and (d <= coalesce(pu.fine,'infinity'::timestamp)) and p.inizio <= d and (d <= coalesce(p.fine,'infinity'::timestamp))
+        );
+    end;
+$$ language plpgsql;
 
 -- Operazioni della classe Intervento
 
