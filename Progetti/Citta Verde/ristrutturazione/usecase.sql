@@ -58,14 +58,25 @@ returns table (denominazione StringaS) as $$
     end;
 $$ language plpgsql;
 
-TODO
-resocontoTassoMalattia(i DataOra, f DataOra, M Malattia [0..*]): (m Malattia, t RealeGEZ)
-    precondizioni:
-        i <= f
+-- Usecase resocontoTassoMalattia
+create or replace function resocontoTassoMalattia(i timestamp, f timestamp, MAL StringaS[])
+returns table (m StringaS, t RealeGEZ) as $$
+    declare
+        totale integer := 0;
+    begin
+        if i > f then raise exception 'Usecase Error 003 - inizio > fine';
+        end if;
 
-    postcondizioni:
-        ALL T, TpM
-            T = {sv | exists sm, dsm sm_sv(sm,sv) and scoperta(sm,dsm) and i <= dsm and dsm <= f}
-            and
-            TpM = {(m,n) | m in M and n = |{sv | exists sm, dsm sm_sv(sm,sv) and scoperta(sm,dsm) and i <= dsm and dsm <= f and mal_sm(m,sm)}|/|T|}
-                -> result = TpM
+        select count(sv.id)
+        into totale
+        from SoggettoVerde sv, StoricoMalattia sm
+        where sm.soggettoVerde = sv.id and i <= sm.scoperta and sm.scoperta <= f;
+
+        return query (
+            select m, count(sm.id)::real/totale
+            from StoricoMalattia sm
+            where i <= sm.scoperta and sm.scoperta <= f and sm.malattia = m and m = any(MAL)
+            group by m
+        );
+    end;
+$$ language plpgsql;
