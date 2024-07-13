@@ -42,16 +42,13 @@ controllo da effettuare:
         where new.isRisolta and a.intervento = new.intervento and a.istanteAss < new.scoperta
     );
 
-TODO
-[V.Assegnato.istante_minore_di_inizio_intervento]
-ALL ass,ia,ii,int ass_isa_int(ass,int) and istanteAss(ass,ia) and inizio(int,ii) -> ia < ii
 -- 5. Trigger [V.Assegnato.istante_minore_di_inizio_intervento]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in Assegnato
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
+        from Intervento i
+        where new.intervento = i.id and new.istanteAss >= i.inizio
     )
 
 TODO
