@@ -88,34 +88,25 @@ controllo da effettuare:
         select *
         from
         where
-    )
+    );
 
-TODO
-[V.Squadra.no_overlapping_stesso_operatore]
-    ALL o,s1,s2 partecipa(o,s1) and partecipa(o,s2) and s1 != s2 
-        -> not exists t DataOra(t) and (ALL i inizio(s1,i) -> i <= t) and (ALL i inizio(s2,i) -> i <= t)
-           and (ALL f fine(s1,f) -> t <= f) and (ALL f fine(s2,f) -> t <= f)
 -- 10. Trigger [V.Squadra.no_overlapping_stesso_operatore]
-quando deve essere effettuato:
+quando deve essere effettuato: insert(new) or update(new) in partecipa
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from partecipa p
+        where p.operatore = new.operatore and p.squadra = new.squadra and p.id <> new.id and ((p.inizio,coalesce(p.fine,'infinity'::timestamp)) overlaps (new.inizio,coalesce(new.fine,'infinity'::timestamp)))
+    );
 
-TODO
-[V.partecipa.no_overlapping_operatore]
-ALL p1, p2, op, i1, i2 op_par(op,p1) and op_par(op,p2) and inizio(p1,i1) and inizio(p2,i2) and p1 != p2
-    -> not exists t DataOra(t) and (i1 <= t and i2 <= t) and (ALL f1 fine(p1,f1) -> t <= f1) and (ALL f2 fine(t2,f2) -> t <= f2)
 -- 11. Trigger [V.partecipa.no_overlapping_operatore]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in partecipa
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from partecipa p
+        where p.operatore = new.operatore and p.id <> new.id and ((p.inizio,coalesce(p.fine,'infinity'::timestamp)) overlaps (new.inizio,coalesce(new.fine,'infinity'::timestamp)))
+    );
 
 TODO
 [V.Operatore.no_overlapping_per_stessa_persona]
