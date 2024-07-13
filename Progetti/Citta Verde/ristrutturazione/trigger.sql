@@ -126,18 +126,14 @@ controllo da effettuare:
         where pu.operatore = new.operatore and pu.attrezzatura = new.attrezzatura and pu.id <> new.id and ((pu.inizio,coalesce(pu.fine,'infinity'::timestamp)) overlaps (new.inizio,coalesce(new.fine,'infinity'::timestamp)))
     );
 
-TODO
-[V.Partecipa.date_consistenti_con_date_operatore]
-ALL p, o, ip, io op_par(o,p) and inizio(o,io) and inizio(p,ip)
-    -> io <= ip and ((not exists fo fine(o,fo)) or (exists fo,fp fine(o,fo) and fine(p,fp) and fp <= fo)) 
 -- 14. Trigger [V.Partecipa.date_consistenti_con_date_operatore]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in partecipa
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from operatore o
+        where o.id = new.operatore and (new.inizio < o.inizio or coalesce(new.fine,'infinity'::timestamp) > coalesce(o.fine,'infinity'::timestamp))
+    );
 
 TODO
 [V.PuoUtilizzare.date_consistenti_con_date_operatore]
