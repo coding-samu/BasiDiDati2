@@ -135,18 +135,14 @@ controllo da effettuare:
         where o.id = new.operatore and (new.inizio < o.inizio or coalesce(new.fine,'infinity'::timestamp) > coalesce(o.fine,'infinity'::timestamp))
     );
 
-TODO
-[V.PuoUtilizzare.date_consistenti_con_date_operatore]
-ALL p, o, ip, io op_pu(o,p) and inizio(o,io) and inizio(p,ip)
-    -> io <= ip and ((not exists fo fine(o,fo)) or (exists fo,fp fine(o,fo) and fine(p,fp) and fp <= fo)) 
 -- 15. Trigger [V.PuoUtilizzare.date_consistenti_con_date_operatore]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in PuoUtilizzare
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from Operatore o
+        where o.id = new.operatore and (new.inizio < o.inizio or coalesce(new.fine,'infinity'::timestamp) > coalesce(o.fine,'infinity'::timestamp))
+    );
 
 TODO
 [V.Assegnato.Squadra_cardinalita_almeno_minimo_operatori_richiesti]
