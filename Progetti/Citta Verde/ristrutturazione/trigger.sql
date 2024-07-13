@@ -153,17 +153,14 @@ controllo da effettuare:
         where new.intervento = i.id and i.minimoOperatori > numOperatori(new.squadra,new.istanteAss)
     );
 
-TODO
-[V.SoggettoVerde.date_malattia.consistenti]
-ALL sm, sv, dsm sm_sv(sm,sv) and scoperta(sm,dsm) -> (ALL dp dataPiantumazione(sv,dp) -> dp <= dsm) and (ALL r rimozione(sv,r) -> dsm <= r)
 -- 17. Trigger [V.SoggettoVerde.date_malattia.consistenti]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in StoricoMalattia
 controllo da effettuare:
     isError := exists (
         select *
-        from 
-        where
-    )
+        from SoggettoVerde sv
+        where new.soggettoVerde = sv.id and (new.scoperta < sv.dataPiantumazione or new.scoperta > coalesce(sv.rimozione,'infinity'::timestamp))
+    );
 
 TODO
 [V.Intervento.SoggettoVerde_in_area_verde]
