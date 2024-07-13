@@ -162,14 +162,11 @@ controllo da effettuare:
         where new.soggettoVerde = sv.id and (new.scoperta < sv.dataPiantumazione or new.scoperta > coalesce(sv.rimozione,'infinity'::timestamp))
     );
 
-TODO
-[V.Intervento.SoggettoVerde_in_area_verde]
-ALL i,av,sv int_sv(i,sv) and av_sv(av,sv) -> av_int(av,i)
 -- 18. Trigger [V.Intervento.SoggettoVerde_in_area_verde]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in int_sv
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from Intervento i, SoggettoVerde sv
+        where i.id = new.intervento and sv.id = new.soggettoVerde and i.areaVerde <> sv.areaVerde
+    );
