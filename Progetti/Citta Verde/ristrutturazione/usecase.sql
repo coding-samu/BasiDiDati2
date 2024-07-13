@@ -1,13 +1,22 @@
-TODO
-squadrePerIntevento(i Intervento): Squadra [0..*]
-    precondizioni:
-        not Assegnato(i) and (ALL ii inizio(i,ii) -> adesso <= ii)
-    postcondizioni:
-        S = { s | EXISTS AU, AR, no, mo, is Squadra(s) and attrezzaturaRichiesta_{Intervento}(i,AR) 
-                    and attrezzaturaUsabile_{Squadra}(s,AU) and numOperatori_{Squadra}(s,no)
-                    and minimoOperatori(i,mo) and no >= mo and AR ⊆ AU and inizio(s,is) and is <= adesso
-                    and not exists f fine(s,f)}
-        result = S
+-- Usecase squadrePerIntervento
+create or replace function squadrePerIntervento(i integer)
+returns table (codice CodSquadra) as $$
+    begin
+        return query (
+            select s.codice
+            from Squadra s, Intervento inte
+            where inte.minimoOperatori <= numOperatori(s.codice,current_timestamp) and not exists (
+                select *
+                from attrezzaturaRichiesta(i) as t2
+                where not exists (
+                    select *
+                    from attrezzaturaUsabile(s.codice,current_timestamp) as t1
+                    where t1.nome = t2.nome
+                )
+            )
+        );
+    end;
+$$ language plpgsql;
 
 TODO
 areeSensibiliSenzaInterventi(i DataOra, f DataOra): AreaVerde
