@@ -78,16 +78,24 @@ controllo da effettuare:
         where sq.codice = a.squadra and a.intervento = i.id and i.id = c.intervento and ((sq.inizio > i.inizio) or (coalesce(c.istanteCompl,'infinity'::timestamp) > coalesce(sq.fine,'infinity'::timestamp)))
     );
 
-TODO
-[V.Intervento_su_malattia_allora_intervento_su_soggetto_verde_oppure_su_area_verde_senza_soggetti_verdi]
-ALL compl,sm,sv,int,ass ass_isa_int(ass,int) and compl_isa_ass(compl,ass) and compl_sm(compl,sm) and sm_sv(sm,sv) -> int_sv(int,sv) OR ((exists av av_sv(av,sv) and av_int(av,int)) and (not exists sv1 int_sv(int,sv1)))
 -- 9. Trigger [V.Intervento_su_malattia_allora_intervento_su_soggetto_verde_oppure_su_area_verde_senza_soggetti_verdi]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in StoricoMalattia
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
+        from Intervento i, SoggettoVerde sv
+        where new.soggettoVerde = sv.id and new.intervento is not null and new.intervento = i.id 
+            and (i.areaVerde <> sv.areaVerde or (
+                not exists (
+                    select *
+                    from int_sv ins
+                    where ins.intervento = i.id and ins.soggettoVerde = sv.id
+                ) and exists (
+                    select *
+                    from int_sv ins
+                    where ins.intervento = i.id and ins.soggettoVerde <> sv.id
+                )
+            ))
     );
 
 -- 10. Trigger [V.Squadra.no_overlapping_stesso_operatore]
