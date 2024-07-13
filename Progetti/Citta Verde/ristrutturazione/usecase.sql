@@ -2,6 +2,24 @@
 create or replace function squadrePerIntervento(i integer)
 returns table (codice CodSquadra) as $$
     begin
+        if exists (
+            select *
+            from Assegnato a
+            where a.intervento = i
+        ) then raise exception 'Usecase Error 001 - Intervento già assegnato';
+        end if;
+        if not exists (
+            select *
+            from Intervento inte
+            where inte.id = i
+        ) then raise exception 'Usecase Error 002 - Intervento inesistente';
+        end if;
+        if (
+            select (inte.inizio < current_timestamp) 
+            from intervento inte 
+            where inte.id = i
+        ) then raise exception 'Usecase Error 003 - Intervento già iniziato';
+        end if;
         return query (
             select s.codice
             from Squadra s, Intervento inte
@@ -28,6 +46,8 @@ areeSensibiliSenzaInterventi(i DataOra, f DataOra): AreaVerde
         AI = {a | exists int Sensibile(a) and av_int(a,int) and ((ALL in inizio(int,in) -> i <= in <= f) or (ALL ic istanteCompl(int,ic) -> i <= ic <= f))}
 
         result = AS - AI
+-- Usecase areeSensibiliSenzaInterventi
+create or replace function areeSensibiliSenzaInterventi(i timestamp, f timestamp)
 
 TODO
 resocontoTassoMalattia(i DataOra, f DataOra, M Malattia [0..*]): (m Malattia, t RealeGEZ)
