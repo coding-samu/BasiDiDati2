@@ -108,31 +108,23 @@ controllo da effettuare:
         where p.operatore = new.operatore and p.id <> new.id and ((p.inizio,coalesce(p.fine,'infinity'::timestamp)) overlaps (new.inizio,coalesce(new.fine,'infinity'::timestamp)))
     );
 
-TODO
-[V.Operatore.no_overlapping_per_stessa_persona]
-ALL op1, op2, per, i1, i2 op_per(op1,per) and op_per(op2,per) and inizio(op1,i1) and inizio(op2,i2) and op1 != op2
-    -> not exists t DataOra(t) and (i1 <= t and i2 <= t) and (ALL f1 fine(op1,f1) -> t <= f1) and (ALL f2 fine(op2,f2) -> t <= f2)
 -- 12. Trigger [V.Operatore.no_overlapping_per_stessa_persona]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in Operatore
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from Operatore o
+        where o.persona = new.persona and o.id <> new.id and ((o.inizio,coalesce(o.fine,'infinity'::timestamp)) overlaps (new.inizio,coalesce(new.fine,'infinity'::timestamp)))
+    );
 
-TODO
-[V.PuoUtilizzare.no_overlapping_operatore_stesso_attrezzo]
-ALL pu1, pu2, o, a, i1, i2 op_pu(o,pu1) and op_pu(o,pu2) and attr_pu(a,pu1) and attr_pu(a,pu2) and pu1 != pu2 and inizio(pu1,i1) and inizio(pu2,i2)
-    -> not exists t DataOra(t) and (i1 <= t and i2 <= t) and (ALL f1 fine(pu1,f1) -> t <= f1) and (ALL f2 fine(pu2,f2) -> t <= f2)
 -- 13. Trigger [V.PuoUtilizzare.no_overlapping_operatore_stesso_attrezzo]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in PuoUtilizzare
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from PuoUtilizzare pu
+        where pu.operatore = new.operatore and pu.attrezzatura = new.attrezzatura and pu.id <> new.id and ((pu.inizio,coalesce(pu.fine,'infinity'::timestamp)) overlaps (new.inizio,coalesce(new.fine,'infinity'::timestamp)))
+    );
 
 TODO
 [V.Partecipa.date_consistenti_con_date_operatore]
