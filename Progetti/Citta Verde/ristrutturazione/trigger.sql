@@ -52,7 +52,7 @@ controllo da effettuare:
     );
 
 -- 6. Trigger [V.Completato.istante_maggiore_di_inizio_intervento]
-quando deve essere effettuato: dopo insert(new) o update(new) in Completato
+quando deve essere effettuato: dopo insert(new) or update(new) in Completato
 controllo da effettuare:
     isError := exists (
         select *
@@ -60,18 +60,14 @@ controllo da effettuare:
         where i.id = new.intervento and new.istanteCompl <= i.inizio
     );
 
-TODO
-[V.SoggettoVerde.date_intervento_consistenti]
-ALL sv, int, ass, compl, ii, dp int_sv(int,sv) and ass_isa_int(ass,int) and compl_isa_ass(compl,ass) and dataPiantumazione(sv,dp) and inizio(int,ii)
-    -> dp <= ii and (ALL ic, ir istanteCompl(compl,ic) and rimozione(sv,ir) -> ic <= ir)
 -- 7. Trigger [V.SoggettoVerde.date_intervento_consistenti]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in int_sv
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from Intervento i, Completato c, SoggettoVerde sv
+        where i.id = c.intervento and i.id = new.intervento and sv.id = new.soggettoVerde and (i.inizio < sv.dataPiantumazione or coalesce(c.istanteCompl,'infinity'::timestamp) > coalesce(sv.rimozione,'infinity'::timestamp))
+    );
 
 TODO
 [V.Intervento.inizio_e_completamento_coerenti_con_inizio_e_fine_squadra]
