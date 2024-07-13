@@ -1,4 +1,4 @@
--- Usecase squadrePerIntervento
+-- Usecase 1. squadrePerIntervento
 create or replace function squadrePerIntervento(i integer)
 returns table (codice CodSquadra) as $$
     begin
@@ -6,19 +6,19 @@ returns table (codice CodSquadra) as $$
             select *
             from Assegnato a
             where a.intervento = i
-        ) then raise exception 'Usecase Error 001 - Intervento già assegnato';
+        ) then raise exception 'Usecase 1. | Error 001 - Intervento già assegnato';
         end if;
         if not exists (
             select *
             from Intervento inte
             where inte.id = i
-        ) then raise exception 'Usecase Error 002 - Intervento inesistente';
+        ) then raise exception 'Usecase 1. | Error 002 - Intervento inesistente';
         end if;
         if (
             select (inte.inizio < current_timestamp) 
             from intervento inte 
             where inte.id = i
-        ) then raise exception 'Usecase Error 003 - Intervento già iniziato';
+        ) then raise exception 'Usecase 1. | Error 003 - Intervento già iniziato';
         end if;
         return query (
             select s.codice
@@ -36,11 +36,11 @@ returns table (codice CodSquadra) as $$
     end;
 $$ language plpgsql;
 
--- Usecase areeSensibiliSenzaInterventi
+-- Usecase 2. areeSensibiliSenzaInterventi
 create or replace function areeSensibiliSenzaInterventi(i timestamp, f timestamp)
 returns table (denominazione StringaS) as $$
     begin
-        if i > f then raise exception 'Usecase Error 003 - inizio > fine';
+        if i > f then raise exception 'Usecase 2. | Error 003 - inizio > fine';
         end if;
 
         return query (
@@ -58,13 +58,13 @@ returns table (denominazione StringaS) as $$
     end;
 $$ language plpgsql;
 
--- Usecase resocontoTassoMalattia
+-- Usecase 3. resocontoTassoMalattia
 create or replace function resocontoTassoMalattia(i timestamp, f timestamp, MAL StringaS[])
 returns table (m StringaS, t RealeGEZ) as $$
     declare
         totale integer := 0;
     begin
-        if i > f then raise exception 'Usecase Error 003 - inizio > fine';
+        if i > f then raise exception 'Usecase 3. | Error 003 - inizio > fine';
         end if;
 
         select count(sv.id)
