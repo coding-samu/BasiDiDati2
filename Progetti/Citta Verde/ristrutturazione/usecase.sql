@@ -36,18 +36,27 @@ returns table (codice CodSquadra) as $$
     end;
 $$ language plpgsql;
 
-TODO
-areeSensibiliSenzaInterventi(i DataOra, f DataOra): AreaVerde
-    precondizioni:
-        i <= f
-    postcondizioni:
-        AS = {a | Sensibile(a)}
-
-        AI = {a | exists int Sensibile(a) and av_int(a,int) and ((ALL in inizio(int,in) -> i <= in <= f) or (ALL ic istanteCompl(int,ic) -> i <= ic <= f))}
-
-        result = AS - AI
 -- Usecase areeSensibiliSenzaInterventi
 create or replace function areeSensibiliSenzaInterventi(i timestamp, f timestamp)
+returns table (denominazione StringaS) as $$
+    begin
+        if i > f then raise exception 'Usecase Error 003 - inizio > fine';
+        end if;
+
+        return query (
+            select a.denominazione
+            from AreaVerde a
+            where a.isSensibile and not exists (
+                select *
+                from Intervento inte
+                where inte.areaVerde = a.denominazione and (
+                    (select (inte.inizio >= i and inte.inizio <= f) from Intervento inte where inte.areaVerde = a.denominazione) or
+                    (select (coalesce(comp.istanteCompl,'infinity'::timestamp) >= i and coalesce(comp.istanteCompl,'infinity'::timestamp) <= f) from Completato comp, Intervento inte where comp.intervento = inte.id and inte.areaVerde = a.denominazione)
+                )
+            )
+        );
+    end;
+$$ language plpgsql;
 
 TODO
 resocontoTassoMalattia(i DataOra, f DataOra, M Malattia [0..*]): (m Malattia, t RealeGEZ)
