@@ -69,18 +69,14 @@ controllo da effettuare:
         where i.id = c.intervento and i.id = new.intervento and sv.id = new.soggettoVerde and (i.inizio < sv.dataPiantumazione or coalesce(c.istanteCompl,'infinity'::timestamp) > coalesce(sv.rimozione,'infinity'::timestamp))
     );
 
-TODO
-[V.Intervento.inizio_e_completamento_coerenti_con_inizio_e_fine_squadra]
-ALL s,compl,is,ic,ii,int,ass ass_sq(ass,s) and ass_isa_int(ass,int) and compl_isa_ass(compl,ass) and istanteCompl(compl,ic) and inizio(int,ii) and inizio(s,is)
-    -> is <= ii and (ALL f fine(s,f) -> ic <= f)
 -- 8. Trigger [V.Intervento.inizio_e_completamento_coerenti_con_inizio_e_fine_squadra]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(_) o update(_) in Assegnato o Completato
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from Squadra sq, Assegnato a, Completato c, Intervento i
+        where sq.codice = a.squadra and a.intervento = i.id and i.id = c.intervento and ((sq.inizio > i.inizio) or (coalesce(c.istanteCompl,'infinity'::timestamp) > coalesce(sq.fine,'infinity'::timestamp)))
+    );
 
 TODO
 [V.Intervento_su_malattia_allora_intervento_su_soggetto_verde_oppure_su_area_verde_senza_soggetti_verdi]
