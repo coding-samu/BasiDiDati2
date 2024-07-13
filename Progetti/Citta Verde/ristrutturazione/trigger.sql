@@ -144,17 +144,14 @@ controllo da effettuare:
         where o.id = new.operatore and (new.inizio < o.inizio or coalesce(new.fine,'infinity'::timestamp) > coalesce(o.fine,'infinity'::timestamp))
     );
 
-TODO
-[V.Assegnato.Squadra_cardinalita_almeno_minimo_operatori_richiesti]
-ALL a,s,m,ia,no ass_sq(a,s) and istanteAss(a,ia) and numOperatori_{Squadra,DataOra}(s,ia,no) and minimoOperatori(a,m) -> no >= m
 -- 16. Trigger [V.Assegnato.Squadra_cardinalita_almeno_minimo_operatori_richiesti]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) or update(new) in Assegnato
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from Intervento i
+        where new.intervento = i.id and i.minimoOperatori > numOperatori(new.squadra,new.istanteAss)
+    );
 
 TODO
 [V.SoggettoVerde.date_malattia.consistenti]
@@ -164,7 +161,7 @@ quando deve essere effettuato:
 controllo da effettuare:
     isError := exists (
         select *
-        from
+        from 
         where
     )
 
