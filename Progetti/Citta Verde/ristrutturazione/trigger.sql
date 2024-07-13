@@ -49,19 +49,16 @@ controllo da effettuare:
         select *
         from Intervento i
         where new.intervento = i.id and new.istanteAss >= i.inizio
-    )
+    );
 
-TODO
-[V.Completato.istante_maggiore_di_inizio_intervento]
-ALL compl,ic,ii,ass,int compl_isa_ass(compl,ass) and ass_isa_int(ass,int) and istanteCompl(compl,ic) and inizio(int,ii) -> ic > ii
 -- 6. Trigger [V.Completato.istante_maggiore_di_inizio_intervento]
-quando deve essere effettuato:
+quando deve essere effettuato: dopo insert(new) o update(new) in Completato
 controllo da effettuare:
     isError := exists (
         select *
-        from
-        where
-    )
+        from Intervento i
+        where i.id = new.intervento and new.istanteCompl <= i.inizio
+    );
 
 TODO
 [V.SoggettoVerde.date_intervento_consistenti]
