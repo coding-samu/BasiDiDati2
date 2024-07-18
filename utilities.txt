@@ -1,0 +1,3 @@
+# Comando per convertire i file .svg in .pdf (utilizzando inkscape)
+
+inkscape "Diagramma delle classi.svg" --export-type=pdf --export-filename="Diagramma delle classi.pdf"
